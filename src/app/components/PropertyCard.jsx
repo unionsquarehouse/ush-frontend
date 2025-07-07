@@ -17,7 +17,7 @@ export default function PropertyCard({ title, loc, info, image, price, beds, bat
     >
       {/* 3D Card Container */}
       <motion.div 
-        className="relative h-full w-full preserve-3d duration-700"
+        className="relative h-full w-full preserve-3d duration-200"
         animate={{ 
           rotateY: isHovered ? 180 : 0,
         }}

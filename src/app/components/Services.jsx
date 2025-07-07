@@ -86,15 +86,11 @@ export default function Services() {
               onMouseLeave={() => setHoveredIndex(null)}
             >
               <motion.div 
-                className="relative h-full w-full preserve-3d duration-700"
+                className="relative h-full w-full preserve-3d duration-200"
                 animate={{ 
                   rotateY: hoveredIndex === index ? 180 : 0,
                 }}
-                transition={{ 
-                  type: "tween", 
-                  duration: 0.6,
-                  ease: [0.16, 1, 0.3, 1]
-                }}
+               
               >
                 {/* Front Face */}
                 <div className="absolute inset-0 backface-hidden rounded-xl overflow-hidden shadow-xl">
