@@ -14,7 +14,9 @@ import {
   FaMapMarkerAlt,
   FaChevronDown,
   FaPlay,
+  FaSpinner,
 } from "react-icons/fa";
+import { useRouter } from 'next/navigation';
 
 const backgroundImages = [
   "/assets/hero-bg2.jpg",
@@ -37,15 +39,39 @@ const locations = [
   "Jumeirah Beach Residence",
 ];
 
+const priceRanges = [
+  { min: 500000, max: 1000000, label: "500K - 1M" },
+  { min: 1000000, max: 3000000, label: "1M - 3M" },
+  { min: 3000000, max: 5000000, label: "3M - 5M" },
+  { min: 5000000, max: 10000000, label: "5M - 10M" },
+  { min: 10000000, max: null, label: "10M+" },
+];
+
+// Property listing types
+const listingTypes = [
+  { name: "For Sale", value: "sale" },
+  { name: "For Rent", value: "rent" },
+  { name: "Off-Plan", value: "off-plan" },
+];
+
 export default function Hero() {
+  const router = useRouter();
   const [currentBgIndex, setCurrentBgIndex] = useState(0);
   const [searchActive, setSearchActive] = useState(false);
-  const [selectedType, setSelectedType] = useState(null);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [isSearching, setIsSearching] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const heroRef = useRef(null);
-
+  
+  // Search form state
+  const [searchForm, setSearchForm] = useState({
+    listingType: "sale", // Default to "For Sale"
+    propertyType: "",
+    location: "",
+    minPrice: "",
+    maxPrice: "",
+    keyword: "" // Add keyword field
+  });
+  
   // Parallax effect
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -67,18 +93,20 @@ export default function Hero() {
   }, []);
 
   // Mouse parallax effect
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (!heroRef.current) return;
       const rect = heroRef.current.getBoundingClientRect();
       setMousePosition({
         x: (e.clientX - rect.left) / rect.width - 0.5,
-        y: (e.clientY - rect.top) / rect.height - 0.5,
+        y: (e.clientY - rect.top) / rect.height - 0.5
       });
     };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   // Typing effect text
@@ -118,6 +146,65 @@ export default function Hero() {
     const timer = setTimeout(typeWriter, typingSpeed);
     return () => clearTimeout(timer);
   }, [charIndex, isDeleting, phraseIndex, typingSpeed]);
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSearchForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handle property type selection
+  const handlePropertyTypeSelect = (typeName) => {
+    setSearchForm(prev => ({
+      ...prev,
+      propertyType: prev.propertyType === typeName ? "" : typeName
+    }));
+  };
+
+  // Handle search submission
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setIsSearching(true);
+    
+    // Build query parameters
+    const params = new URLSearchParams();
+    
+    // Add keyword search
+    if (searchForm.keyword) {
+      params.append('keyword', searchForm.keyword);
+    }
+    
+    // Add listing type
+    if (searchForm.listingType) {
+      params.append('listingType', searchForm.listingType);
+    }
+    
+    if (searchForm.propertyType) {
+      params.append('type', searchForm.propertyType.toLowerCase());
+    }
+    
+    if (searchForm.location) {
+      params.append('location', searchForm.location);
+    }
+    
+    if (searchForm.minPrice) {
+      params.append('minPrice', searchForm.minPrice);
+    }
+    
+    if (searchForm.maxPrice) {
+      params.append('maxPrice', searchForm.maxPrice);
+    }
+    
+    // Simulate search delay for UX
+    setTimeout(() => {
+      // Navigate to listings page with search parameters
+      router.push(`/listings?${params.toString()}`);
+      setIsSearching(false);
+    }, 800);
+  };
 
   return (
     <section
@@ -222,127 +309,67 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <div
-              className={`bg-white/10 backdrop-blur-md rounded-xl border border-white/20 transition-all duration-500 overflow-hidden ${
-                searchActive ? "p-6" : "p-4"
-              }`}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-medium text-earth-100">
-                  Find Your Dream Property
-                </h3>
-                <motion.button
-                  onClick={() => setSearchActive(!searchActive)}
-                  className="text-earth-200 hover:text-white transition-colors"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <FaChevronDown
-                    className={`transition-transform duration-300 ${
-                      searchActive ? "rotate-180" : ""
-                    }`}
+            <form onSubmit={handleSearch}>
+              <div 
+                className={`bg-white/10 backdrop-blur-md rounded-xl border border-white/20 transition-all duration-500 overflow-hidden ${
+                  searchActive ? 'p-6' : 'p-4'
+                }`}
+              >
+              
+                
+                {/* Search input box - always visible */}
+                <div className="relative mb-4">
+                  <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-earth-300" />
+                  <input 
+                    type="text" 
+                    name="keyword"
+                    placeholder="Search by property name, features or keywords" 
+                    className="w-full bg-white/10 border border-white/20 rounded-lg py-3 pl-10 pr-3 text-earth-100 placeholder-earth-300 focus:outline-none focus:ring-1 focus:ring-earth-400"
+                    value={searchForm.keyword}
+                    onChange={handleInputChange}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter' && searchForm.keyword.trim()) {
+                        e.preventDefault();
+                        handleSearch(e);
+                      }
+                    }}
                   />
+                  {searchForm.keyword && (
+                    <button
+                      type="button"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-earth-300 hover:text-white"
+                      onClick={() => setSearchForm(prev => ({...prev, keyword: ""}))}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
+         
+                
+                <motion.button
+                  type="submit"
+                  disabled={isSearching}
+                  className="w-full bg-earth-600 hover:bg-earth-500 text-white py-3 rounded-lg font-medium transition-colors flex items-center justify-center disabled:bg-earth-700/70 disabled:cursor-wait"
+                  whileHover={{ scale: isSearching ? 1 : 1.02 }}
+                  whileTap={{ scale: isSearching ? 1 : 0.98 }}
+                >
+                  {isSearching ? (
+                    <>
+                      <FaSpinner className="mr-2 animate-spin" />
+                      Searching...
+                    </>
+                  ) : (
+                    <>
+                      <FaSearch className="mr-2" />
+                      Search {listingTypes.find(type => type.value === searchForm.listingType)?.name || 'Properties'}
+                    </>
+                  )}
                 </motion.button>
               </div>
-
-              <AnimatePresence>
-                {searchActive && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                      {/* Property Type */}
-                      <div>
-                        <label className="block text-sm text-earth-200 mb-2">
-                          Property Type
-                        </label>
-                        <div className="grid grid-cols-2 gap-2">
-                          {propertyTypes.map((type, index) => (
-                            <motion.button
-                              key={index}
-                              className={`p-3 rounded-lg flex items-center justify-between text-sm ${
-                                selectedType === type.name
-                                  ? "bg-earth-600 text-white"
-                                  : "bg-white/10 text-earth-100 hover:bg-white/20"
-                              } transition-colors`}
-                              onClick={() => setSelectedType(type.name)}
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                            >
-                              <span className="flex items-center">
-                                <type.icon className="mr-2" />
-                                {type.name}
-                              </span>
-                              <span className="text-xs opacity-70">
-                                {type.count}
-                              </span>
-                            </motion.button>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Location */}
-                      <div>
-                        <label className="block text-sm text-earth-200 mb-2">
-                          Location
-                        </label>
-                        <div className="relative">
-                          <FaMapMarkerAlt className="absolute left-3 top-1/2 transform -translate-y-1/2 text-earth-300" />
-                          <select
-                            className="w-full bg-white/10 border border-white/20 rounded-lg py-3 pl-10 pr-3 text-earth-100 appearance-none focus:outline-none focus:ring-1 focus:ring-earth-400"
-                            value={selectedLocation || ""}
-                            onChange={(e) =>
-                              setSelectedLocation(e.target.value)
-                            }
-                          >
-                            <option value="">Select location</option>
-                            {locations.map((location, index) => (
-                              <option key={index} value={location}>
-                                {location}
-                              </option>
-                            ))}
-                          </select>
-                          <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-earth-300 pointer-events-none" />
-                        </div>
-                      </div>
-
-                      {/* Price Range */}
-                      <div>
-                        <label className="block text-sm text-earth-200 mb-2">
-                          Price Range (AED)
-                        </label>
-                        <div className="grid grid-cols-2 gap-2">
-                          <input
-                            type="text"
-                            placeholder="Min"
-                            className="bg-white/10 border border-white/20 rounded-lg py-3 px-4 text-earth-100 placeholder-earth-300 focus:outline-none focus:ring-1 focus:ring-earth-400"
-                          />
-                          <input
-                            type="text"
-                            placeholder="Max"
-                            className="bg-white/10 border border-white/20 rounded-lg py-3 px-4 text-earth-100 placeholder-earth-300 focus:outline-none focus:ring-1 focus:ring-earth-400"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <motion.button
-                className="w-full bg-earth-600 hover:bg-earth-500 text-white py-3 rounded-lg font-medium transition-colors flex items-center justify-center"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <FaSearch className="mr-2" />
-                Search Properties
-              </motion.button>
-            </div>
-
+            </form>
+            
             {/* Floating data points */}
             <motion.div
               className="absolute -right-4 -top-4 w-24 h-24 bg-earth-700/50 backdrop-blur-sm rounded-full flex flex-col items-center justify-center border border-earth-600/50 text-white"
@@ -373,12 +400,12 @@ export default function Hero() {
           >
             <motion.a
               href="#contact"
-              className="bg-earth-700 hover:bg-earth-600 text-white px-8 py-3 rounded-lg transition-all hover:scale-105 font-medium relative overflow-hidden group"
+              className="bg-earth-700 hover:bg-earth-600 text-white px-8 flex justify-center items-center rounded-lg transition-all hover:scale-105 font-medium relative overflow-hidden group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <span className="relative z-10">Speak to an Agent</span>
-              <span className="absolute inset-0 bg-gradient-to-r from-earth-600 to-earth-700 transform -skew-x-12 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
+              <span className="absolute inset-0 bg-gradient-to-r from-earth-600 to-earth-700 transform -skew-x-10 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
             </motion.a>
 
             <motion.button
@@ -397,7 +424,7 @@ export default function Hero() {
       </motion.div>
 
       {/* Improved scroll indicator */}
-      <div className="absolute bottom-8 left-0 right-0 flex justify-center z-40">
+      <div className="hidden absolute bottom-8 left-0 right-0 lg:flex justify-center z-40">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -453,37 +480,21 @@ export default function Hero() {
               exit={{ scale: 0.9, y: 20 }}
             >
               <div className="aspect-video bg-black relative">
-                {/* <iframe
-                  width="100%"
-                  height="100%"
-                  src="https://youtu.be/0FSqT1mmYls"
-                  title="Property Showcase"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe> */}
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src="https://www.youtube.com/embed/0gl9gBNTrVE"
-                  title="Breeze by Emaar | Private Beach Living at Dubai Creek Harbour"
-                  fraframeBordermeborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
+                <iframe 
+                  width="100%" 
+                  height="100%" 
+                  src="https://www.youtube.com/embed/0gl9gBNTrVE" 
+                  title="Breeze by Emaar | Private Beach Living at Dubai Creek Harbour" 
+                  frameBorder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                   allowFullScreen
                 ></iframe>
               </div>
-
               <div className="p-6">
-                <h3 className="text-xl font-semibold text-earth-100 mb-2">
-                  Dubai's Finest Properties
-                </h3>
-                <p className="text-earth-300 mb-4">
-                  Explore our exclusive portfolio of luxury properties across
-                  Dubai's most prestigious communities.
-                </p>
+                <h3 className="text-xl font-semibold text-earth-100 mb-2">Dubai's Finest Properties</h3>
+                <p className="text-earth-300 mb-4">Explore our exclusive portfolio of luxury properties across Dubai's most prestigious communities.</p>
                 <div className="flex justify-end">
-                  <motion.button
+                  <motion.button 
                     className="px-4 py-2 bg-earth-600 text-white rounded-lg"
                     onClick={() => setShowVideo(false)}
                     whileHover={{ scale: 1.05, backgroundColor: "#5c5545" }}

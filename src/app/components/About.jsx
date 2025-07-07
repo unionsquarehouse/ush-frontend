@@ -396,13 +396,13 @@ export default function About() {
 
                     {/* Futuristic data overlay */}
                     <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md px-3 py-2 rounded-full border border-white/20 text-xs text-white font-mono z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <span className="text-earth-300">Location:</span> Dubai,
+                      <span className="text-earth-100">Location:</span> Dubai,
                       UAE
                     </div>
 
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-earth-900/70 via-earth-900/40 to-transparent p-6 z-20 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
                       <div className="flex items-center mb-2">
-                        <div className="w-2 h-2 rounded-full bg-earth-400 mr-2 animate-pulse"></div>
+                        <div className="w-2 h-2 rounded-full bg-earth-100 mr-2 animate-pulse"></div>
                         <p className="text-white/90 text-sm font-medium font-mono">
                           USH.HEADQUARTERS
                         </p>

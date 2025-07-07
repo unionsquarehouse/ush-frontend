@@ -45,11 +45,11 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="py-32 relative overflow-hidden"
+      className="pb-32 relative overflow-hidden"
       ref={sectionRef}
     >
       {/* Futuristic background elements */}
-      <div className="absolute inset-0 bg-gradient-to-b from-earth-50/80 to-white z-0"></div>
+      <div className="absolute inset-0 bg-white z-0"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(200,190,170,0.15)_0%,rgba(255,255,255,0)_70%)] z-0"></div>
 
       {/* Decorative elements */}
