@@ -17,5 +17,63 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  
+  h1 {
+    @apply text-5xl md:text-6xl;
+  }
+  
+  h2 {
+    @apply text-4xl md:text-5xl;
+  }
+  
+  h3 {
+    @apply text-3xl md:text-4xl;
+  }
+  
+  h4 {
+    @apply text-2xl md:text-3xl;
+  }
+  
+  h5 {
+    @apply text-xl md:text-2xl;
+  }
+  
+  h6 {
+    @apply text-lg md:text-xl;
+  }
+  
+  p {
+    @apply text-base md:text-lg;
+  }
+}
+
+/* Add these custom utilities for the 3D card effect */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.clip-path-price {
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+}
+
+
