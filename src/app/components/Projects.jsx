@@ -14,7 +14,7 @@ const projects = [
     beds: "6 BR",
     baths: "7 Bath",
     area: "8,500 sq.ft",
-    image: "/assets/dubai_hills_estate.jpeg",
+    image: "/assets/communities/dubai-hills-estate.jpeg",
   },
   {
     title: "South Living",
@@ -24,7 +24,7 @@ const projects = [
     beds: "Studio-3BR",
     baths: "1-3 Bath",
     area: "450-1,200 sq.ft",
-    image: "/assets/downtown_dubai.jpg",
+    image: "/assets/communities/downtown-dubai.jpg",
   },
   {
     title: "Park Views Residences",
