@@ -60,7 +60,7 @@ export default function Projects() {
       {/* Grid overlay for futuristic effect */}
       <div className="absolute inset-0 bg-[url('/assets/grid-pattern.svg')] bg-repeat opacity-5 z-0"></div>
 
-      <div className="w-[90vw] md:w-[85vw] mx-auto relative z-10">
+      <div className="w-[90vw] md:w-[70vw] mx-auto relative z-10">
         <motion.div
           className="flex flex-col items-center mb-20"
           initial={{ opacity: 0, y: 30 }}

@@ -539,9 +539,8 @@ export default function Contact() {
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-earth-50 to-earth-100"></div>
       
-      
       {/* Content */}
-      <div className="w-[90vw] md:w-[85vw] mx-auto  relative z-10">
+      <div className="w-[90vw] md:w-[70vw] mx-auto px-6 md:px-0 relative z-10">
         <motion.div
           className="flex flex-col items-center mb-16"
           initial={{ opacity: 0, y: 30 }}
