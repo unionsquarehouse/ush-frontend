@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
         className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar />
-        <main>{children}</main>
+        <main className="overflow-x-hidden">{children}</main>
         <Footer />
       </body>
     </html>

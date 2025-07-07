@@ -1,6 +1,12 @@
 "use client";
 
-import { motion, useInView, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
+import {
+  motion,
+  useInView,
+  AnimatePresence,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import {
   FaPhone,
@@ -12,20 +18,20 @@ import {
   FaKey,
   FaStar,
   FaCompass,
-  FaUser
+  FaUser,
 } from "react-icons/fa";
 import Image from "next/image";
-import confetti from 'canvas-confetti';
+import confetti from "canvas-confetti";
 
 export default function Contact() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
-  
+
   // State for property carousel
   const [activeProperty, setActiveProperty] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-  
+
   // State for form
   const [formState, setFormState] = useState({
     name: "",
@@ -37,45 +43,46 @@ export default function Contact() {
   const [formProgress, setFormProgress] = useState(0);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showReward, setShowReward] = useState(false);
-  
+
   // State for modals
   const [showCallModal, setShowCallModal] = useState(false);
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [showMap, setShowMap] = useState(false);
-  const [showScheduleConfirmation, setShowScheduleConfirmation] = useState(false);
+  const [showScheduleConfirmation, setShowScheduleConfirmation] =
+    useState(false);
   const [showScheduleForm, setShowScheduleForm] = useState(false);
-  const [scheduleDate, setScheduleDate] = useState('');
-  const [scheduleTime, setScheduleTime] = useState('');
+  const [scheduleDate, setScheduleDate] = useState("");
+  const [scheduleTime, setScheduleTime] = useState("");
   const [scheduleFormSubmitted, setScheduleFormSubmitted] = useState(false);
-  
+
   // Form theme
-  const [formTheme, setFormTheme] = useState('beach-luxury');
-  const [formAnimation, setFormAnimation] = useState('wave');
+  const [formTheme, setFormTheme] = useState("beach-luxury");
+  const [formAnimation, setFormAnimation] = useState("wave");
   const [progressOpacity, setProgressOpacity] = useState(0.7);
   const [progressScale, setProgressScale] = useState(1);
-  
+
   // Update form state when property changes
   useEffect(() => {
     if (properties[activeProperty]) {
-      setFormState(prev => ({
+      setFormState((prev) => ({
         ...prev,
-        property: properties[activeProperty].name
+        property: properties[activeProperty].name,
       }));
     }
   }, []); // Empty dependency array means this runs only once on mount
-  
+
   // Calculate form progress
   useEffect(() => {
     const { name, email, phone, message } = formState;
     let progress = 0;
-    
+
     if (name) progress += 25;
     if (email) progress += 25;
     if (phone) progress += 25;
     if (message) progress += 25;
-    
+
     setFormProgress(progress);
-    
+
     // Animate progress bar
     if (progress >= 75) {
       setProgressOpacity(1);
@@ -88,7 +95,7 @@ export default function Contact() {
 
   // Properties carousel with immersive 3D experiences
   const properties = [
-    { 
+    {
       name: "Signature Palm Sanctuary",
       tagline: "Beachfront Luxury Living",
       price: "AED 15.5M",
@@ -96,7 +103,8 @@ export default function Contact() {
       location: "Palm Jumeirah, Dubai",
       features: ["Private Beach Access", "Infinity Pool", "Smart Home System"],
       experience: "palm-sanctuary",
-      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d34366.79184979789!2d55.10653171981538!3d25.123381543907545!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f1529c2653b15%3A0x3dcabcae764a3e16!2sPalm%20Jumeirah!5e0!3m2!1sen!2sae!4v1751871491171!5m2!1sen!2sae",
+      mapUrl:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d34366.79184979789!2d55.10653171981538!3d25.123381543907545!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f1529c2653b15%3A0x3dcabcae764a3e16!2sPalm%20Jumeirah!5e0!3m2!1sen!2sae!4v1751871491171!5m2!1sen!2sae",
       phone: "+971 50 123 4567",
       agent: "Sarah Al Mansoori",
       // Add interactive elements
@@ -142,12 +150,12 @@ export default function Contact() {
   useEffect(() => {
     // Don't start the interval if any modal is open or form is submitted
     if (showCallModal || showLocationModal || showMap || formSubmitted) return;
-    
+
     // Clear any existing interval
     if (carouselInterval.current) {
       clearInterval(carouselInterval.current);
     }
-    
+
     // Set new interval
     carouselInterval.current = setInterval(() => {
       setActiveProperty((prev) => (prev + 1) % properties.length);
@@ -160,7 +168,13 @@ export default function Contact() {
         carouselInterval.current = null;
       }
     };
-  }, [properties.length, showCallModal, showLocationModal, showMap, formSubmitted]);
+  }, [
+    properties.length,
+    showCallModal,
+    showLocationModal,
+    showMap,
+    formSubmitted,
+  ]);
 
   const handleChange = (e) => {
     setFormState({
@@ -174,25 +188,25 @@ export default function Contact() {
     e.preventDefault();
     console.log("Form submitted:", formState);
     setFormSubmitted(true);
-    
+
     // Stop the carousel from changing when form is submitted
     if (carouselInterval.current) {
       clearInterval(carouselInterval.current);
       carouselInterval.current = null;
     }
-    
+
     // Trigger confetti celebration
     confetti({
       particleCount: 100,
       spread: 70,
-      origin: { y: 0.6 }
+      origin: { y: 0.6 },
     });
-    
+
     // Show reward after short delay
     setTimeout(() => {
       setShowReward(true);
     }, 1000);
-    
+
     // Reset form after delay and restart carousel
     setTimeout(() => {
       setFormState({
@@ -204,7 +218,7 @@ export default function Contact() {
       });
       setFormSubmitted(false);
       setShowReward(false);
-      
+
       // Restart the carousel
       carouselInterval.current = setInterval(() => {
         setActiveProperty((prev) => (prev + 1) % properties.length);
@@ -234,7 +248,7 @@ export default function Contact() {
     const index = properties.findIndex((p) => p.name === selectedProperty);
     if (index !== -1) {
       setActiveProperty(index);
-      
+
       // Clear any existing interval to prevent auto-changing
       if (carouselInterval.current) {
         clearInterval(carouselInterval.current);
@@ -257,7 +271,7 @@ export default function Contact() {
     setShowMap(false);
     setShowScheduleForm(false);
     setScheduleFormSubmitted(false);
-    
+
     // Reset the slideshow timer by updating the active property
     setActiveProperty(activeProperty);
   };
@@ -268,63 +282,81 @@ export default function Contact() {
 
   const handleScheduleSubmit = (e) => {
     e.preventDefault();
-    
+
     // Log the scheduled date and time (you can replace this with your preferred method to receive the data)
     console.log("Viewing scheduled for:", {
       property: properties[activeProperty].name,
       date: scheduleDate,
-      time: scheduleTime
+      time: scheduleTime,
     });
-    
+
     // You can add your email/notification logic here
     // For example, send this data to your backend API
-    
+
     setScheduleFormSubmitted(true);
-    
+
     // Automatically close the confirmation after 3 seconds
     setTimeout(() => {
       closeModals();
       // Reset the form
       setShowScheduleForm(false);
       setScheduleFormSubmitted(false);
-      setScheduleDate('');
-      setScheduleTime('');
+      setScheduleDate("");
+      setScheduleTime("");
     }, 3000);
   };
 
   const CallModal = ({ property, onClose, onSchedule, onScheduleSubmit }) => (
-    <motion.div 
+    <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose}></div>
-      <motion.div 
+      <div
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onClick={onClose}
+      ></div>
+      <motion.div
         className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md relative z-10"
         initial={{ scale: 0.9, y: 20 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 20 }}
       >
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-4 right-4 text-earth-500 hover:text-earth-800"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
-        
+
         {!showScheduleForm && !scheduleFormSubmitted ? (
           <>
             <div className="text-center mb-6">
               <div className="w-16 h-16 bg-earth-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaPhone className="text-earth-700 text-xl" />
               </div>
-              <h3 className="text-2xl font-medium text-earth-800">Contact Agent</h3>
-              <p className="text-earth-600 mt-2">Schedule a viewing for {property.name}</p>
+              <h3 className="text-2xl font-medium text-earth-800">
+                Contact Agent
+              </h3>
+              <p className="text-earth-600 mt-2">
+                Schedule a viewing for {property.name}
+              </p>
             </div>
-            
+
             <div className="space-y-4">
               <div className="flex items-center p-3 bg-earth-50 rounded-lg">
                 <div className="w-10 h-10 bg-earth-100 rounded-full flex items-center justify-center mr-4">
@@ -332,28 +364,32 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-sm text-earth-500">Agent</p>
-                  <p className="font-medium text-earth-800">{property.agent || "Sarah Al Mansoori"}</p>
+                  <p className="font-medium text-earth-800">
+                    {property.agent || "Sarah Al Mansoori"}
+                  </p>
                 </div>
               </div>
-              
+
               <div className="flex items-center p-3 bg-earth-50 rounded-lg">
                 <div className="w-10 h-10 bg-earth-100 rounded-full flex items-center justify-center mr-4">
                   <FaPhone className="text-earth-600" />
                 </div>
                 <div>
                   <p className="text-sm text-earth-500">Phone</p>
-                  <p className="font-medium text-earth-800">{property.phone || "+971 50 123 4567"}</p>
+                  <p className="font-medium text-earth-800">
+                    {property.phone || "+971 50 123 4567"}
+                  </p>
                 </div>
               </div>
-              
-              <a 
+
+              <a
                 href={`tel:${property.phone || "+97150123456"}`}
                 className="block w-full bg-earth-700 hover:bg-earth-800 text-white text-center py-3 rounded-lg font-medium transition-colors duration-300 mt-6"
               >
                 Call Now
               </a>
-              
-              <button 
+
+              <button
                 onClick={onSchedule}
                 className="block w-full bg-earth-100 hover:bg-earth-200 text-earth-800 text-center py-3 rounded-lg font-medium transition-colors duration-300"
               >
@@ -363,17 +399,30 @@ export default function Contact() {
           </>
         ) : scheduleFormSubmitted ? (
           <div className="text-center py-8">
-            <motion.div 
+            <motion.div
               className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8 text-green-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </motion.div>
-            <h3 className="text-2xl font-medium text-earth-800 mb-2">Thank You!</h3>
+            <h3 className="text-2xl font-medium text-earth-800 mb-2">
+              Thank You!
+            </h3>
             <p className="text-earth-600 mb-2">
               Your viewing has been scheduled for:
             </p>
@@ -387,13 +436,20 @@ export default function Contact() {
               <div className="w-16 h-16 bg-earth-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaCalendarAlt className="text-earth-700 text-xl" />
               </div>
-              <h3 className="text-2xl font-medium text-earth-800">Schedule Viewing</h3>
-              <p className="text-earth-600 mt-2">Select your preferred date and time</p>
+              <h3 className="text-2xl font-medium text-earth-800">
+                Schedule Viewing
+              </h3>
+              <p className="text-earth-600 mt-2">
+                Select your preferred date and time
+              </p>
             </div>
-            
+
             <form onSubmit={onScheduleSubmit} className="space-y-4 text-black">
               <div>
-                <label htmlFor="date" className="block text-earth-700 mb-2 font-medium">
+                <label
+                  htmlFor="date"
+                  className="block text-earth-700 mb-2 font-medium"
+                >
                   Date
                 </label>
                 <input
@@ -402,13 +458,16 @@ export default function Contact() {
                   value={scheduleDate}
                   onChange={(e) => setScheduleDate(e.target.value)}
                   className="w-full p-3 border border-earth-200 rounded-lg focus:ring-2 focus:ring-earth-500 focus:border-earth-500 outline-none"
-                  min={new Date().toISOString().split('T')[0]}
+                  min={new Date().toISOString().split("T")[0]}
                   required
                 />
               </div>
-              
+
               <div>
-                <label htmlFor="time" className="block text-earth-700 mb-2 font-medium">
+                <label
+                  htmlFor="time"
+                  className="block text-earth-700 mb-2 font-medium"
+                >
                   Time
                 </label>
                 <input
@@ -420,14 +479,14 @@ export default function Contact() {
                   required
                 />
               </div>
-              
+
               <button
                 type="submit"
                 className="w-full bg-earth-700 hover:bg-earth-800 text-white text-center py-3 rounded-lg font-medium transition-colors duration-300 mt-6"
               >
                 Confirm Schedule
               </button>
-              
+
               <button
                 type="button"
                 onClick={onClose}
@@ -443,45 +502,63 @@ export default function Contact() {
   );
 
   const LocationModal = ({ property, onClose, onViewMap }) => (
-    <motion.div 
+    <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose}></div>
-      <motion.div 
+      <div
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onClick={onClose}
+      ></div>
+      <motion.div
         className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md relative z-10"
         initial={{ scale: 0.9, y: 20 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 20 }}
       >
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-4 right-4 text-earth-500 hover:text-earth-800"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
-        
+
         <div className="text-center mb-6">
           <div className="w-16 h-16 bg-earth-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <FaMapMarkerAlt className="text-earth-700 text-xl" />
           </div>
-          <h3 className="text-2xl font-medium text-earth-800">Property Location</h3>
-          <p className="text-earth-600 mt-2">{property.location || "Palm Jumeirah, Dubai"}</p>
+          <h3 className="text-2xl font-medium text-earth-800">
+            Property Location
+          </h3>
+          <p className="text-earth-600 mt-2">
+            {property.location || "Palm Jumeirah, Dubai"}
+          </p>
         </div>
-        
+
         <div className="space-y-4 mt-6">
-          <button 
+          <button
             onClick={onViewMap}
             className="block w-full bg-earth-700 hover:bg-earth-800 text-white text-center py-3 rounded-lg font-medium transition-colors duration-300"
           >
             View Map
           </button>
-          
-          <button 
+
+          <button
             onClick={onClose}
             className="block w-full bg-earth-100 hover:bg-earth-200 text-earth-800 text-center py-3 rounded-lg font-medium transition-colors duration-300"
           >
@@ -493,36 +570,53 @@ export default function Contact() {
   );
 
   const MapModal = ({ property, onClose }) => (
-    <motion.div 
+    <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose}></div>
-      <motion.div 
+      <div
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        onClick={onClose}
+      ></div>
+      <motion.div
         className="bg-white rounded-xl shadow-2xl p-4 w-full max-w-4xl h-[80vh] relative z-10"
         initial={{ scale: 0.9 }}
         animate={{ scale: 1 }}
         exit={{ scale: 0.9 }}
       >
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-4 right-4 text-earth-500 hover:text-earth-800 z-10 bg-white/80 rounded-full p-2"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
-        
+
         <div className="w-full h-full rounded-lg overflow-hidden">
-          <iframe 
-            src={property.mapUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d34366.79184979789!2d55.10653171981538!3d25.123381543907545!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f1529c2653b15%3A0x3dcabcae764a3e16!2sPalm%20Jumeirah!5e0!3m2!1sen!2sae!4v1751871491171!5m2!1sen!2sae"} 
-            width="100%" 
-            height="100%" 
-            style={{ border: 0 }} 
-            allowFullScreen="" 
-            loading="lazy" 
+          <iframe
+            src={
+              property.mapUrl ||
+              "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d34366.79184979789!2d55.10653171981538!3d25.123381543907545!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f1529c2653b15%3A0x3dcabcae764a3e16!2sPalm%20Jumeirah!5e0!3m2!1sen!2sae!4v1751871491171!5m2!1sen!2sae"
+            }
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           ></iframe>
         </div>
@@ -531,16 +625,12 @@ export default function Contact() {
   );
 
   return (
-    <section
-      id="contact"
-      className="p-32 relative"
-      ref={sectionRef}
-    >
+    <section id="contact" className="p-32 relative" ref={sectionRef}>
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-earth-50 to-earth-100"></div>
-      
+
       {/* Content */}
-      <div className="w-[90vw] md:w-[70vw] mx-auto px-6 md:px-0 relative z-10">
+      <div className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto px-0 relative z-10">
         <motion.div
           className="flex flex-col items-center mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -763,15 +853,21 @@ export default function Contact() {
               <div className="absolute -bottom-5 -right-5 w-10 h-10 border border-earth-300 rounded-full"></div>
 
               {/* Glass Card - More concise with earth colors */}
-              <motion.div 
+              <motion.div
                 className="relative bg-white/90 backdrop-blur-md rounded-xl overflow-hidden shadow-lg border border-earth-100"
                 initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
+                animate={
+                  isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
+                }
+                transition={{
+                  duration: 0.8,
+                  ease: [0.16, 1, 0.3, 1],
+                  delay: 0.4,
+                }}
               >
                 {/* Decorative elements */}
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-earth-100/40 to-transparent rounded-full -mr-12 -mt-12"></div>
-                
+
                 {/* Content container with padding */}
                 <div className="p-6 relative z-10">
                   {formSubmitted ? (
@@ -790,16 +886,24 @@ export default function Contact() {
                             Exclusive Access Granted!
                           </h4>
                           <p className="text-earth-600 mb-4 text-sm">
-                            You've unlocked a private viewing of <span className="font-semibold">{formState.property}</span>.
+                            You've unlocked a private viewing of{" "}
+                            <span className="font-semibold">
+                              {formState.property}
+                            </span>
+                            .
                           </p>
                           <div className="flex justify-center space-x-3">
                             <div className="flex items-center bg-earth-100 px-3 py-1.5 rounded-full">
                               <FaCalendarAlt className="text-earth-600 mr-1.5 text-xs" />
-                              <span className="text-xs text-earth-700">Priority Booking</span>
+                              <span className="text-xs text-earth-700">
+                                Priority Booking
+                              </span>
                             </div>
                             <div className="flex items-center bg-earth-100 px-3 py-1.5 rounded-full">
                               <FaGift className="text-earth-600 mr-1.5 text-xs" />
-                              <span className="text-xs text-earth-700">Welcome Gift</span>
+                              <span className="text-xs text-earth-700">
+                                Welcome Gift
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -825,12 +929,16 @@ export default function Contact() {
                             Thank You
                           </h4>
                           <p className="text-earth-600 mb-4 text-sm">
-                            Your inquiry about <span className="font-semibold">{formState.property}</span> has been received.
+                            Your inquiry about{" "}
+                            <span className="font-semibold">
+                              {formState.property}
+                            </span>{" "}
+                            has been received.
                           </p>
-                          <motion.div 
+                          <motion.div
                             className="h-1 bg-gradient-to-r from-earth-400 to-earth-600 rounded-full"
                             initial={{ width: 0 }}
-                            animate={{ width: '100%' }}
+                            animate={{ width: "100%" }}
                             transition={{ duration: 5 }}
                           />
                         </>
@@ -851,18 +959,24 @@ export default function Contact() {
                       {/* Form Progress Indicator */}
                       <div className="mb-4 relative">
                         <div className="h-1 bg-earth-100 rounded-full w-full">
-                          <motion.div 
+                          <motion.div
                             className="h-1 bg-earth-600 rounded-full"
                             style={{ width: `${formProgress}%` }}
                           />
                         </div>
                       </div>
 
-                      <form onSubmit={handleSubmit} className="relative z-10 text-black">
+                      <form
+                        onSubmit={handleSubmit}
+                        className="relative z-10 text-black"
+                      >
                         {/* Form fields - More concise with earth colors */}
                         <div className="space-y-3">
                           <div>
-                            <label className="block text-earth-800 text-sm font-medium mb-1" htmlFor="name">
+                            <label
+                              className="block text-earth-800 text-sm font-medium mb-1"
+                              htmlFor="name"
+                            >
                               Full Name
                             </label>
                             <input
@@ -876,10 +990,13 @@ export default function Contact() {
                               required
                             />
                           </div>
-                          
+
                           <div className="grid grid-cols-2 gap-3">
                             <div>
-                              <label className="block text-earth-800 text-sm font-medium mb-1" htmlFor="email">
+                              <label
+                                className="block text-earth-800 text-sm font-medium mb-1"
+                                htmlFor="email"
+                              >
                                 Email
                               </label>
                               <input
@@ -893,9 +1010,12 @@ export default function Contact() {
                                 required
                               />
                             </div>
-                            
+
                             <div>
-                              <label className="block text-earth-800 text-sm font-medium mb-1" htmlFor="phone">
+                              <label
+                                className="block text-earth-800 text-sm font-medium mb-1"
+                                htmlFor="phone"
+                              >
                                 Phone
                               </label>
                               <input
@@ -910,9 +1030,12 @@ export default function Contact() {
                               />
                             </div>
                           </div>
-                          
+
                           <div>
-                            <label className="block text-earth-800 text-sm font-medium mb-1" htmlFor="message">
+                            <label
+                              className="block text-earth-800 text-sm font-medium mb-1"
+                              htmlFor="message"
+                            >
                               Message
                             </label>
                             <textarea
@@ -926,9 +1049,12 @@ export default function Contact() {
                               required
                             ></textarea>
                           </div>
-                          
+
                           <div>
-                            <label className="block text-earth-800 text-sm font-medium mb-1" htmlFor="property">
+                            <label
+                              className="block text-earth-800 text-sm font-medium mb-1"
+                              htmlFor="property"
+                            >
                               Property of Interest
                             </label>
                             <select
@@ -939,14 +1065,17 @@ export default function Contact() {
                               className="w-full px-3 py-2 bg-white/80 border border-earth-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-earth-600 transition-all duration-300 appearance-none"
                             >
                               {properties.map((property) => (
-                                <option key={property.name} value={property.name}>
+                                <option
+                                  key={property.name}
+                                  value={property.name}
+                                >
                                   {property.name}
                                 </option>
                               ))}
                             </select>
                           </div>
                         </div>
-                        
+
                         {/* Interactive Submit Button - Using earth colors */}
                         <motion.button
                           type="submit"
@@ -957,11 +1086,14 @@ export default function Contact() {
                         >
                           <span className="relative z-10 flex items-center justify-center text-white font-medium">
                             {formProgress < 75 ? (
-                              <span>Complete form to unlock exclusive access</span>
+                              <span>
+                                Complete form to unlock exclusive access
+                              </span>
                             ) : (
                               <>
                                 <span>
-                                  {properties[activeProperty].name === "General Inquiry"
+                                  {properties[activeProperty].name ===
+                                  "General Inquiry"
                                     ? "Submit Inquiry"
                                     : "Unlock Exclusive Access"}
                                 </span>
@@ -969,47 +1101,67 @@ export default function Contact() {
                               </>
                             )}
                           </span>
-                          <motion.span 
+                          <motion.span
                             className="absolute inset-0 bg-earth-800"
                             initial={{ opacity: 1 }}
                             animate={{ opacity: formProgress >= 75 ? 0 : 1 }}
                             transition={{ duration: 0.5 }}
                           />
-                          <motion.span 
+                          <motion.span
                             className="absolute inset-0 bg-gradient-to-r from-earth-700 to-earth-900"
                             initial={{ scaleX: 0 }}
                             animate={{ scaleX: formProgress >= 75 ? 1 : 0 }}
                             transition={{ duration: 0.5 }}
-                            style={{ transformOrigin: 'left' }}
+                            style={{ transformOrigin: "left" }}
                           />
                         </motion.button>
-                        
+
                         {/* Form Benefits - More concise with earth colors */}
                         <div className="mt-4 flex flex-wrap gap-2">
                           <div className="flex items-center bg-earth-100 px-3 py-1.5 rounded-full">
                             <FaCompass className="text-earth-600 mr-1.5 text-xs" />
-                            <span className="text-xs text-earth-700">Priority Viewing</span>
+                            <span className="text-xs text-earth-700">
+                              Priority Viewing
+                            </span>
                           </div>
                           <div className="flex items-center bg-earth-100 px-3 py-1.5 rounded-full">
                             <FaKey className="text-earth-600 mr-1.5 text-xs" />
-                            <span className="text-xs text-earth-700">Exclusive Access</span>
+                            <span className="text-xs text-earth-700">
+                              Exclusive Access
+                            </span>
                           </div>
                           <div className="flex items-center bg-earth-100 px-3 py-1.5 rounded-full">
                             <FaCalendarAlt className="text-earth-600 mr-1.5 text-xs" />
-                            <span className="text-xs text-earth-700">Flexible Scheduling</span>
+                            <span className="text-xs text-earth-700">
+                              Flexible Scheduling
+                            </span>
                           </div>
                           <div className="flex items-center bg-earth-100 px-3 py-1.5 rounded-full">
                             <FaGift className="text-earth-600 mr-1.5 text-xs" />
-                            <span className="text-xs text-earth-700">Welcome Gift</span>
+                            <span className="text-xs text-earth-700">
+                              Welcome Gift
+                            </span>
                           </div>
                         </div>
-                        
+
                         {/* Privacy note - Improved and more concise */}
                         <div className="text-xs text-earth-600 mt-4 flex items-center justify-center">
-                          <svg className="w-4 h-4 text-earth-500 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                          <svg
+                            className="w-4 h-4 text-earth-500 mr-1.5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                            />
                           </svg>
-                          Your information is secure and will never be shared with third parties.
+                          Your information is secure and will never be shared
+                          with third parties.
                         </div>
                       </form>
                     </>
@@ -1063,33 +1215,33 @@ export default function Contact() {
           ))}
         </div>
       </div>
-      
+
       {/* Modals */}
       <AnimatePresence>
         {showCallModal && (
-          <CallModal 
-            property={properties[activeProperty]} 
+          <CallModal
+            property={properties[activeProperty]}
             onClose={closeModals}
             onSchedule={handleScheduleLater}
             onScheduleSubmit={handleScheduleSubmit}
           />
         )}
-        
+
         {showLocationModal && (
-          <LocationModal 
-            property={properties[activeProperty]} 
-            onClose={closeModals} 
+          <LocationModal
+            property={properties[activeProperty]}
+            onClose={closeModals}
             onViewMap={() => {
               setShowLocationModal(false);
               setShowMap(true);
-            }} 
+            }}
           />
         )}
-        
+
         {showMap && (
-          <MapModal 
-            property={properties[activeProperty]} 
-            onClose={closeModals} 
+          <MapModal
+            property={properties[activeProperty]}
+            onClose={closeModals}
           />
         )}
       </AnimatePresence>

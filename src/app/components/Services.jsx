@@ -44,7 +44,7 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="pb-32 relative overflow-hidden"
+      className="py-32 relative overflow-hidden"
       ref={sectionRef}
     >
       {/* Futuristic background elements - matching Projects section */}
@@ -59,7 +59,7 @@ export default function Services() {
       {/* Grid overlay for futuristic effect - matching Projects section */}
       <div className="absolute inset-0 bg-[url('/assets/grid-pattern.svg')] bg-repeat opacity-5 z-0"></div>
 
-      <div className="w-[90vw] md:w-[70vw] mx-auto relative z-10">
+      <div className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto relative z-10">
         <motion.div
           className="flex flex-col items-center mb-20"
           initial={{ opacity: 0, y: 30 }}

@@ -136,7 +136,7 @@ export default function DevelopersSection() {
 
       <motion.div
         style={{ opacity }}
-        className="w-[90vw] md:w-[70vw] mx-auto  relative z-10"
+        className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto relative z-10"
       >
         {/* Section header */}
         <motion.div
