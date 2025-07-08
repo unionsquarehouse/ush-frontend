@@ -10,7 +10,6 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import {
-  FaMapMarkerAlt,
   FaHome,
   FaBuilding,
   FaTree,
@@ -20,6 +19,7 @@ import {
   FaPhone,
   FaEnvelope,
   FaWhatsapp,
+  FaMapMarkerAlt,
 } from "react-icons/fa";
 import {
   BsArrowRight,
@@ -171,7 +171,7 @@ export default function CommunitiesSection() {
   return (
     <section
       ref={containerRef}
-      className="py-24 relative overflow-hidden bg-earth-900 text-white"
+      className="py-24 relative overflow-hidden bg-earth-50 text-earth-700"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
@@ -197,8 +197,8 @@ export default function CommunitiesSection() {
         </svg>
       </div>
 
-      {/* Interactive floating elements */}
-      <div className="absolute top-1/4 right-[5%] z-10">
+      {/* Interactive floating elements - REMOVED */}
+      {/* <div className="absolute top-1/4 right-[5%] z-10">
         <motion.div
           className="w-16 h-16 rounded-full bg-earth-600/30 backdrop-blur-sm border border-earth-500/30 flex items-center justify-center cursor-pointer"
           whileHover={{
@@ -238,11 +238,11 @@ export default function CommunitiesSection() {
         >
           <BsBuilding size={24} className="text-white" />
         </motion.div>
-      </div>
+      </div> */}
 
       <motion.div
         style={{ opacity }}
-        className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
+        className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto relative z-10"
       >
         {/* Section header */}
         <motion.div
@@ -253,10 +253,10 @@ export default function CommunitiesSection() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl font-semibold mb-4">
-            <span className="text-earth-400">Explore</span> Dubai Communities
+            <span className="text-earth-500">Explore</span> Dubai Communities
           </h2>
           <div className="h-0.5 w-24 bg-earth-500 mx-auto mb-6"></div>
-          <p className="text-xl text-earth-300 max-w-2xl mx-auto">
+          <p className="text-xl text-earth-500 max-w-2xl mx-auto">
             Discover Dubai's most prestigious neighborhoods and find your
             perfect home
           </p>
@@ -375,8 +375,9 @@ export default function CommunitiesSection() {
                         </div>
 
                         {/* Community features */}
-                        <div className="w-full bg-earth-800/80 backdrop-blur-sm rounded-2xl border border-earth-700 p-6 shadow-lg">
-                          <h3 className="text-xl font-medium mb-5 flex items-center text-earth-100">
+                        <div className="w-full bg-earth-100/40 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+                          <div className="absolute inset-0 p-[2px] rounded-xl z-0 bg-gradient-to-br from-earth-400 via-earth-200 to-earth-500 opacity-20"></div>
+                          <h3 className="text-xl font-medium mb-5 flex items-center ">
                             <span className="w-4 h-0.5 bg-earth-500 mr-2"></span>
                             Key Features
                           </h3>
@@ -390,23 +391,23 @@ export default function CommunitiesSection() {
                                 transition={{ type: "spring", stiffness: 300 }}
                                 onClick={() => handleFeatureClick(feature, idx)}
                               >
-                                <div className="w-10 h-10 rounded-full bg-earth-700 flex items-center justify-center mr-3 group-hover:bg-earth-600 transition-colors duration-300">
+                                <div className="w-10 h-10 rounded-full bg-earth-100 text-earth-700 flex items-center justify-center mr-3 group-hover:bg-earth-700 transition-colors duration-300">
                                   {idx === 0 && (
-                                    <FaSwimmingPool className="text-earth-200 group-hover:text-white transition-colors duration-300" />
+                                    <FaSwimmingPool className=" group-hover:text-white transition-colors duration-300" />
                                   )}
                                   {idx === 1 && (
-                                    <FaTree className="text-earth-200 group-hover:text-white transition-colors duration-300" />
+                                    <FaTree className=" group-hover:text-white transition-colors duration-300" />
                                   )}
                                   {idx === 2 && (
-                                    <FaBuilding className="text-earth-200 group-hover:text-white transition-colors duration-300" />
+                                    <FaBuilding className="0 group-hover:text-white transition-colors duration-300" />
                                   )}
                                 </div>
                                 <div className="flex-1">
-                                  <p className="text-earth-200 font-medium group-hover:text-white transition-colors duration-300">
+                                  <p className="text-earth-600 font-medium group-hover:text-earth-700 transition-colors duration-300">
                                     {feature}
                                   </p>
                                 </div>
-                                <FaInfoCircle className="text-earth-500 group-hover:text-earth-300 transition-colors duration-300" />
+                                <FaInfoCircle className="text-earth-600 group-hover:text-earth-700 transition-colors duration-300" />
                               </motion.div>
                             ))}
                           </div>
@@ -415,142 +416,106 @@ export default function CommunitiesSection() {
 
                       {/* Right column - Content */}
                       <div className="lg:col-span-7">
-                        <div className="bg-earth-800/80 backdrop-blur-sm rounded-2xl border border-earth-700 p-6 sm:p-8 shadow-lg h-full">
-                          <h3 className="text-3xl font-semibold mb-2 text-white">
+                        <div className="bg-earth-100/40 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg h-full">
+                          <div className="absolute inset-0 p-[2px] rounded-xl z-0 bg-gradient-to-br from-earth-400 via-earth-200 to-earth-500 opacity-20"></div>
+                          <h3 className="text-xl font-medium mb-5 flex items-center text-earth-700">
+                            <span className="w-4 h-0.5 bg-earth-500 mr-2"></span>
                             {community.name}
                           </h3>
                           <div className="flex items-center mb-4">
-                            <div className="h-0.5 w-8 bg-earth-500 mr-2"></div>
-                            <span className="text-earth-300 text-sm">
+                            <div className="w-10 h-10 rounded-full bg-earth-500 flex items-center justify-center mr-3">
+                              <FaMapMarkerAlt className="text-earth-100" />
+                            </div>
+                            <span className="text-earth-500 font-medium">
                               Premium Community
                             </span>
                           </div>
 
-                          <p className="text-earth-200 mb-6 text-base leading-relaxed">
+                          <p className="text-earth-500 mb-6 text-base leading-relaxed">
                             {community.description}
                           </p>
 
                           <div className="mb-6">
-                            <h4 className="text-lg font-medium mb-4 flex items-center text-earth-100">
-                              <FaMapMarkerAlt className="text-earth-400 mr-2" />
-                              <span>Location Highlights</span>
+                            <h4 className="text-xl font-medium mb-5 flex items-center text-earth-700">
+                              <span className="w-4 h-0.5 bg-earth-500 mr-2"></span>
+                              Location Highlights
                             </h4>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                              <motion.div
-                                className="flex items-start group cursor-pointer"
-                                whileHover={{ y: -5 }}
-                                transition={{ type: "spring", stiffness: 300 }}
-                              >
-                                <div className="w-8 h-8 rounded-full bg-earth-700 flex items-center justify-center mt-1 mr-3 group-hover:bg-earth-600 transition-colors duration-300">
-                                  <span className="text-earth-200 text-xs font-medium group-hover:text-white transition-colors duration-300">
-                                    01
-                                  </span>
-                                </div>
-                                <div>
-                                  <h5 className="font-medium text-earth-100 mb-1 group-hover:text-white transition-colors duration-300">
-                                    Strategic Location
-                                  </h5>
-                                  <p className="text-sm text-earth-300 group-hover:text-earth-200 transition-colors duration-300">
-                                    {community.name === "Palm Jumeirah" &&
-                                      "Iconic man-made island with stunning sea views"}
-                                    {community.name === "Downtown Dubai" &&
-                                      "Heart of the city near Burj Khalifa"}
-                                    {community.name === "Dubai Marina" &&
-                                      "Waterfront community with yacht harbor"}
-                                    {community.name === "Arabian Ranches" &&
-                                      "Serene desert-themed community"}
-                                    {community.name === "Dubai Hills Estate" &&
-                                      "Prestigious area with golf course views"}
-                                  </p>
-                                </div>
-                              </motion.div>
-
-                              <motion.div
-                                className="flex items-start group cursor-pointer"
-                                whileHover={{ y: -5 }}
-                                transition={{ type: "spring", stiffness: 300 }}
-                              >
-                                <div className="w-8 h-8 rounded-full bg-earth-700 flex items-center justify-center mt-1 mr-3 group-hover:bg-earth-600 transition-colors duration-300">
-                                  <span className="text-earth-200 text-xs font-medium group-hover:text-white transition-colors duration-300">
-                                    02
-                                  </span>
-                                </div>
-                                <div>
-                                  <h5 className="font-medium text-earth-100 mb-1 group-hover:text-white transition-colors duration-300">
-                                    Connectivity
-                                  </h5>
-                                  <p className="text-sm text-earth-300 group-hover:text-earth-200 transition-colors duration-300">
-                                    {community.name === "Palm Jumeirah" &&
-                                      "30 min to Dubai Airport, 15 min to Dubai Marina"}
-                                    {community.name === "Downtown Dubai" &&
-                                      "15 min to Dubai Airport, central location"}
-                                    {community.name === "Dubai Marina" &&
-                                      "35 min to Dubai Airport, near JBR Beach"}
-                                    {community.name === "Arabian Ranches" &&
-                                      "25 min to Downtown, near Dubai Autodrome"}
-                                    {community.name === "Dubai Hills Estate" &&
-                                      "20 min to Downtown, near Al Khail Road"}
-                                  </p>
-                                </div>
-                              </motion.div>
-
-                              <motion.div
-                                className="flex items-start group cursor-pointer"
-                                whileHover={{ y: -5 }}
-                                transition={{ type: "spring", stiffness: 300 }}
-                              >
-                                <div className="w-8 h-8 rounded-full bg-earth-700 flex items-center justify-center mt-1 mr-3 group-hover:bg-earth-600 transition-colors duration-300">
-                                  <span className="text-earth-200 text-xs font-medium group-hover:text-white transition-colors duration-300">
-                                    03
-                                  </span>
-                                </div>
-                                <div>
-                                  <h5 className="font-medium text-earth-100 mb-1 group-hover:text-white transition-colors duration-300">
-                                    Lifestyle
-                                  </h5>
-                                  <p className="text-sm text-earth-300 group-hover:text-earth-200 transition-colors duration-300">
-                                    {community.name === "Palm Jumeirah" &&
-                                      "Luxury beachfront living with 5-star hotels"}
-                                    {community.name === "Downtown Dubai" &&
-                                      "Urban lifestyle with shopping and dining"}
-                                    {community.name === "Dubai Marina" &&
-                                      "Vibrant waterfront lifestyle with cafes"}
-                                    {community.name === "Arabian Ranches" &&
-                                      "Family-friendly with equestrian center"}
-                                    {community.name === "Dubai Hills Estate" &&
-                                      "Modern luxury with parks and retail"}
-                                  </p>
-                                </div>
-                              </motion.div>
-
-                              <motion.div
-                                className="flex items-start group cursor-pointer"
-                                whileHover={{ y: -5 }}
-                                transition={{ type: "spring", stiffness: 300 }}
-                              >
-                                <div className="w-8 h-8 rounded-full bg-earth-700 flex items-center justify-center mt-1 mr-3 group-hover:bg-earth-600 transition-colors duration-300">
-                                  <span className="text-earth-200 text-xs font-medium group-hover:text-white transition-colors duration-300">
-                                    04
-                                  </span>
-                                </div>
-                                <div>
-                                  <h5 className="font-medium text-earth-100 mb-1 group-hover:text-white transition-colors duration-300">
-                                    Investment Value
-                                  </h5>
-                                  <p className="text-sm text-earth-300 group-hover:text-earth-200 transition-colors duration-300">
-                                    {community.name === "Palm Jumeirah" &&
-                                      "Premium ROI with consistent appreciation"}
-                                    {community.name === "Downtown Dubai" &&
-                                      "High rental yields in central location"}
-                                    {community.name === "Dubai Marina" &&
-                                      "Strong rental demand from professionals"}
-                                    {community.name === "Arabian Ranches" &&
-                                      "Stable investment with family appeal"}
-                                    {community.name === "Dubai Hills Estate" &&
-                                      "Growing area with appreciation potential"}
-                                  </p>
-                                </div>
-                              </motion.div>
+                              {[
+                                {
+                                  number: "01",
+                                  title: "Strategic Location",
+                                  description: community.name === "Palm Jumeirah" 
+                                    ? "Iconic man-made island with stunning sea views"
+                                    : community.name === "Downtown Dubai"
+                                    ? "Heart of the city near Burj Khalifa"
+                                    : community.name === "Dubai Marina"
+                                    ? "Waterfront community with yacht harbor"
+                                    : community.name === "Arabian Ranches"
+                                    ? "Serene desert-themed community"
+                                    : "Prestigious area with golf course views"
+                                },
+                                {
+                                  number: "02",
+                                  title: "Connectivity",
+                                  description: community.name === "Palm Jumeirah" 
+                                    ? "30 min to Dubai Airport, 15 min to Dubai Marina"
+                                    : community.name === "Downtown Dubai"
+                                    ? "15 min to Dubai Airport, central location"
+                                    : community.name === "Dubai Marina"
+                                    ? "35 min to Dubai Airport, near JBR Beach"
+                                    : community.name === "Arabian Ranches"
+                                    ? "25 min to Downtown, near Dubai Autodrome"
+                                    : "20 min to Downtown, near Al Khail Road"
+                                },
+                                {
+                                  number: "03",
+                                  title: "Lifestyle",
+                                  description: community.name === "Palm Jumeirah" 
+                                    ? "Luxury beachfront living with 5-star hotels"
+                                    : community.name === "Downtown Dubai"
+                                    ? "Urban lifestyle with shopping and dining"
+                                    : community.name === "Dubai Marina"
+                                    ? "Vibrant waterfront lifestyle with cafes"
+                                    : community.name === "Arabian Ranches"
+                                    ? "Family-friendly with equestrian center"
+                                    : "Modern luxury with parks and retail"
+                                },
+                                {
+                                  number: "04",
+                                  title: "Investment Value",
+                                  description: community.name === "Palm Jumeirah" 
+                                    ? "Premium ROI with consistent appreciation"
+                                    : community.name === "Downtown Dubai"
+                                    ? "High rental yields and capital growth"
+                                    : community.name === "Dubai Marina"
+                                    ? "Strong rental demand from professionals"
+                                    : community.name === "Arabian Ranches"
+                                    ? "Stable long-term investment with families"
+                                    : "Emerging area with growth potential"
+                                }
+                              ].map((highlight, idx) => (
+                                <motion.div
+                                  key={idx}
+                                  className="flex items-center group cursor-pointer"
+                                  whileHover={{ x: 5 }}
+                                  transition={{ type: "spring", stiffness: 300 }}
+                                >
+                                  <div className="w-10 h-10 rounded-full bg-earth-100 flex items-center justify-center mr-3 group-hover:bg-earth-700 transition-colors duration-300">
+                                    <span className="text-earth-600 text-lg font-medium group-hover:text-white transition-colors duration-300">
+                                      {highlight.number}
+                                    </span>
+                                  </div>
+                                  <div className="flex-1">
+                                    <h5 className="font-medium text-earth-600 mb-1 group-hover:text-earth-700 transition-colors duration-300">
+                                      {highlight.title}
+                                    </h5>
+                                    <p className="text-sm text-earth-500 group-hover:text-earth-500 transition-colors duration-300">
+                                      {highlight.description}
+                                    </p>
+                                  </div>
+                                </motion.div>
+                              ))}
                             </div>
                           </div>
 
@@ -572,7 +537,7 @@ export default function CommunitiesSection() {
                                   size={14}
                                   className="relative z-10 group-hover:translate-x-1 transition-transform duration-300"
                                 />
-                                <span className="absolute inset-0 bg-gradient-to-r from-earth-500 to-earth-600 transform -skew-x-12 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
+                                <span className="absolute inset-0 bg-gradient-to-r from-earth-500 to-earth-600 transform -skew-x-10 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
                               </Link>
                             </motion.div>
 
@@ -582,12 +547,12 @@ export default function CommunitiesSection() {
                             >
                               <Link
                                 href={`/communities`}
-                                className="px-5 py-3 rounded-lg text-sm font-medium border border-earth-600 text-earth-300 hover:bg-earth-700 transition-colors flex items-center gap-1"
+                                className="px-5 py-3 rounded-lg text-sm font-medium border border-earth-600 text-earth-500 hover:bg-earth-100 transition-colors flex items-center gap-1"
                               >
                                 All Communities
                                 <BsArrowRight
                                   size={14}
-                                  className="group-hover:translate-x-1 transition-transform duration-300"
+                                  className="group-hover:translate-x-1 transition-transform duration-300 ml-1"
                                 />
                               </Link>
                             </motion.div>
@@ -691,7 +656,7 @@ export default function CommunitiesSection() {
                 ></iframe>
               </div>
               <div className="p-6">
-                <p className="text-earth-200 mb-4">
+                <p className="text-earth-500 mb-4">
                   Explore {communities[activeCommunity].name} in immersive 360°
                   view. Navigate through the community to experience the
                   lifestyle and amenities.
@@ -868,7 +833,7 @@ export default function CommunitiesSection() {
                     )}
                   </div>
 
-                  <p className="text-earth-200 mb-4">
+                  <p className="text-earth-500 mb-4">
                     {selectedFeature.feature === "Beachfront" &&
                       "Private beach access with pristine white sand and crystal-clear waters. Enjoy water sports, sunbathing, and breathtaking sunsets right at your doorstep."}
                     {selectedFeature.feature === "Luxury Hotels" &&
