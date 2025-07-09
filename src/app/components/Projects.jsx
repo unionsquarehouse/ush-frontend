@@ -5,6 +5,8 @@ import { useRef, useState, useEffect } from "react";
 import PropertyCard from "./PropertyCard";
 import AnimatedButton from "./ui/AnimatedButton";
 import { BsArrowRight } from "react-icons/bs";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import Image from "next/image";
 
 const projects = [
   {
@@ -124,22 +126,57 @@ export default function Projects() {
         </motion.div>
 
         {/* Projects grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ staggerChildren: 0.1 }}
+        >
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-              transition={{
-                duration: 0.8,
-                ease: [0.16, 1, 0.3, 1],
-                delay: 0.2 + index * 0.1,
-              }}
+              className="perspective-1000 h-[450px] group"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
             >
-              <PropertyCard project={project} />
+              <div className="relative h-full w-full preserve-3d transition-all duration-500 group-hover:[transform:rotateY(10deg)]">
+                {/* Front of card */}
+                <div className="absolute inset-0 backface-hidden rounded-xl overflow-hidden">
+                  <div className="relative h-full">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-earth-900/90 via-earth-900/40 to-transparent" />
+                    
+                    {/* Price tag with clip path */}
+                    <div className="absolute top-6 right-0 clip-path-price bg-earth-50 text-earth-800 py-2 px-6 font-display">
+                      {project.price}
+                    </div>
+                    
+                    <div className="absolute bottom-0 left-0 p-6 w-full">
+                      <h3 className="text-xl text-white font-display mb-1">{project.title}</h3>
+                      <p className="text-earth-100 text-sm flex items-center mb-3">
+                        <FaMapMarkerAlt className="mr-1" /> {project.location}
+                      </p>
+                      <div className="flex justify-between text-sm text-earth-100">
+                        <span>{project.beds} Beds</span>
+                        <span>{project.baths} Baths</span>
+                        <span>{project.area} sqft</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Shadow effect */}
+                <div className="absolute -bottom-10 left-5 right-5 h-[20px] bg-black/20 blur-xl rounded-full transform-gpu transition-all duration-500 group-hover:scale-110"></div>
+              </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Navigation dots */}
         <div className="flex items-center justify-center mt-12 gap-3">

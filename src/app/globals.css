@@ -149,4 +149,122 @@ body {
   color: #9ca3af;
 }
 
+/* Add these custom utilities for modern effects */
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-earth-700 to-earth-500;
+  }
+  
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-xl;
+  }
+  
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-xl;
+  }
+  
+  .shimmer {
+    @apply relative overflow-hidden;
+  }
+  
+  .shimmer::after {
+    @apply absolute top-0 -left-[100%] right-0 bottom-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform;
+    content: '';
+    animation: shimmer 2s infinite;
+  }
+}
+
+/* Add these custom utilities for the 3D card effect */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.clip-path-price {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 5% 100%);
+}
+
+/* Enhanced Phone input styling */
+.phone-input-container .PhoneInput {
+  display: flex;
+  align-items: center;
+  background-color: rgb(249 250 251);
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.phone-input-container .PhoneInput:focus-within {
+  background-color: white;
+  box-shadow: 0 0 0 2px rgba(79, 70, 60, 0.2);
+  border-color: #8d7b6a;
+}
+
+.phone-input-container .PhoneInputCountry {
+  display: flex;
+  align-items: center;
+  
+  border-right: 1px solid #e5e7eb;
+  background-color: rgba(79, 70, 60, 0.05);
+  height: 100%;
+}
+
+.phone-input-container .PhoneInputCountryIcon {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-right: 0.5rem;
+}
+
+.phone-input-container .PhoneInputCountrySelectArrow {
+  margin-left: 0.5rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-style: solid;
+  border-color: #8d7b6a transparent transparent;
+  border-width: 0.25rem 0.25rem 0;
+  opacity: 0.7;
+}
+
+.phone-input-container .PhoneInputInput {
+  flex: 1;
+  border: none;
+  padding: 0.75rem;
+  background: transparent;
+  outline: none;
+  font-size: 1rem;
+  color: #4b5563;
+}
+
+/* Style the country select dropdown */
+.phone-input-container .PhoneInputCountrySelect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  border: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Add a custom placeholder style */
+.phone-input-container .PhoneInputInput::placeholder {
+  color: #9ca3af;
+}
+
 

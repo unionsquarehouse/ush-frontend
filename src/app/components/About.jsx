@@ -100,7 +100,11 @@ export default function About() {
                 src="/assets/ush-office.webp"
                 alt="Union Square House Office"
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-700 hover:scale-105"
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
+                placeholder="blur"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN88P/BfwAJhAPYe0YQ1AAAAABJRU5ErkJggg=="
               />
               <div className="absolute inset-0 bg-gradient-to-t from-earth-900/70 via-earth-900/30 to-transparent"></div>
               

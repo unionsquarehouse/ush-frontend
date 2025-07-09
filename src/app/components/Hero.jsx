@@ -217,7 +217,7 @@ export default function Hero() {
       }}
     >
       {/* Enhanced overlay with gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/40 z-10"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/0 z-10"></div>
 
       {/* Animated grid pattern with improved opacity */}
       <div className="absolute inset-0 z-20 opacity-15">

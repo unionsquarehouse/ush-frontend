@@ -150,107 +150,37 @@ export default function Services() {
           {services.map((service, index) => (
             <motion.div
               key={service.title}
-              className="relative"
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-              transition={{
-                duration: 0.8,
-                ease: [0.16, 1, 0.3, 1],
-                delay: 0.2 + index * 0.1,
-              }}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="group relative h-[400px] overflow-hidden rounded-xl"
             >
-              <div className="bg-earth-100/40 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl h-full">
-                {/* Gradient border effect */}
-                <div className="absolute inset-0 p-[2px] rounded-xl z-0 bg-gradient-to-br from-earth-400 via-earth-200 to-earth-500 opacity-20"></div>
+              {/* Background image with zoom effect */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                style={{ backgroundImage: `url(${service.image})` }}
+              />
+              
+              {/* Glass overlay that slides up on hover */}
+              <div className="absolute inset-0 bg-gradient-to-t from-earth-900/90 to-transparent transition-all duration-500 group-hover:from-earth-900/70" />
+              
+              {/* Content that moves on hover */}
+              <div className="absolute inset-0 p-8 flex flex-col justify-end transition-all duration-500 group-hover:translate-y-[-20px]">
+                <div className="text-white mb-4 opacity-0 transform translate-y-10 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
+                  <service.icon className="text-2xl mb-2" />
+                </div>
+                <h3 className="text-2xl font-display text-white mb-2">{service.title}</h3>
+                <p className="text-earth-100 mb-4 opacity-80 text-sm">{service.desc}</p>
                 
-                {/* Service image */}
-                <div className="relative h-48 w-full overflow-hidden">
-                  {service.image && (
-                    <Image
-                      src={service.image}
-                      alt={service.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-earth-900/70 via-earth-900/30 to-transparent"></div>
-                  
-                  {/* Service title overlay */}
-                  <div className="absolute bottom-0 left-0 p-6 w-full">
-                    <div className="flex items-center mb-2">
-                      <div className="w-10 h-10 rounded-full bg-earth-500 flex items-center justify-center mr-3">
-                        <service.icon className="text-earth-100" />
-                      </div>
-                      <h3 className="text-xl font-medium text-white">
-                        {service.title}
-                      </h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <p className="text-earth-500 mb-6 text-base leading-relaxed">
-                    {service.desc}
-                  </p>
-
-                  <div className="mb-6">
-                    <h4 className="text-xl font-medium mb-5 flex items-center text-earth-700">
-                      <span className="w-4 h-0.5 bg-earth-500 mr-2"></span>
-                      Key Features
-                    </h4>
-                    
-                    <div className="space-y-4">
-                      {service.features.map((feature, idx) => (
-                        <motion.div
-                          key={idx}
-                          className="flex items-center group cursor-pointer"
-                          whileHover={{ x: 5 }}
-                          transition={{ type: "spring", stiffness: 300 }}
-                        >
-                          <div className="w-10 h-10 rounded-full bg-earth-500 flex items-center justify-center mr-3 group-hover:bg-earth-700 transition-colors duration-300">
-                            {idx === 0 && (
-                              <FaHome className="text-earth-100 group-hover:text-white transition-colors duration-300" />
-                            )}
-                            {idx === 1 && (
-                              <FaBuilding className="text-earth-100 group-hover:text-white transition-colors duration-300" />
-                            )}
-                            {idx === 2 && (
-                              <FaKey className="text-earth-100 group-hover:text-white transition-colors duration-300" />
-                            )}
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-earth-500 font-medium group-hover:text-earth-700 transition-colors duration-300">
-                              {feature}
-                            </p>
-                          </div>
-                          <FaInfoCircle className="text-earth-500 group-hover:text-earth-700 transition-colors duration-300" />
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="mt-auto"
-                  >
-                    <Link
-                      href={`/services/${service.title.toLowerCase().replace(/\s+/g, "-")}`}
-                      className="px-5 py-3 rounded-lg text-sm font-medium bg-earth-600 text-white hover:bg-earth-500 transition-colors flex items-center gap-1 relative overflow-hidden group w-full justify-center"
-                    >
-                      <span className="relative z-10">
-                        Explore {service.title}
-                      </span>
-                      <BsArrowRight
-                        size={14}
-                        className="relative z-10 group-hover:translate-x-1 transition-transform duration-300"
-                      />
-                      <span className="absolute inset-0 bg-gradient-to-r from-earth-500 to-earth-600 transform -skew-x-10 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
-                    </Link>
-                  </motion.div>
-                </div>
+                {/* Features that appear on hover */}
+                <ul className="space-y-2 mb-4 opacity-0 transform translate-y-10 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
+                  {service.features.map((feature) => (
+                    <li key={feature} className="text-earth-100 text-sm flex items-center">
+                      <span className="w-1.5 h-1.5 bg-earth-300 rounded-full mr-2"></span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </motion.div>
           ))}
