@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FaPhone,
   FaEnvelope,
@@ -16,88 +16,123 @@ import {
   FaRegBuilding,
   FaRegHandshake,
   FaRegStar,
+  FaAward,
+  FaGem,
+  FaKey,
 } from "react-icons/fa";
 
 export default function Footer() {
   return (
     <footer className="relative overflow-hidden">
-      {/* Decorative top border */}
-      <div className="h-1 bg-gradient-to-r from-earth-400 via-earth-600 to-earth-400"></div>
-
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 bg-earth-800 overflow-hidden">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-earth-700/30 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-earth-700/20 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-earth-700/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-
-        {/* Subtle grid pattern */}
+      {/* Luxury decorative top border */}
+      <div className="h-1.5 bg-gradient-to-r from-earth-400/30 via-earth-600 to-earth-400/30"></div>
+      
+      {/* Enhanced decorative background elements */}
+      <div className="absolute inset-0 bg-earth-900 overflow-hidden">
+        {/* Luxury floating orbs */}
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-earth-800/40 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-earth-800/30 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+        <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-earth-800/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        
+        {/* Luxury grid pattern with golden accent */}
         <div className="absolute inset-0 opacity-5">
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <pattern
-              id="grid"
-              width="40"
-              height="40"
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M 40 0 L 0 0 0 40"
-                fill="none"
-                stroke="white"
-                strokeWidth="0.5"
-              />
-            </pattern>
+            <defs>
+              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
+              </pattern>
+              <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.3" />
+                <stop offset="50%" stopColor="#F5F5DC" stopOpacity="0.1" />
+                <stop offset="100%" stopColor="#D4AF37" stopOpacity="0.3" />
+              </linearGradient>
+            </defs>
             <rect width="100%" height="100%" fill="url(#grid)" />
+            <rect width="100%" height="100%" fill="url(#gold)" opacity="0.05" />
           </svg>
         </div>
       </div>
 
-      {/* Main Footer Content */}
-      <div className="relative w-[90vw] md:w-[70vw] mx-auto py-16 md:py-20 text-white">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-          {/* Logo and About - 4 columns */}
-          <div className="md:col-span-4 space-y-8">
+      {/* Main Footer Content with luxury spacing */}
+      <div className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto relative z-10  py-20 md:py-24 text-white">
+        {/* Luxury decorative element */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-gradient-to-r from-transparent via-earth-400/70 to-transparent"></div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16">
+          {/* Logo and About - 4 columns with luxury styling */}
+          <div className="md:col-span-4 space-y-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.7 }}
               viewport={{ once: true }}
-              className="space-y-6"
+              className="space-y-8"
             >
-              <Image
-                src="/assets/ush_logo.svg"
-                alt="Union Square House"
-                width={180}
-                height={70}
-                className="mb-4"
-              />
+              {/* Logo with luxury glow effect */}
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/0 via-earth-400/30 to-earth-400/0 rounded-lg opacity-0 group-hover:opacity-100 blur-md transition-opacity duration-1000"></div>
+                <Image
+                  src="/assets/ush_logo.svg"
+                  alt="Union Square House"
+                  width={200}
+                  height={80}
+                  className="relative"
+                />
+              </div>
 
-              <p className="text-earth-300 leading-relaxed">
+              {/* Description with luxury typography */}
+              <p className="text-earth-300 leading-relaxed text-base">
                 Dubai's multi-award winning real estate agency, recognized for
                 excellence in luxury property sales and leasing across the UAE's
-                most prestigious communities.
+                most prestigious communities. We pride ourselves on exceptional service
+                and unparalleled market expertise.
               </p>
 
-              {/* Awards badges */}
-              <div className="flex flex-wrap gap-3 pt-2">
-                {[1, 2, 3].map((badge) => (
-                  <div
-                    key={badge}
-                    className="w-12 h-12 bg-earth-700/50 backdrop-blur-sm rounded-full flex items-center justify-center border border-earth-600/50"
-                  >
-                    <FaRegStar className="text-earth-300" />
+              {/* Awards badges with luxury styling */}
+              <div className="pt-2">
+                <h5 className="text-earth-200 text-sm font-medium mb-4 flex items-center">
+                  <FaAward className="mr-2 text-earth-400" />
+                  Award-Winning Excellence
+                </h5>
+                <div className="flex flex-wrap gap-4">
+                  {/* Award 1 */}
+                  <div className="group relative">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/30 to-earth-600/30 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="relative w-14 h-14 bg-earth-800/70 backdrop-blur-sm rounded-full flex items-center justify-center border border-earth-700/70 group-hover:border-earth-600/70 transition-colors duration-300">
+                      <FaGem className="text-earth-300 group-hover:text-earth-200 transition-colors duration-300" />
+                    </div>
                   </div>
-                ))}
-                <div className="flex items-center text-earth-400 text-sm">
-                  <span>+12 Awards</span>
+                  
+                  {/* Award 2 */}
+                  <div className="group relative">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/30 to-earth-600/30 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="relative w-14 h-14 bg-earth-800/70 backdrop-blur-sm rounded-full flex items-center justify-center border border-earth-700/70 group-hover:border-earth-600/70 transition-colors duration-300">
+                      <FaRegStar className="text-earth-300 group-hover:text-earth-200 transition-colors duration-300" />
+                    </div>
+                  </div>
+                  
+                  {/* Award 3 */}
+                  <div className="group relative">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/30 to-earth-600/30 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="relative w-14 h-14 bg-earth-800/70 backdrop-blur-sm rounded-full flex items-center justify-center border border-earth-700/70 group-hover:border-earth-600/70 transition-colors duration-300">
+                      <FaKey className="text-earth-300 group-hover:text-earth-200 transition-colors duration-300" />
+                    </div>
+                  </div>
+                  
+                  {/* Award count */}
+                  <div className="flex items-center text-earth-400 text-sm">
+                    <span className="px-3 py-1.5 bg-earth-800/50 backdrop-blur-sm rounded-lg border border-earth-700/50">+12 Awards</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Social Media */}
-              <div className="pt-2">
-                <h5 className="text-earth-200 text-sm font-medium mb-4">
+              {/* Social Media with luxury hover effects */}
+              <div className="pt-4">
+                <h5 className="text-earth-200 text-sm font-medium mb-4 flex items-center">
+                  <FaEnvelope className="mr-2 text-earth-400" />
                   Connect With Us
                 </h5>
-                <div className="flex space-x-3">
+                <div className="flex space-x-4">
                   {[
                     { icon: FaFacebookF, href: "https://facebook.com" },
                     { icon: FaTwitter, href: "https://twitter.com" },
@@ -109,13 +144,18 @@ export default function Footer() {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 rounded-lg bg-earth-700/70 backdrop-blur-sm flex items-center justify-center border border-earth-600/50 hover:bg-earth-600 transition-colors duration-300"
+                      className="group relative"
                       whileHover={{
                         y: -5,
                         transition: { type: "spring", stiffness: 300 },
                       }}
                     >
-                      <social.icon className="text-earth-200" />
+                      {/* Luxury glow effect on hover */}
+                      <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/30 to-earth-600/30 rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      
+                      <div className="relative w-11 h-11 rounded-lg bg-earth-800/70 backdrop-blur-sm flex items-center justify-center border border-earth-700/70 group-hover:border-earth-600/70 transition-colors duration-300">
+                        <social.icon className="text-earth-300 group-hover:text-earth-200 transition-colors duration-300" />
+                      </div>
                     </motion.a>
                   ))}
                 </div>
@@ -123,19 +163,21 @@ export default function Footer() {
             </motion.div>
           </div>
 
-          {/* Quick Links - 2 columns */}
+          {/* Quick Links - 2 columns with luxury styling */}
           <motion.div
             className="md:col-span-2"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h4 className="text-lg font-medium mb-6 text-earth-100 flex items-center">
-              <FaRegBuilding className="mr-2 text-earth-400" />
+            <h4 className="text-lg font-medium mb-8 text-earth-100 flex items-center">
+              <div className="w-6 h-6 rounded-full bg-earth-800 flex items-center justify-center mr-3 border border-earth-700">
+                <FaRegBuilding className="text-earth-400 text-xs" />
+              </div>
               Quick Links
             </h4>
-            <ul className="space-y-4">
+            <ul className="space-y-5">
               {[
                 { name: "Home", href: "/" },
                 { name: "About Us", href: "/about" },
@@ -146,9 +188,9 @@ export default function Footer() {
                 <li key={index} className="group">
                   <Link
                     href={link.href}
-                    className="text-earth-300 hover:text-earth-100 transition-colors duration-300 text-sm flex items-center"
+                    className="text-earth-300 hover:text-earth-100 transition-colors duration-300 text-sm flex items-center group-hover:translate-x-1 transform transition-transform duration-300"
                   >
-                    <FaChevronRight className="mr-2 text-xs text-earth-500 group-hover:text-earth-300 transition-colors duration-300" />
+                    <div className="w-0 h-px bg-earth-400 mr-0 group-hover:w-3 group-hover:mr-2 transition-all duration-300"></div>
                     {link.name}
                   </Link>
                 </li>
@@ -156,19 +198,21 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          {/* Property Types - 2 columns */}
+          {/* Property Types - 2 columns with luxury styling */}
           <motion.div
             className="md:col-span-2"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h4 className="text-lg font-medium mb-6 text-earth-100 flex items-center">
-              <FaRegHandshake className="mr-2 text-earth-400" />
+            <h4 className="text-lg font-medium mb-8 text-earth-100 flex items-center">
+              <div className="w-6 h-6 rounded-full bg-earth-800 flex items-center justify-center mr-3 border border-earth-700">
+                <FaRegHandshake className="text-earth-400 text-xs" />
+              </div>
               Property Types
             </h4>
-            <ul className="space-y-4">
+            <ul className="space-y-5">
               {[
                 { name: "Luxury Villas", href: "/listings?type=villas" },
                 { name: "Apartments", href: "/listings?type=apartments" },
@@ -179,9 +223,9 @@ export default function Footer() {
                 <li key={index} className="group">
                   <Link
                     href={link.href}
-                    className="text-earth-300 hover:text-earth-100 transition-colors duration-300 text-sm flex items-center"
+                    className="text-earth-300 hover:text-earth-100 transition-colors duration-300 text-sm flex items-center group-hover:translate-x-1 transform transition-transform duration-300"
                   >
-                    <FaChevronRight className="mr-2 text-xs text-earth-500 group-hover:text-earth-300 transition-colors duration-300" />
+                    <div className="w-0 h-px bg-earth-400 mr-0 group-hover:w-3 group-hover:mr-2 transition-all duration-300"></div>
                     {link.name}
                   </Link>
                 </li>
@@ -189,68 +233,86 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          {/* Contact Info - 4 columns */}
+          {/* Contact Info - 4 columns with luxury styling */}
           <motion.div
             className="md:col-span-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <h4 className="text-lg font-medium mb-6 text-earth-100">
+            <h4 className="text-lg font-medium mb-8 text-earth-100 flex items-center">
+              <div className="w-6 h-6 rounded-full bg-earth-800 flex items-center justify-center mr-3 border border-earth-700">
+                <FaPhone className="text-earth-400 text-xs" />
+              </div>
               Contact Us
             </h4>
 
             <div className="space-y-6">
-              {/* Contact cards */}
-              <div className="bg-earth-700/30 backdrop-blur-sm rounded-xl p-4 border border-earth-600/30 hover:bg-earth-700/50 transition-colors duration-300 group">
-                <div className="flex">
-                  <div className="w-12 h-12 rounded-lg bg-earth-600/50 flex items-center justify-center mr-4 group-hover:bg-earth-600 transition-colors duration-300">
-                    <FaMapMarkerAlt className="text-earth-200" />
-                  </div>
-                  <div>
-                    <h5 className="text-earth-100 font-medium mb-1">
-                      Our Location
-                    </h5>
-                    <p className="text-earth-300 text-sm">
-                      Business Bay, Dubai, United Arab Emirates
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-earth-700/30 backdrop-blur-sm rounded-xl p-4 border border-earth-600/30 hover:bg-earth-700/50 transition-colors duration-300 group">
-                <div className="flex">
-                  <div className="w-12 h-12 rounded-lg bg-earth-600/50 flex items-center justify-center mr-4 group-hover:bg-earth-600 transition-colors duration-300">
-                    <FaPhone className="text-earth-200" />
-                  </div>
-                  <div>
-                    <h5 className="text-earth-100 font-medium mb-1">Call Us</h5>
-                    <a
-                      href="tel:+97144589090"
-                      className="text-earth-300 text-sm hover:text-earth-100 transition-colors duration-300"
-                    >
-                      +971 4 458 9090
-                    </a>
+              {/* Luxury contact cards */}
+              <div className="group relative">
+                {/* Luxury glow effect on hover */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/20 to-earth-600/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                <div className="relative bg-earth-800/40 backdrop-blur-sm rounded-xl p-5 border border-earth-700/50 hover:border-earth-600/50 transition-colors duration-300">
+                  <div className="flex">
+                    <div className="w-12 h-12 rounded-lg bg-earth-700/50 flex items-center justify-center mr-4 group-hover:bg-earth-700 transition-colors duration-300">
+                      <FaMapMarkerAlt className="text-earth-300 group-hover:text-earth-200 transition-colors duration-300" />
+                    </div>
+                    <div>
+                      <h5 className="text-earth-100 font-medium mb-1">
+                        Our Location
+                      </h5>
+                      <p className="text-earth-300 text-sm">
+                        Business Bay, Dubai, United Arab Emirates
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-earth-700/30 backdrop-blur-sm rounded-xl p-4 border border-earth-600/30 hover:bg-earth-700/50 transition-colors duration-300 group">
-                <div className="flex">
-                  <div className="w-12 h-12 rounded-lg bg-earth-600/50 flex items-center justify-center mr-4 group-hover:bg-earth-600 transition-colors duration-300">
-                    <FaEnvelope className="text-earth-200" />
+              <div className="group relative">
+                {/* Luxury glow effect on hover */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/20 to-earth-600/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                <div className="relative bg-earth-800/40 backdrop-blur-sm rounded-xl p-5 border border-earth-700/50 hover:border-earth-600/50 transition-colors duration-300">
+                  <div className="flex">
+                    <div className="w-12 h-12 rounded-lg bg-earth-700/50 flex items-center justify-center mr-4 group-hover:bg-earth-700 transition-colors duration-300">
+                      <FaPhone className="text-earth-300 group-hover:text-earth-200 transition-colors duration-300" />
+                    </div>
+                    <div>
+                      <h5 className="text-earth-100 font-medium mb-1">Call Us</h5>
+                      <a
+                        href="tel:+97144589090"
+                        className="text-earth-300 text-sm hover:text-earth-100 transition-colors duration-300"
+                      >
+                        +971 4 458 9090
+                      </a>
+                    </div>
                   </div>
-                  <div>
-                    <h5 className="text-earth-100 font-medium mb-1">
-                      Email Us
-                    </h5>
-                    <a
-                      href="mailto:info@ushre.com"
-                      className="text-earth-300 text-sm hover:text-earth-100 transition-colors duration-300"
-                    >
-                      info@ushre.com
-                    </a>
+                </div>
+              </div>
+
+              <div className="group relative">
+                {/* Luxury glow effect on hover */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/20 to-earth-600/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                <div className="relative bg-earth-800/40 backdrop-blur-sm rounded-xl p-5 border border-earth-700/50 hover:border-earth-600/50 transition-colors duration-300">
+                  <div className="flex">
+                    <div className="w-12 h-12 rounded-lg bg-earth-700/50 flex items-center justify-center mr-4 group-hover:bg-earth-700 transition-colors duration-300">
+                      <FaEnvelope className="text-earth-300 group-hover:text-earth-200 transition-colors duration-300" />
+                    </div>
+                    <div>
+                      <h5 className="text-earth-100 font-medium mb-1">
+                        Email Us
+                      </h5>
+                      <a
+                        href="mailto:info@ushre.com"
+                        className="text-earth-300 text-sm hover:text-earth-100 transition-colors duration-300"
+                      >
+                        info@ushre.com
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -258,71 +320,100 @@ export default function Footer() {
           </motion.div>
         </div>
 
-        {/* Newsletter subscription */}
+        {/* Newsletter subscription with luxury styling */}
         <motion.div
-          className="mt-16 bg-earth-700/30 backdrop-blur-sm rounded-xl p-6 border border-earth-600/30"
+          className="mt-20 relative group"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.7, delay: 0.4 }}
           viewport={{ once: true }}
         >
-          <div className="grid md:grid-cols-5 gap-6 items-center">
-            <div className="md:col-span-2">
-              <h4 className="text-lg font-medium text-earth-100 mb-2">
-                Stay Updated
-              </h4>
-              <p className="text-earth-300 text-sm">
-                Subscribe to our newsletter for exclusive property updates and
-                market insights
-              </p>
-            </div>
-            <div className="md:col-span-3">
-              <form className="flex flex-col sm:flex-row gap-3">
-                <input
-                  type="email"
-                  placeholder="Your email address"
-                  className="flex-1 bg-earth-800/70 border border-earth-600/50 rounded-lg px-4 py-3 text-earth-100 placeholder-earth-400 focus:outline-none focus:ring-2 focus:ring-earth-500"
-                />
-                <motion.button
-                  type="submit"
-                  className="bg-earth-600 hover:bg-earth-500 text-white rounded-lg px-6 py-3 font-medium transition-colors duration-300"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Subscribe
-                </motion.button>
-              </form>
+          {/* Luxury glow effect on hover */}
+          <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/20 to-earth-600/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          
+          <div className="relative bg-earth-800/40 backdrop-blur-sm rounded-xl p-8 border border-earth-700/50 group-hover:border-earth-600/50 transition-colors duration-300">
+            <div className="grid md:grid-cols-5 gap-8 items-center">
+              <div className="md:col-span-2">
+                <h4 className="text-xl font-medium text-earth-100 mb-3 flex items-center">
+                  <div className="w-8 h-8 rounded-full bg-earth-700/70 flex items-center justify-center mr-3 border border-earth-600/50">
+                    <FaEnvelope className="text-earth-300 text-sm" />
+                  </div>
+                  Stay Updated
+                </h4>
+                <p className="text-earth-300 text-sm leading-relaxed">
+                  Subscribe to our newsletter for exclusive property updates, market insights, and luxury lifestyle content.
+                </p>
+              </div>
+              <div className="md:col-span-3">
+                <form className="flex flex-col sm:flex-row gap-4">
+                  <div className="relative flex-1">
+                    <input
+                      type="email"
+                      placeholder="Your email address"
+                      className="w-full bg-earth-900/70 border border-earth-700/50 rounded-lg px-4 py-3 text-earth-100 placeholder-earth-400 focus:outline-none focus:ring-2 focus:ring-earth-500 focus:border-transparent transition-all duration-300"
+                    />
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <div className="w-0 border-b border-earth-500 group-focus-within:w-3 transition-all duration-300"></div>
+                    </div>
+                  </div>
+                  <motion.button
+                    type="submit"
+                    className="relative overflow-hidden group/btn bg-earth-700 hover:bg-earth-600 text-white rounded-lg px-6 py-3 font-medium transition-colors duration-300"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {/* Button background layers */}
+                    <span className="absolute inset-0 bg-gradient-to-r from-earth-600 to-earth-700 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500"></span>
+                    
+                    {/* Button text */}
+                    <span className="relative flex items-center">
+                      Subscribe
+                      <svg className="ml-2 h-5 w-5 transform group-hover/btn:translate-x-1 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </span>
+                  </motion.button>
+                </form>
+              </div>
             </div>
           </div>
         </motion.div>
+        
+        {/* Luxury decorative element */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-40 h-px bg-gradient-to-r from-transparent via-earth-400/70 to-transparent"></div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="relative border-t border-earth-700/70">
-        <div className="w-[90vw] md:w-[70vw] mx-auto py-6 flex flex-col md:flex-row justify-between items-center">
-          <div className="text-earth-400 text-sm mb-4 md:mb-0 flex items-center">
+      {/* Bottom Bar with luxury styling */}
+      <div className="relative border-t border-earth-800/70">
+        <div className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto relative z-10 py-8 flex flex-col md:flex-row justify-between items-center">
+          <div className="text-earth-400 text-sm mb-6 md:mb-0 flex items-center">
             <FaRegCopyright className="mr-2" />
-            {new Date().getFullYear()} Union Square House Real Estate —
-            Regulated by RERA, Dubai
+            <span>{new Date().getFullYear()} Union Square House Real Estate —</span>
+            <span className="ml-1 px-2 py-0.5 bg-earth-800/50 rounded-md text-xs border border-earth-700/50">
+              Regulated by RERA, Dubai
+            </span>
           </div>
-          <div className="text-earth-400 text-sm flex space-x-6">
+          <div className="text-earth-400 text-sm flex space-x-8">
             <Link
               href="/privacy-policy"
-              className="hover:text-earth-200 transition-colors duration-300"
+              className="hover:text-earth-200 transition-colors duration-300 relative group"
             >
-              Privacy Policy
+              <span>Privacy Policy</span>
+              <span className="absolute bottom-0 left-0 w-0 h-px bg-earth-400 group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link
               href="/terms-of-service"
-              className="hover:text-earth-200 transition-colors duration-300"
+              className="hover:text-earth-200 transition-colors duration-300 relative group"
             >
-              Terms of Service
+              <span>Terms of Service</span>
+              <span className="absolute bottom-0 left-0 w-0 h-px bg-earth-400 group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link
               href="/sitemap"
-              className="hover:text-earth-200 transition-colors duration-300"
+              className="hover:text-earth-200 transition-colors duration-300 relative group"
             >
-              Sitemap
+              <span>Sitemap</span>
+              <span className="absolute bottom-0 left-0 w-0 h-px bg-earth-400 group-hover:w-full transition-all duration-300"></span>
             </Link>
           </div>
         </div>

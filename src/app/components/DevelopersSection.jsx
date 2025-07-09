@@ -204,7 +204,7 @@ export default function DevelopersSection() {
             >
               <div className="flex">
                 {developers.map((developer, index) => (
-                  <div key={developer.id} className="w-full flex-shrink-0 px-4">
+                  <div key={developer.id} className="w-full flex-shrink-0 ">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                       {/* Left column - Logo and stats */}
                       <div className="lg:col-span-4 flex flex-col items-center lg:items-start space-y-6">

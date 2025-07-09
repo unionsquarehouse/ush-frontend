@@ -7,7 +7,7 @@ import {
   useMotionValue,
   useTransform,
 } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   FaPhone,
   FaEnvelope,
@@ -19,9 +19,12 @@ import {
   FaStar,
   FaCompass,
   FaUser,
+  FaCheck,
+  FaTimes,
 } from "react-icons/fa";
 import Image from "next/image";
 import confetti from "canvas-confetti";
+// PhoneInput import removed
 
 export default function Contact() {
   const sectionRef = useRef(null);
@@ -60,6 +63,32 @@ export default function Contact() {
   const [formAnimation, setFormAnimation] = useState("wave");
   const [progressOpacity, setProgressOpacity] = useState(0.7);
   const [progressScale, setProgressScale] = useState(1);
+
+  // Add these states
+  const [countryCode, setCountryCode] = useState("971");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [isPhoneValid, setIsPhoneValid] = useState(false);
+
+  // Phone validation function
+  const validatePhone = (phone) => {
+    if (!phone) return false;
+    // Basic validation - at least 8 digits
+    return phone.length >= 8;
+  };
+
+  // Handle phone input
+  const handlePhoneChange = (e) => {
+    const value = e.target.value.replace(/\D/g, ""); // Remove non-digits
+    setPhoneNumber(value);
+    setIsPhoneValid(validatePhone(value));
+    setFormState(prev => ({ ...prev, phone: `+${countryCode}${value}` }));
+  };
+
+  // Handle country code change
+  const handleCountryCodeChange = (e) => {
+    setCountryCode(e.target.value);
+    setFormState(prev => ({ ...prev, phone: `+${e.target.value}${phoneNumber}` }));
+  };
 
   // Update form state when property changes
   useEffect(() => {
@@ -177,10 +206,9 @@ export default function Contact() {
   ]);
 
   const handleChange = (e) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormState((prev) => ({ ...prev, [name]: value }));
+    // Update form progress calculation
   };
 
   // Enhanced form submission with reward
@@ -1016,18 +1044,59 @@ export default function Contact() {
                                 className="block text-earth-800 text-sm font-medium mb-1"
                                 htmlFor="phone"
                               >
-                                Phone
+                                Phone Number
                               </label>
-                              <input
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                value={formState.phone}
-                                onChange={handleChange}
-                                className="w-full px-3 py-2 bg-white/80 border border-earth-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-earth-600 transition-all duration-300"
-                                placeholder="Your phone"
-                                required
-                              />
+                              <div className="flex">
+                                <div className="relative">
+                                  <select
+                                    value={countryCode}
+                                    onChange={handleCountryCodeChange}
+                                    className="h-full  pl-3 pr-7 bg-earth-100 border border-earth-200 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-earth-500 appearance-none"
+                                  >
+                                    <option value="971">🇦🇪 +971</option>
+                                    <option value="1">🇺🇸 +1</option>
+                                    <option value="44">🇬🇧 +44</option>
+                                    <option value="91">🇮🇳 +91</option>
+                                    <option value="966">🇸🇦 +966</option>
+                                    <option value="965">🇰🇼 +965</option>
+                                    <option value="974">🇶🇦 +974</option>
+                                  </select>
+                                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-earth-700">
+                                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                    </svg>
+                                  </div>
+                                </div>
+                                <div className="relative flex-1">
+                                  <input
+                                    type="tel"
+                                    id="phone"
+                                    value={phoneNumber}
+                                    onChange={handlePhoneChange}
+                                    className={`w-full px-4 py-2 bg-earth-50 border border-l-0 ${
+                                      phoneNumber && (isPhoneValid ? "border-green-500" : "border-red-500")
+                                    } rounded-r-lg focus:outline-none focus:ring-2 ${
+                                      isPhoneValid ? "focus:ring-green-500" : "focus:ring-earth-500"
+                                    } focus:bg-white transition-all duration-300`}
+                                    placeholder="50 123 4567"
+                                    required
+                                  />
+                                  {phoneNumber && (
+                                    <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                                      {isPhoneValid ? (
+                                        <FaCheck className="h-5 w-5 text-green-500" />
+                                      ) : (
+                                        <FaTimes className="h-5 w-5 text-red-500" />
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                              {phoneNumber && !isPhoneValid && (
+                                <p className="text-red-500 text-xs mt-1">
+                                  Please enter a valid phone number (at least 8 digits)
+                                </p>
+                              )}
                             </div>
                           </div>
 
@@ -1082,10 +1151,10 @@ export default function Contact() {
                           className="w-full py-3 rounded-lg relative overflow-hidden group mt-6"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          disabled={formProgress < 75}
+                          disabled={formProgress < 75 || !isPhoneValid}
                         >
                           <span className="relative z-10 flex items-center justify-center text-white font-medium">
-                            {formProgress < 75 ? (
+                            {formProgress < 75 || !isPhoneValid ? (
                               <span>
                                 Complete form to unlock exclusive access
                               </span>
@@ -1104,13 +1173,13 @@ export default function Contact() {
                           <motion.span
                             className="absolute inset-0 bg-earth-800"
                             initial={{ opacity: 1 }}
-                            animate={{ opacity: formProgress >= 75 ? 0 : 1 }}
+                            animate={{ opacity: formProgress >= 75 && isPhoneValid ? 0 : 1 }}
                             transition={{ duration: 0.5 }}
                           />
                           <motion.span
                             className="absolute inset-0 bg-gradient-to-r from-earth-700 to-earth-900"
                             initial={{ scaleX: 0 }}
-                            animate={{ scaleX: formProgress >= 75 ? 1 : 0 }}
+                            animate={{ scaleX: formProgress >= 75 && isPhoneValid ? 1 : 0 }}
                             transition={{ duration: 0.5 }}
                             style={{ transformOrigin: "left" }}
                           />
@@ -1145,9 +1214,9 @@ export default function Contact() {
                         </div>
 
                         {/* Privacy note - Improved and more concise */}
-                        <div className="text-xs text-earth-600 mt-4 flex items-center justify-center">
+                        <div className="text-xs text-earth-600 mt-4 flex items-center justify-center bg-earth-50 p-3 rounded-lg">
                           <svg
-                            className="w-4 h-4 text-earth-500 mr-1.5"
+                            className="w-4 h-4 text-earth-500 mr-1.5 flex-shrink-0"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -1160,8 +1229,7 @@ export default function Contact() {
                               d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
                             />
                           </svg>
-                          Your information is secure and will never be shared
-                          with third parties.
+                          Your information is secure and will never be shared with third parties.
                         </div>
                       </form>
                     </>

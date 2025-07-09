@@ -216,11 +216,11 @@ export default function Hero() {
         transition: "background-image 1.5s ease-in-out",
       }}
     >
-      {/* Futuristic overlay elements */}
-      <div className="absolute inset-0 bg-black/60 z-10"></div>
+      {/* Enhanced overlay with gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80 z-10"></div>
 
-      {/* Animated grid pattern */}
-      <div className="absolute inset-0 z-20 opacity-20">
+      {/* Animated grid pattern with improved opacity */}
+      <div className="absolute inset-0 z-20 opacity-15">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <pattern
             id="grid"
@@ -239,47 +239,56 @@ export default function Hero() {
         </svg>
       </div>
 
-      {/* Parallax floating elements */}
+      {/* Enhanced floating elements with better blur */}
       <motion.div
-        className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-earth-600/10 blur-3xl z-20"
+        className="absolute top-1/4 left-1/4 w-80 h-80 rounded-full bg-earth-600/10 blur-[100px] z-20"
         style={{
           x: useTransform(() => mousePosition.x * -30),
           y: useTransform(() => mousePosition.y * -30),
         }}
       ></motion.div>
       <motion.div
-        className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-earth-400/10 blur-3xl z-20"
+        className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full bg-earth-400/10 blur-[120px] z-20"
         style={{
           x: useTransform(() => mousePosition.x * 40),
           y: useTransform(() => mousePosition.y * 40),
         }}
       ></motion.div>
 
-      {/* Animated scan lines */}
-      <div className="absolute inset-0 z-20 overflow-hidden opacity-10 pointer-events-none">
-        <div className="scan-lines"></div>
-      </div>
+      {/* Decorative elements */}
+      <div className="absolute left-10 top-1/3 w-px h-40 bg-gradient-to-b from-transparent via-earth-300/50 to-transparent z-20"></div>
+      <div className="absolute right-10 top-1/4 w-px h-60 bg-gradient-to-b from-transparent via-earth-300/50 to-transparent z-20"></div>
 
-      {/* Main content */}
+      {/* Main content with improved layout */}
       <motion.div
         className="absolute inset-0 flex items-center justify-center z-30"
         style={{ y, opacity }}
       >
         <div className="w-[90vw] md:w-[70vw] mx-auto text-center text-white">
-          <motion.span
-            className="inline-block px-4 py-1 mb-6 border border-earth-300 text-earth-100 text-sm uppercase tracking-widest backdrop-blur-sm bg-earth-800/30"
+          {/* Enhanced badge with gradient border */}
+          <motion.div
+            className="inline-block relative mb-6 group"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            Dubai's Premier Real Estate Agency
-          </motion.span>
+            <span className="absolute -inset-0.5 bg-gradient-to-r from-earth-400 to-earth-600 rounded-full opacity-75 blur-sm group-hover:opacity-100 transition duration-300"></span>
+            <span className="relative inline-block px-5 py-1.5 bg-earth-800/80 backdrop-blur-sm rounded-full text-sm uppercase tracking-widest text-earth-100 border border-earth-700/50">
+              Dubai's Premier Real Estate Agency
+            </span>
+          </motion.div>
 
+          {/* Enhanced heading with decorative elements */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative"
           >
+            {/* Decorative lines */}
+            <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-8 h-px bg-earth-400/70"></div>
+            <div className="absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-px bg-earth-400/70"></div>
+            
             <h1 className="font-light mb-6 leading-tight max-w-4xl mx-auto">
               Exceptional Properties for <br />
               <span className="text-earth-200 relative">
@@ -291,18 +300,22 @@ export default function Hero() {
             </h1>
           </motion.div>
 
-          <motion.p
-            className="mb-10 text-earth-100 max-w-2xl mx-auto font-light"
+          {/* Enhanced description with gradient underline */}
+          <motion.div
+            className="mb-10 relative"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Multi-award winning agency representing the finest properties across
-            Dubai, from luxury villas to premium apartments and exclusive
-            off-plan developments.
-          </motion.p>
+            <p className="text-earth-100 max-w-2xl mx-auto font-light">
+              Multi-award winning agency representing the finest properties across
+              Dubai, from luxury villas to premium apartments and exclusive
+              off-plan developments.
+            </p>
+            <div className="h-px w-24 mx-auto mt-6 bg-gradient-to-r from-transparent via-earth-400 to-transparent"></div>
+          </motion.div>
 
-          {/* Interactive property search */}
+          {/* Enhanced search container with glass morphism */}
           <motion.div
             className="max-w-4xl mx-auto mb-10 relative"
             initial={{ opacity: 0, y: 20 }}
@@ -311,20 +324,23 @@ export default function Hero() {
           >
             <form onSubmit={handleSearch}>
               <div 
-                className={`bg-white/10 backdrop-blur-md rounded-xl border border-white/20 transition-all duration-500 overflow-hidden ${
+                className={`relative backdrop-blur-md rounded-xl border border-white/20 transition-all duration-500 overflow-hidden group ${
                   searchActive ? 'p-6' : 'p-4'
                 }`}
               >
-              
+                {/* Glass morphism background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5"></div>
                 
-                {/* Search input box - always visible */}
+                {/* Search input with enhanced styling */}
                 <div className="relative mb-4">
-                  <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-earth-300" />
+                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-earth-300">
+                    <FaSearch className="text-earth-300 group-hover:text-earth-200 transition-colors duration-300" />
+                  </div>
                   <input 
                     type="text" 
                     name="keyword"
                     placeholder="Search by property name, features or keywords" 
-                    className="w-full bg-white/10 border border-white/20 rounded-lg py-3 pl-10 pr-3 text-earth-100 placeholder-earth-300 focus:outline-none focus:ring-1 focus:ring-earth-400"
+                    className="w-full bg-white/10 border border-white/20 rounded-lg py-3 pl-10 pr-3 text-earth-100 placeholder-earth-300 focus:outline-none focus:ring-1 focus:ring-earth-400 transition-all duration-300"
                     value={searchForm.keyword}
                     onChange={handleInputChange}
                     onKeyPress={(e) => {
@@ -337,7 +353,7 @@ export default function Hero() {
                   {searchForm.keyword && (
                     <button
                       type="button"
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-earth-300 hover:text-white"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-earth-300 hover:text-white transition-colors duration-300"
                       onClick={() => setSearchForm(prev => ({...prev, keyword: ""}))}
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -346,85 +362,124 @@ export default function Hero() {
                     </button>
                   )}
                 </div>
-         
                 
+                {/* Enhanced search button with gradient */}
                 <motion.button
                   type="submit"
                   disabled={isSearching}
-                  className="w-full bg-earth-600 hover:bg-earth-500 text-white py-3 rounded-lg font-medium transition-colors flex items-center justify-center disabled:bg-earth-700/70 disabled:cursor-wait"
+                  className="relative w-full py-3 rounded-lg font-medium transition-all duration-300 overflow-hidden group disabled:opacity-70 disabled:cursor-wait"
                   whileHover={{ scale: isSearching ? 1 : 1.02 }}
                   whileTap={{ scale: isSearching ? 1 : 0.98 }}
                 >
-                  {isSearching ? (
-                    <>
-                      <FaSpinner className="mr-2 animate-spin" />
-                      Searching...
-                    </>
-                  ) : (
-                    <>
-                      <FaSearch className="mr-2" />
-                      Search {listingTypes.find(type => type.value === searchForm.listingType)?.name || 'Properties'}
-                    </>
-                  )}
+                  {/* Button background layers */}
+                  <span className="absolute inset-0 bg-earth-600"></span>
+                  <span className="absolute inset-0 bg-gradient-to-r from-earth-500 to-earth-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+                  
+                  {/* Button content */}
+                  <span className="relative flex items-center justify-center text-white">
+                    {isSearching ? (
+                      <>
+                        <FaSpinner className="mr-2 animate-spin" />
+                        Searching...
+                      </>
+                    ) : (
+                      <>
+                        <FaSearch className="mr-2" />
+                        Search {listingTypes.find(type => type.value === searchForm.listingType)?.name || 'Properties'}
+                      </>
+                    )}
+                  </span>
                 </motion.button>
               </div>
             </form>
             
-            {/* Floating data points */}
+            {/* Enhanced floating data points with glass morphism */}
             <motion.div
-              className="absolute -right-4 -top-4 w-24 h-24 bg-earth-700/50 backdrop-blur-sm rounded-full flex flex-col items-center justify-center border border-earth-600/50 text-white"
+              className="absolute -right-4 -top-4 w-24 h-24 rounded-full flex flex-col items-center justify-center text-white overflow-hidden group"
               initial={{ scale: 0, rotate: -20 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: 1.2, duration: 0.5, type: "spring" }}
+              whileHover={{ scale: 1.05 }}
             >
-              <span className="text-2xl font-bold">500+</span>
-              <span className="text-xs text-earth-200">Properties</span>
+              {/* Glass background */}
+              <div className="absolute inset-0 bg-earth-700/50 backdrop-blur-sm border border-earth-600/50"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-earth-600/30 to-earth-800/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              {/* Content */}
+              <span className="relative text-2xl font-bold">500+</span>
+              <span className="relative text-xs text-earth-200">Properties</span>
             </motion.div>
 
             <motion.div
-              className="absolute -left-4 -bottom-4 w-24 h-24 bg-earth-700/50 backdrop-blur-sm rounded-full flex flex-col items-center justify-center border border-earth-600/50 text-white"
+              className="absolute -left-4 -bottom-4 w-24 h-24 rounded-full flex flex-col items-center justify-center text-white overflow-hidden group"
               initial={{ scale: 0, rotate: 20 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: 1.4, duration: 0.5, type: "spring" }}
+              whileHover={{ scale: 1.05 }}
             >
-              <span className="text-2xl font-bold">12+</span>
-              <span className="text-xs text-earth-200">Years</span>
+              {/* Glass background */}
+              <div className="absolute inset-0 bg-earth-700/50 backdrop-blur-sm border border-earth-600/50"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-earth-600/30 to-earth-800/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              {/* Content */}
+              <span className="relative text-2xl font-bold">12+</span>
+              <span className="relative text-xs text-earth-200">Years</span>
             </motion.div>
           </motion.div>
 
+          {/* Enhanced CTA buttons with unique design */}
           <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
+            {/* Speak to an Agent button */}
             <motion.a
               href="#contact"
-              className="bg-earth-700 hover:bg-earth-600 text-white px-8 flex justify-center items-center rounded-lg transition-all hover:scale-105 font-medium relative overflow-hidden group"
+              className="relative px-8 py-3 flex justify-center items-center rounded-lg transition-all overflow-hidden group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <span className="relative z-10">Speak to an Agent</span>
+              {/* Button backgrounds */}
+              <span className="absolute inset-0 bg-earth-700"></span>
               <span className="absolute inset-0 bg-gradient-to-r from-earth-600 to-earth-700 transform -skew-x-10 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
+              
+              {/* Decorative elements */}
+              <span className="absolute top-0 left-0 w-full h-full">
+                <span className="absolute top-0 left-0 w-5 h-0.5 bg-earth-400 transform -translate-y-0.5"></span>
+                <span className="absolute bottom-0 right-0 w-5 h-0.5 bg-earth-400 transform translate-y-0.5"></span>
+              </span>
+              
+              {/* Button text */}
+              <span className="relative z-10 font-medium text-white">Speak to an Agent</span>
             </motion.a>
 
+            {/* Watch Showcase button */}
             <motion.button
               onClick={() => setShowVideo(true)}
-              className="border border-earth-300 hover:bg-earth-800/20 text-white px-8 py-3 rounded-lg transition-all hover:scale-105 flex items-center justify-center group"
+              className="relative px-8 py-3 rounded-lg transition-all overflow-hidden flex items-center justify-center group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <span className="w-8 h-8 rounded-full bg-earth-600 flex items-center justify-center mr-2 group-hover:bg-earth-500 transition-colors">
+              {/* Button backgrounds */}
+              <span className="absolute inset-0 border border-earth-300"></span>
+              <span className="absolute inset-0 bg-earth-800/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+              
+              {/* Play button */}
+              <span className="relative w-8 h-8 rounded-full bg-earth-600 flex items-center justify-center mr-2 group-hover:bg-earth-500 transition-colors">
                 <FaPlay className="text-white text-xs ml-0.5" />
               </span>
-              Watch Showcase
+              
+              {/* Button text */}
+              <span className="relative font-medium text-white">Watch Showcase</span>
             </motion.button>
           </motion.div>
         </div>
       </motion.div>
 
-      {/* Improved scroll indicator */}
-      <div className="hidden lg:bl;ock  absolute bottom-8 left-0 right-0 flex justify-center z-40">
+      {/* Enhanced scroll indicator */}
+      <div className="absolute bottom-8 left-0 right-0 flex justify-center z-40">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -464,7 +519,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Video modal */}
+      {/* Enhanced video modal with glass morphism */}
       <AnimatePresence>
         {showVideo && (
           <motion.div
@@ -474,34 +529,39 @@ export default function Hero() {
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-earth-800 rounded-xl overflow-hidden max-w-4xl w-full shadow-2xl border border-earth-700"
+              className="relative max-w-4xl w-full overflow-hidden rounded-xl"
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
             >
-              <div className="aspect-video bg-black relative">
-                <iframe 
-                  width="100%" 
-                  height="100%" 
-                  src="https://www.youtube.com/embed/0gl9gBNTrVE" 
-                  title="Breeze by Emaar | Private Beach Living at Dubai Creek Harbour" 
-                  frameBorder="0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowFullScreen
-                ></iframe>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-earth-100 mb-2">Dubai's Finest Properties</h3>
-                <p className="text-earth-300 mb-4">Explore our exclusive portfolio of luxury properties across Dubai's most prestigious communities.</p>
-                <div className="flex justify-end">
-                  <motion.button 
-                    className="px-4 py-2 bg-earth-600 text-white rounded-lg"
-                    onClick={() => setShowVideo(false)}
-                    whileHover={{ scale: 1.05, backgroundColor: "#5c5545" }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Close
-                  </motion.button>
+              {/* Glass morphism background */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-earth-400/30 to-earth-600/30 rounded-xl blur-sm"></div>
+              <div className="relative bg-earth-800 rounded-xl overflow-hidden border border-earth-700">
+                <div className="aspect-video bg-black relative">
+                  <iframe 
+                    width="100%" 
+                    height="100%" 
+                    src="https://www.youtube.com/embed/0gl9gBNTrVE" 
+                    title="Breeze by Emaar | Private Beach Living at Dubai Creek Harbour" 
+                    frameBorder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowFullScreen
+                  ></iframe>
+                </div>
+                <div className="p-6 backdrop-blur-sm bg-earth-800/90">
+                  <h3 className="text-xl font-semibold text-earth-100 mb-2">Dubai's Finest Properties</h3>
+                  <p className="text-earth-300 mb-4">Explore our exclusive portfolio of luxury properties across Dubai's most prestigious communities.</p>
+                  <div className="flex justify-end">
+                    <motion.button 
+                      className="px-4 py-2 bg-earth-600 text-white rounded-lg relative overflow-hidden group"
+                      onClick={() => setShowVideo(false)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <span className="absolute inset-0 bg-gradient-to-r from-earth-500 to-earth-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                      <span className="relative">Close</span>
+                    </motion.button>
+                  </div>
                 </div>
               </div>
             </motion.div>

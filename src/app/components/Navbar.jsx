@@ -46,7 +46,7 @@ export default function Navbar() {
         scrolled || mobileMenuOpen ? "bg-earth-50 shadow" : "bg-transparent"
       }`}
     >
-      <div className="w-[90vw] md:w-[70vw] mx-auto flex justify-between items-center p-6">
+      <div className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw]  mx-auto flex justify-between items-center py-6">
         <Link href="/" className="flex items-center">
           <div className="h-10 w-auto relative">
             {scrolled || mobileMenuOpen ? (
