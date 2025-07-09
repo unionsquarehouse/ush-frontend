@@ -291,7 +291,7 @@ export default function Hero() {
             
             <h1 className="font-light mb-6 leading-tight max-w-4xl mx-auto">
               Exceptional Properties for <br />
-              <span className="text-earth-200 relative">
+              <span className="text-[earth-200] relative">
                 <span className="relative inline-block">
                   {displayText}
                   <span className="absolute right-0 top-0 h-full w-1 bg-earth-400 animate-blink"></span>

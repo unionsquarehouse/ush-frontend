@@ -15,7 +15,7 @@ export default function Home() {
       <CommunitiesSection />
       <Services />
       <DevelopersSection />
-      <Contact />
+      {/* <Contact /> */}
     </>
   );
 }

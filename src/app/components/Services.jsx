@@ -60,7 +60,7 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="py-32 relative overflow-hidden bg-earth-50 text-earth-700"
+      className="pb-32 relative overflow-hidden bg-earth-50 text-earth-700"
       ref={sectionRef}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}

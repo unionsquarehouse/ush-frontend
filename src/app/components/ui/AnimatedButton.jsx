@@ -14,13 +14,21 @@ export default function AnimatedButton({
   gradientFrom = 'earth-700',
   gradientTo = 'earth-700',
   size = 'default',
-  containerClassName = 'mt-20 text-center'
+  containerClassName = 'mt-20 text-center',
+  variant = 'solid', // 'solid', 'glass', 'glass-earth'
 }) {
   // Size variants
   const sizeClasses = {
     small: 'px-6 py-2 text-sm',
     default: 'px-8 py-4',
     large: 'px-10 py-5 text-lg'
+  };
+  
+  // Style variants
+  const variantClasses = {
+    solid: `bg-${color} text-white hover:bg-${hoverColor}`,
+    glass: 'btn-glass text-white',
+    'glass-earth': 'btn-glass-earth'
   };
   
   return (
@@ -32,10 +40,22 @@ export default function AnimatedButton({
     >
       <Link 
         href={href} 
-        className={`inline-flex items-center ${sizeClasses[size]} bg-${color} text-white rounded-lg hover:bg-${hoverColor} transition-all duration-300 group relative overflow-hidden ${className}`}
+        className={`inline-flex items-center ${sizeClasses[size]} ${variantClasses[variant]} rounded-lg transition-all duration-300 group relative overflow-hidden ${className}`}
       >
+        {/* Button content */}
         <span className="relative z-10">{children}</span>
-        <span className={`absolute inset-0 bg-gradient-to-r from-${gradientFrom} to-${gradientTo} transform -skew-x-10 translate-x-full group-hover:translate-x-0 transition-transform duration-500`}></span>
+        
+        {/* Glass shimmer effect */}
+        {variant.includes('glass') && (
+          <span className="absolute inset-0 w-full h-full">
+            <span className="absolute top-0 left-0 w-1/3 h-full bg-white/20 transform -skew-x-20 translate-x-[-150%] group-hover:translate-x-[300%] transition-transform duration-1000"></span>
+          </span>
+        )}
+        
+        {/* Gradient background for solid variant */}
+        {variant === 'solid' && (
+          <span className={`absolute inset-0 bg-gradient-to-r from-${gradientFrom} to-${gradientTo} transform -skew-x-10 translate-x-full group-hover:translate-x-0 transition-transform duration-500`}></span>
+        )}
       </Link>
     </motion.div>
   );

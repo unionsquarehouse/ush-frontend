@@ -171,7 +171,7 @@ export default function CommunitiesSection() {
   return (
     <section
       ref={containerRef}
-      className="py-24 relative overflow-hidden bg-earth-50 text-earth-700"
+      className="pb-32 relative overflow-hidden bg-earth-50 text-earth-700"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
@@ -290,7 +290,7 @@ export default function CommunitiesSection() {
                           <div className="absolute inset-0">
                             {/* Virtual Tour Button */}
                             <motion.button
-                              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-earth-600/80 backdrop-blur-sm flex items-center justify-center"
+                              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-earth-600/60 backdrop-blur-md border border-earth-500/40 flex items-center justify-center shadow-lg hover:bg-earth-500/70 transition-all duration-300"
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                               onClick={handleVirtualTour}
@@ -301,7 +301,7 @@ export default function CommunitiesSection() {
 
                             {/* Map Location Button */}
                             <motion.button
-                              className="absolute top-4 left-4 w-10 h-10 rounded-full bg-earth-600/80 backdrop-blur-sm flex items-center justify-center"
+                              className="absolute top-4 left-4 w-10 h-10 rounded-full bg-earth-600/60 backdrop-blur-md border border-earth-500/40 flex items-center justify-center shadow-lg hover:bg-earth-500/70 transition-all duration-300"
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                               onClick={() =>
@@ -314,7 +314,7 @@ export default function CommunitiesSection() {
 
                             {/* Contact Agent Button */}
                             <motion.button
-                              className="absolute bottom-20 right-4 w-10 h-10 rounded-full bg-earth-600/80 backdrop-blur-sm flex items-center justify-center"
+                              className="absolute bottom-20 right-4 w-10 h-10 rounded-full bg-earth-600/60 backdrop-blur-md border border-earth-500/40 flex items-center justify-center shadow-lg hover:bg-earth-500/70 transition-all duration-300"
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                               onClick={handleContactAgent}

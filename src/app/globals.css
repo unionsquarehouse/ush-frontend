@@ -267,4 +267,147 @@ body {
   color: #9ca3af;
 }
 
+/* Add these glass morphism utilities */
+@layer utilities {
+  /* Base glass effect */
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 shadow-lg;
+  }
+  
+  /* Light glass variant */
+  .glass-light {
+    @apply bg-white/30 backdrop-blur-sm border border-white/40 shadow-md;
+  }
+  
+  /* Dark glass variant */
+  .glass-dark {
+    @apply bg-earth-900/40 backdrop-blur-md border border-earth-800/40 shadow-lg;
+  }
+  
+  /* Earth-toned glass */
+  .glass-earth {
+    @apply bg-earth-800/20 backdrop-blur-sm border border-earth-700/30 shadow-md;
+  }
+  
+  /* Glass button styles */
+  .btn-glass {
+    @apply relative overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 
+           hover:bg-white/20 hover:border-white/30 transition-all duration-300
+           shadow-md hover:shadow-lg;
+  }
+  
+  .btn-glass-earth {
+    @apply relative overflow-hidden bg-earth-700/80 backdrop-blur-md border border-earth-600/50 
+           hover:bg-earth-600/80 hover:border-earth-500/50 transition-all duration-300
+           shadow-md hover:shadow-lg text-white;
+  }
+  
+  /* Glass card with hover effect */
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-xl
+           hover:bg-white/15 hover:border-white/30 transition-all duration-300
+           shadow-lg hover:shadow-xl;
+  }
+  
+  /* Glass card with earth tones */
+  .glass-card-earth {
+    @apply bg-white backdrop-blur-sm border border-earth-700/20 rounded-xl
+            transition-all duration-300
+           shadow-lg hover:shadow-xl;
+  }
+}
+
+/* Add these custom utilities for the 3D card effect */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.clip-path-price {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 5% 100%);
+}
+
+/* Enhanced Phone input styling */
+.phone-input-container .PhoneInput {
+  display: flex;
+  align-items: center;
+  background-color: rgb(249 250 251);
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.phone-input-container .PhoneInput:focus-within {
+  background-color: white;
+  box-shadow: 0 0 0 2px rgba(79, 70, 60, 0.2);
+  border-color: #8d7b6a;
+}
+
+.phone-input-container .PhoneInputCountry {
+  display: flex;
+  align-items: center;
+  
+  border-right: 1px solid #e5e7eb;
+  background-color: rgba(79, 70, 60, 0.05);
+  height: 100%;
+}
+
+.phone-input-container .PhoneInputCountryIcon {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-right: 0.5rem;
+}
+
+.phone-input-container .PhoneInputCountrySelectArrow {
+  margin-left: 0.5rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-style: solid;
+  border-color: #8d7b6a transparent transparent;
+  border-width: 0.25rem 0.25rem 0;
+  opacity: 0.7;
+}
+
+.phone-input-container .PhoneInputInput {
+  flex: 1;
+  border: none;
+  padding: 0.75rem;
+  background: transparent;
+  outline: none;
+  font-size: 1rem;
+  color: #4b5563;
+}
+
+/* Style the country select dropdown */
+.phone-input-container .PhoneInputCountrySelect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  border: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Add a custom placeholder style */
+.phone-input-container .PhoneInputInput::placeholder {
+  color: #9ca3af;
+}
+
 

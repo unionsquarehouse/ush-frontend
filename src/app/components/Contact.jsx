@@ -653,7 +653,7 @@ export default function Contact() {
   );
 
   return (
-    <section id="contact" className="p-32 relative" ref={sectionRef}>
+    <section id="contact" className="pb-32 relative" ref={sectionRef}>
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-earth-50 to-earth-100"></div>
 

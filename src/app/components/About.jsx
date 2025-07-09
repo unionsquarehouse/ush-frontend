@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { FaAward, FaUsers, FaBuilding, FaChartLine } from "react-icons/fa";
+import { FaAward, FaUsers, FaBuilding, FaChartLine, FaHandshake, FaGem, FaGlobe, FaQuoteLeft, FaStar } from "react-icons/fa";
 import { BsArrowRight } from "react-icons/bs";
 
 export default function About() {
@@ -25,37 +25,41 @@ export default function About() {
       title: "Award-Winning",
       description: "Multi-award winning agency recognized by leading developers",
       stat: "15+",
-      statLabel: "Awards"
+      statLabel: "Awards",
+      color: "from-earth-600/80 to-earth-700/90"
     },
     {
       icon: FaUsers,
       title: "Expert Team",
       description: "Seasoned professionals with deep market knowledge",
       stat: "50+",
-      statLabel: "Agents"
+      statLabel: "Agents",
+      color: "from-earth-700/80 to-earth-800/90"
     },
     {
       icon: FaBuilding,
       title: "Premium Portfolio",
       description: "Exclusive access to Dubai's most prestigious properties",
       stat: "500+",
-      statLabel: "Properties"
+      statLabel: "Properties",
+      color: "from-earth-500/80 to-earth-600/90"
     },
     {
       icon: FaChartLine,
       title: "Market Leaders",
       description: "Proven track record of successful investments",
       stat: "5B+",
-      statLabel: "AED Portfolio"
+      statLabel: "AED Portfolio",
+      color: "from-earth-800/80 to-earth-900/90"
     }
   ];
 
   return (
     <section 
       ref={sectionRef}
-      className="py-20 relative overflow-hidden bg-earth-50 text-earth-700"
+      className="py-32 relative overflow-hidden bg-earth-50 text-earth-700"
     >
-      {/* Subtle background pattern */}
+      {/* Enhanced background with subtle pattern and gradient */}
       <div className="absolute inset-0 opacity-5">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -71,7 +75,7 @@ export default function About() {
         style={{ opacity }}
         className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto relative z-10"
       >
-        {/* Section header */}
+        {/* Section header with enhanced styling */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -79,36 +83,36 @@ export default function About() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-semibold mb-4">
+          <div className="relative mb-4 inline-block">
+            <span className="w-24 h-0.5 bg-earth-400 block"></span>
+            <span className="absolute -top-1 left-0 w-12 h-0.5 bg-earth-600 block"></span>
+          </div>
+          <h2 className="text-4xl font-semibold mb-4 tracking-tight">
             <span className="text-earth-500">About</span> Union Square House
           </h2>
-          <div className="h-0.5 w-24 bg-earth-500 mx-auto mb-6"></div>
-          <p className="text-xl text-earth-500 max-w-2xl mx-auto">
-            Dubai's premier real estate agency with a decade of excellence
-          </p>
         </motion.div>
 
-        {/* Two-column layout */}
+        {/* Two-column layout with glass morphism */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left column - Image with parallax */}
+          {/* Left column - Image with parallax and glass overlay */}
           <motion.div 
             className="relative"
             style={{ y }}
           >
-            <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-xl border border-earth-700/30">
+            <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-xl border border-earth-700/30 group">
               <Image
                 src="/assets/ush-office.webp"
                 alt="Union Square House Office"
                 fill
-                className="object-cover transition-transform duration-700 hover:scale-105"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"
-                placeholder="blur"
-                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN88P/BfwAJhAPYe0YQ1AAAAABJRU5ErkJggg=="
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-earth-900/70 via-earth-900/30 to-transparent"></div>
               
-              {/* Overlay content */}
+              {/* Enhanced gradient overlay with glass effect */}
+              <div className="absolute inset-0 bg-gradient-to-t from-earth-900/80 via-earth-900/40 to-transparent transition-all duration-300 group-hover:backdrop-blur-none"></div>
+              
+              {/* Overlay content with glass card */}
               <div className="absolute bottom-0 left-0 p-8 w-full">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -116,51 +120,52 @@ export default function About() {
                   transition={{ duration: 0.6 }}
                   viewport={{ once: true }}
                 >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-12 h-12 rounded-full bg-earth-600/80 backdrop-blur-sm flex items-center justify-center">
-                      <FaBuilding className="text-white text-xl" />
+                  <div className=" p-6 rounded-xl ">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-12 h-12 rounded-full bg-earth-600/80 flex items-center justify-center">
+                        <FaBuilding className="text-white text-xl" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-white">
+                        Union Square House
+                      </h3>
                     </div>
-                    <h3 className="text-2xl font-bold text-white">
-                      Union Square House
-                    </h3>
-                  </div>
-                  
-                  <p className="text-white/90 text-lg mb-4 max-w-md">
-                    Founded in 2010, we've grown to become Dubai's most trusted luxury real estate agency.
-                  </p>
-                  
-                  <div className="flex gap-4">
-                    <div className="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg">
-                      <p className="text-white/70 text-xs">Experience</p>
-                      <p className="text-white font-medium text-lg">12+ Years</p>
-                    </div>
-                    <div className="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg">
-                      <p className="text-white/70 text-xs">Portfolio</p>
-                      <p className="text-white font-medium text-lg">5B+ AED</p>
-                    </div>
+                    
+                    <p className="text-white/90 text-lg mb-4 max-w-md">
+                      Founded in 2010, we've grown to become Dubai's most trusted luxury real estate agency.
+                    </p>
                   </div>
                 </motion.div>
               </div>
             </div>
           </motion.div>
           
-          {/* Right column - Interactive cards */}
+          {/* Right column - Interactive cards with glass morphism */}
           <div className="space-y-6">
+            
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-earth-700 text-lg mb-8"
+              className="text-earth-700 text-lg mb-8 glass-card-earth p-6 rounded-xl backdrop-blur-sm relative overflow-hidden group hover-lift"
+              whileHover={{ y: -5 }}
             >
-              Union Square House is Dubai's premier real estate agency, specializing in luxury properties across the UAE's most prestigious communities. With over a decade of experience, we've built a reputation for excellence, integrity, and unparalleled market knowledge.
+              {/* Glass shimmer effect */}
+              <div className="absolute inset-0 w-full h-full">
+                <span className="absolute top-0 left-0 w-1/3 h-full bg-white/10 transform -skew-x-20 translate-x-[-150%] group-hover:translate-x-[300%] transition-transform duration-1000"></span>
+              </div>
+              <span className="relative z-10 block">
+                Union Square House is Dubai's premier real estate agency, specializing in luxury properties across the UAE's most prestigious communities. With over a decade of experience, we've built a reputation for excellence, integrity, and unparalleled market knowledge.
+              </span>
             </motion.p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {cards.map((card, idx) => (
                 <motion.div
                   key={idx}
-                  className={`bg-white/60 backdrop-blur-sm rounded-xl p-5 shadow-md border border-earth-200/50 cursor-pointer transition-all duration-300 ${activeCard === idx ? 'ring-2 ring-earth-500 shadow-lg' : 'hover:shadow-lg'}`}
+                  className={`rounded-xl p-5 cursor-pointer transition-all duration-300 overflow-hidden relative group ${
+                    activeCard === idx ? 'ring-2 ring-earth-500 shadow-lg' : 'hover:shadow-lg'
+                  }`}
                   onClick={() => setActiveCard(activeCard === idx ? null : idx)}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -168,8 +173,16 @@ export default function About() {
                   viewport={{ once: true }}
                   whileHover={{ y: -5 }}
                 >
-                  <div className="flex items-start">
-                    <div className="w-12 h-12 rounded-full bg-earth-100 flex items-center justify-center mr-4 group-hover:bg-earth-500 transition-colors">
+                  {/* Background gradient with glass effect */}
+                  <div className="absolute inset-0 glass-card-earth"></div>
+                  
+                  {/* Glass shimmer effect */}
+                  <div className="absolute inset-0 w-full h-full">
+                    <span className="absolute top-0 left-0 w-1/3 h-full bg-white/10 transform -skew-x-20 translate-x-[-150%] group-hover:translate-x-[300%] transition-transform duration-1000"></span>
+                  </div>
+                  
+                  <div className="flex items-start relative z-10">
+                    <div className="w-12 h-12 rounded-full glass-light flex items-center justify-center mr-4 group-hover:bg-earth-500/20 transition-colors">
                       <card.icon className="text-earth-600 text-xl" />
                     </div>
                     <div>
@@ -185,26 +198,6 @@ export default function About() {
                 </motion.div>
               ))}
             </div>
-            
-            <motion.div
-              className="mt-8 flex justify-center sm:justify-start"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              viewport={{ once: true }}
-            >
-              <Link
-                href="/about"
-                className="group px-6 py-3 rounded-lg text-sm font-medium bg-earth-600 text-white hover:bg-earth-500 transition-colors flex items-center gap-2 relative overflow-hidden"
-              >
-                <span className="relative z-10">Discover Our Story</span>
-                <BsArrowRight
-                  size={16}
-                  className="relative z-10 group-hover:translate-x-1 transition-transform duration-300"
-                />
-                <span className="absolute inset-0 bg-gradient-to-r from-earth-500 to-earth-600 transform -skew-x-10 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
-              </Link>
-            </motion.div>
           </div>
         </div>
       </motion.div>

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaArrowRight } from "react-icons/fa";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -32,21 +32,22 @@ export default function Navbar() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
-  const nav = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Listings", href: "/listings" },
-    { name: "Agents", href: "/agents" },
-    { name: "Contact", href: "/contact" },
+  const navLinks = [
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Listings", href: "/listings" },
+    { label: "Agents", href: "/agents" },
   ];
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled || mobileMenuOpen ? "bg-earth-50 shadow" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled || mobileMenuOpen 
+          ? "bg-earth-50/80 backdrop-blur-md shadow-md border-b border-earth-200/30" 
+          : "bg-transparent"
       }`}
     >
-      <div className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw]  mx-auto flex justify-between items-center py-6">
+      <div className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto flex justify-between items-center py-6">
         <Link href="/" className="flex items-center">
           <div className="h-10 w-auto relative">
             {scrolled || mobileMenuOpen ? (
@@ -71,36 +72,48 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:block space-x-6">
-          {nav.map((n) => {
-            const isActive =
-              pathname === n.href ||
-              (n.href !== "/" && pathname.startsWith(n.href));
-
-            return (
-              <Link
-                key={n.href}
-                href={n.href}
-                className={`transition-colors ${
-                  scrolled
-                    ? isActive
-                      ? "text-earth-800 font-medium"
-                      : "text-earth-600 hover:text-earth-800"
-                    : isActive
-                    ? "text-white font-medium"
-                    : "text-gray-200 hover:text-white"
-                }`}
-              >
-                {n.name}
-              </Link>
-            );
-          })}
+        {/* Desktop Navigation with glass morphism */}
+        <nav className="hidden md:flex items-center space-x-1">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`px-4 py-2 rounded-lg transition-all duration-300 ${
+                scrolled
+                  ? "text-earth-800 hover:bg-earth-200/50"
+                  : "text-white hover:bg-white/10 backdrop-blur-sm"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+          
+          {/* CTA Button with glass morphism */}
+          <Link
+            href="/contact"
+            className={`ml-2 px-5 py-2 rounded-lg transition-all duration-300 ${
+              scrolled
+                ? "btn-glass-earth"
+                : "btn-glass text-white"
+            }`}
+          >
+            <span className="relative z-10 flex items-center">
+              Contact Us
+              <FaArrowRight className="ml-2 text-sm" />
+            </span>
+            <span className="absolute inset-0 w-full h-full">
+              <span className="absolute top-0 left-0 w-1/3 h-full bg-white/20 transform -skew-x-20 translate-x-[-150%] group-hover:translate-x-[300%] transition-transform duration-1000"></span>
+            </span>
+          </Link>
         </nav>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile menu button with glass effect when scrolled */}
         <button
-          className="md:hidden text-2xl focus:outline-none z-50"
+          className={`md:hidden text-2xl focus:outline-none z-50 ${
+            mobileMenuOpen 
+              ? "p-2 rounded-full bg-earth-200/30 backdrop-blur-sm" 
+              : scrolled ? "p-2 rounded-full hover:bg-earth-200/30" : ""
+          }`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -110,72 +123,52 @@ export default function Navbar() {
             <FaBars className={scrolled ? "text-earth-800" : "text-white"} />
           )}
         </button>
-
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, x: "100%" }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: "100%" }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="fixed inset-0 top-0 right-0 w-full h-screen bg-earth-50 z-40 flex flex-col pt-24 px-8"
-            >
-              <nav className="flex flex-col space-y-6">
-                {nav.map((n) => {
-                  const isActive =
-                    pathname === n.href ||
-                    (n.href !== "/" && pathname.startsWith(n.href));
-
-                  return (
-                    <Link
-                      key={n.href}
-                      href={n.href}
-                      className={`text-xl transition-colors ${
-                        isActive
-                          ? "text-earth-800 font-medium"
-                          : "text-earth-600 hover:text-earth-800"
-                      }`}
-                    >
-                      {n.name}
-                    </Link>
-                  );
-                })}
-              </nav>
-
-              {/* Mobile Contact Button */}
-              <div className="mt-12">
-                <Link
-                  href="/contact"
-                  className="inline-block bg-earth-700 hover:bg-earth-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 text-center font-medium"
-                >
-                  Contact Us
-                </Link>
-              </div>
-
-              {/* Mobile Social Links */}
-              <div className="mt-auto mb-12">
-                <p className="text-earth-600 mb-4 font-medium">Follow Us</p>
-                <div className="flex space-x-4">
-                  {[
-                    { name: "Facebook", href: "#" },
-                    { name: "Instagram", href: "#" },
-                    { name: "LinkedIn", href: "#" },
-                  ].map((social) => (
-                    <a
-                      key={social.name}
-                      href={social.href}
-                      className="w-10 h-10 rounded-full bg-earth-200 flex items-center justify-center text-earth-700 hover:bg-earth-300 transition-colors duration-300"
-                    >
-                      {social.name[0]}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
+      
+      {/* Mobile Menu with glass morphism */}
+      <motion.div
+        className={`md:hidden fixed inset-0 z-40 ${
+          mobileMenuOpen ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+        initial={false}
+        animate={mobileMenuOpen ? "open" : "closed"}
+        variants={{
+          open: { opacity: 1 },
+          closed: { opacity: 0 },
+        }}
+      >
+        <div className="absolute inset-0 bg-earth-900/60 backdrop-blur-lg" onClick={() => setMobileMenuOpen(false)} />
+        <motion.div
+          className="absolute right-0 top-0 bottom-0 w-3/4 max-w-sm bg-earth-50/90 backdrop-blur-md shadow-xl border-l border-earth-200/30 p-6 pt-24"
+          variants={{
+            open: { x: 0 },
+            closed: { x: "100%" },
+          }}
+          transition={{ type: "spring", damping: 20 }}
+        >
+          {/* Mobile menu content */}
+          <nav className="flex flex-col space-y-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="px-4 py-3 rounded-lg text-earth-800 hover:bg-earth-200/50 transition-all duration-300"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <Link
+              href="/contact"
+              className="mt-4 px-5 py-3 rounded-lg btn-glass-earth flex items-center justify-center"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Contact Us
+              <FaArrowRight className="ml-2 text-sm" />
+            </Link>
+          </nav>
+        </motion.div>
+      </motion.div>
     </header>
   );
 }

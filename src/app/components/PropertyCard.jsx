@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function PropertyCard({ project }) {
   return (
-    <div className="bg-earth-100/40 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg h-full border border-earth-200/50 group">
+    <div className="glass-card-earth rounded-2xl overflow-hidden shadow-lg h-full group hover-lift">
       {/* Property image */}
       <div className="relative h-64 w-full overflow-hidden">
         <img
@@ -15,68 +15,64 @@ export default function PropertyCard({ project }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-earth-900/70 via-earth-900/30 to-transparent"></div>
         
-        {/* Price tag */}
-        <div className="absolute top-4 right-0 bg-earth-600 text-white px-4 py-2 clip-path-price">
-          <span className="text-sm font-medium">{project.price}</span>
+        {/* Price tag with glass effect */}
+        <div className="absolute top-4 right-0 glass-earth clip-path-price px-4 py-2">
+          <span className="text-sm font-medium text-white">{project.price}</span>
         </div>
         
-        {/* Location */}
-        <div className="absolute bottom-4 left-4 flex items-center text-white">
-          <FaMapMarkerAlt className="mr-2" />
-          <span className="text-sm">{project.loc}</span>
-        </div>
+        {/* Status badge with glass effect */}
+        {project.status && (
+          <div className="absolute top-4 left-4 glass-light rounded-full px-3 py-1">
+            <span className="text-xs font-medium text-earth-800">{project.status}</span>
+          </div>
+        )}
       </div>
       
-      {/* Content */}
-      <div className="p-6">
-        <h3 className="text-xl font-medium text-earth-800 mb-2">{project.title}</h3>
-        <p className="text-earth-500 mb-4 text-sm">{project.info}</p>
-        
-        {/* Property details */}
-        <div className="flex justify-between mb-6">
-          <div className="flex items-center text-earth-600">
-            <FaBed className="mr-1" />
-            <span className="text-sm">{project.beds}</span>
-          </div>
-          <div className="flex items-center text-earth-600">
-            <FaBath className="mr-1" />
-            <span className="text-sm">{project.baths}</span>
-          </div>
-          <div className="flex items-center text-earth-600">
-            <FaRuler className="mr-1" />
-            <span className="text-sm">{project.area}</span>
-          </div>
+      {/* Content with glass effect */}
+      <div className="p-6 relative">
+        {/* Glass shimmer effect */}
+        <div className="absolute inset-0 w-full h-full">
+          <span className="absolute top-0 left-0 w-1/3 h-full bg-earth-400/10 transform -skew-x-20 translate-x-[-150%] group-hover:translate-x-[300%] transition-transform duration-1500"></span>
         </div>
         
-        {/* Features */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          {project.features.map((feature, idx) => (
-            <span 
-              key={idx} 
-              className="text-xs bg-earth-200 text-earth-700 px-3 py-1 rounded-full"
-            >
-              {feature}
-            </span>
-          ))}
-        </div>
-        
-        {/* CTA */}
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Link
-            href={`/projects/${project.title.toLowerCase().replace(/\s+/g, "-")}`}
-            className="px-4 py-2 rounded-lg text-sm font-medium bg-earth-600 text-white hover:bg-earth-500 transition-colors flex items-center justify-center gap-1 relative overflow-hidden group w-full"
+        {/* Content */}
+        <div className="relative z-10">
+          <h3 className="text-xl font-semibold text-earth-800 mb-2">{project.title}</h3>
+          <p className="text-earth-600 text-sm flex items-center mb-4">
+            <FaMapMarkerAlt className="mr-2 text-earth-500" />
+            {project.location}
+          </p>
+          
+          {/* Features with glass effect */}
+          <div className="flex justify-between mb-4">
+            <div className="flex items-center glass-light px-2 py-1 rounded-lg">
+              <FaBed className="text-earth-600 mr-1" />
+              <span className="text-xs text-earth-700">{project.beds} Beds</span>
+            </div>
+            <div className="flex items-center glass-light px-2 py-1 rounded-lg">
+              <FaBath className="text-earth-600 mr-1" />
+              <span className="text-xs text-earth-700">{project.baths} Baths</span>
+            </div>
+            <div className="flex items-center glass-light px-2 py-1 rounded-lg">
+              <FaRuler className="text-earth-600 mr-1" />
+              <span className="text-xs text-earth-700">{project.area} sqft</span>
+            </div>
+          </div>
+          
+          {/* CTA button with glass effect */}
+          <Link 
+            href={`/properties/${project.id}`} 
+            className="w-full btn-glass-earth py-2 rounded-lg flex items-center justify-center mt-4"
           >
-            <span className="relative z-10">View Details</span>
-            <BsArrowRight
-              size={14}
-              className="relative z-10 group-hover:translate-x-1 transition-transform duration-300"
-            />
-            <span className="absolute inset-0 bg-gradient-to-r from-earth-500 to-earth-600 transform -skew-x-12 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
+            <span className="relative z-10 flex items-center">
+              View Details
+              <FaArrowRight className="ml-2 text-sm" />
+            </span>
+            <span className="absolute inset-0 w-full h-full">
+              <span className="absolute top-0 left-0 w-1/3 h-full bg-white/20 transform -skew-x-20 translate-x-[-150%] group-hover:translate-x-[300%] transition-transform duration-1000"></span>
+            </span>
           </Link>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

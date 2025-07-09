@@ -103,7 +103,7 @@ export default function DevelopersSection() {
 
   return (
     <section
-      className="py-24  relative overflow-hidden bg-earth-50 text-earth-700"
+      className="pb-32  relative overflow-hidden bg-earth-50 text-earth-700"
       ref={containerRef}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
