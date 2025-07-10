@@ -334,7 +334,7 @@ export default function Hero() {
                 {/* Search input with enhanced styling */}
                 <div className="relative mb-4">
                   <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-earth-300">
-                    <FaSearch className="text-earth-300 group-hover:text-earth-200 transition-colors duration-300" />
+                    <FaSearch className="text-earth-300 group-hover:text-white transition-colors duration-300" />
                   </div>
                   <input 
                     type="text" 
@@ -367,7 +367,7 @@ export default function Hero() {
                 <motion.button
                   type="submit"
                   disabled={isSearching}
-                  className="relative w-full py-3 rounded-lg font-medium transition-all duration-300 overflow-hidden group disabled:opacity-70 disabled:cursor-wait"
+                  className="relative w-full py-3 rounded-lg hover:text-white font-medium transition-all duration-300 overflow-hidden group disabled:opacity-70 disabled:cursor-wait"
                   whileHover={{ scale: isSearching ? 1 : 1.02 }}
                   whileTap={{ scale: isSearching ? 1 : 0.98 }}
                 >
@@ -376,7 +376,7 @@ export default function Hero() {
                   <span className="absolute inset-0 bg-gradient-to-r from-earth-500 to-earth-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
                   
                   {/* Button content */}
-                  <span className="relative flex items-center justify-center text-earth-700">
+                  <span className="relative flex items-center justify-center text-earth-700 ">
                     {isSearching ? (
                       <>
                         <FaSpinner className="mr-2 animate-spin" />

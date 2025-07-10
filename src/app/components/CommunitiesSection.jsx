@@ -277,7 +277,7 @@ export default function CommunitiesSection() {
                       {/* Left column - Image and quick stats */}
                       <div className="lg:col-span-5 flex flex-col items-center lg:items-start space-y-6">
                         {/* Community image container with interactive elements */}
-                        <div className="relative w-full h-80 rounded-2xl overflow-hidden shadow-xl border border-earth-700 group">
+                        <div className="relative w-full h-80 rounded-tl-[3rem] rounded-br-[3rem] overflow-hidden shadow-xl border border-earth-700 group ">
                           <Image
                             src={community.image}
                             alt={community.name}
@@ -375,8 +375,8 @@ export default function CommunitiesSection() {
                         </div>
 
                         {/* Community features */}
-                        <div className="w-full bg-earth-100/40 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-                          <div className="absolute inset-0 p-[2px] rounded-xl z-0 bg-gradient-to-br from-earth-400 via-earth-200 to-earth-500 opacity-20"></div>
+                        <div className="w-full bg-earth-100/40 backdrop-blur-sm  p-6 shadow-lg">
+                          <div className="absolute inset-0 p-[2px] rounded-tl-[3rem] rounded-br-[3rem] z-0 bg-gradient-to-br from-earth-400 via-earth-200 to-earth-500 opacity-20"></div>
                           <h3 className="text-xl font-medium mb-5 flex items-center ">
                             <span className="w-4 h-0.5 bg-earth-500 mr-2"></span>
                             Key Features
@@ -416,8 +416,8 @@ export default function CommunitiesSection() {
 
                       {/* Right column - Content */}
                       <div className="lg:col-span-7">
-                        <div className="bg-earth-100/40 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg h-full">
-                          <div className="absolute inset-0 p-[2px] rounded-xl z-0 bg-gradient-to-br from-earth-400 via-earth-200 to-earth-500 opacity-20"></div>
+                        <div className="bg-earth-100/40 backdrop-blur-sm  p-6 sm:p-8 shadow-lg h-full">
+                          <div className="absolute inset-0 p-[2px] rounded-tl-[3rem] rounded-br-[3rem] z-0 bg-gradient-to-br from-earth-400 via-earth-200 to-earth-500 opacity-20"></div>
                           <h3 className="text-xl font-medium mb-5 flex items-center text-earth-700">
                             <span className="w-4 h-0.5 bg-earth-500 mr-2"></span>
                             {community.name}
@@ -528,7 +528,7 @@ export default function CommunitiesSection() {
                                 href={`/communities/${community.name
                                   .toLowerCase()
                                   .replace(/\s+/g, "-")}`}
-                                className="px-5 py-3 rounded-lg text-sm font-medium bg-earth-600 text-white hover:bg-earth-500 transition-colors flex items-center gap-1 relative overflow-hidden group"
+                                className="px-5 py-3 rounded-tl-[1rem] rounded-br-[1rem] text-sm font-medium bg-earth-600 text-white hover:bg-earth-500 transition-colors flex items-center gap-1 relative overflow-hidden group"
                               >
                                 <span className="relative z-10">
                                   View Properties
@@ -547,7 +547,7 @@ export default function CommunitiesSection() {
                             >
                               <Link
                                 href={`/communities`}
-                                className="px-5 py-3 rounded-lg text-sm font-medium border border-earth-600 text-earth-500 hover:bg-earth-100 transition-colors flex items-center gap-1"
+                                className="px-5 py-3 rounded-tl-[1rem] rounded-br-[1rem] text-sm font-medium border border-earth-600 text-earth-500 hover:bg-earth-100 transition-colors flex items-center gap-1"
                               >
                                 All Communities
                                 <BsArrowRight

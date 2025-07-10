@@ -6,7 +6,6 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 const inter = Inter({
-  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
@@ -32,7 +31,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`}
+        className={`font-sans antialiased`}
       >
         <Navbar />
         <main className="overflow-x-hidden">{children}</main>

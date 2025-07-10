@@ -142,7 +142,7 @@ export default function Projects() {
             >
               <div className="relative h-full w-full preserve-3d transition-all duration-500 group-hover:[transform:rotateY(10deg)]">
                 {/* Front of card */}
-                <div className="absolute inset-0 backface-hidden rounded-xl overflow-hidden">
+                <div className="absolute inset-0 backface-hidden rounded-tl-[3rem] rounded-br-[3rem] overflow-hidden">
                   <div className="relative h-full">
                     <Image
                       src={project.image}

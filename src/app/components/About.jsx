@@ -99,7 +99,7 @@ export default function About() {
             className="relative"
             style={{ y }}
           >
-            <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-xl border border-earth-700/30 group">
+            <div className="relative h-[500px] rounded-tl-[3rem] rounded-br-[3rem] overflow-hidden shadow-xl border border-earth-700/30 group">
               <Image
                 src="/assets/ush-office.webp"
                 alt="Union Square House Office"
@@ -147,7 +147,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-earth-700 text-lg mb-8 glass-card-earth p-6 rounded-xl backdrop-blur-sm relative overflow-hidden group hover-lift"
+              className="text-earth-700 text-lg mb-8 glass-card-earth p-6  backdrop-blur-sm relative overflow-hidden group hover-lift"
               whileHover={{ y: -5 }}
             >
               {/* Glass shimmer effect */}

@@ -153,7 +153,7 @@ export default function Services() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative h-[400px] overflow-hidden rounded-xl"
+              className="group relative h-[400px] overflow-hidden rounded-tl-[3rem] rounded-br-[3rem]"
             >
               {/* Background image with zoom effect */}
               <div 

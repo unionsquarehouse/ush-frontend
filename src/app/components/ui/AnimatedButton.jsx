@@ -40,7 +40,7 @@ export default function AnimatedButton({
     >
       <Link 
         href={href} 
-        className={`inline-flex items-center ${sizeClasses[size]} ${variantClasses[variant]} rounded-lg transition-all duration-300 group relative overflow-hidden ${className}`}
+        className={`inline-flex items-center ${sizeClasses[size]} ${variantClasses[variant]} rounded-tl-[2rem] rounded-br-[2rem] transition-all duration-300 group relative overflow-hidden ${className}`}
       >
         {/* Button content */}
         <span className="relative z-10">{children}</span>

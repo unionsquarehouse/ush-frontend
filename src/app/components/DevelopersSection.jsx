@@ -103,7 +103,7 @@ export default function DevelopersSection() {
 
   return (
     <section
-      className="pb-32  relative overflow-hidden bg-earth-50 text-earth-700"
+      className="pb-32 relative overflow-hidden bg-earth-50 text-earth-700"
       ref={containerRef}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
@@ -129,49 +129,6 @@ export default function DevelopersSection() {
           <rect width="100%" height="100%" fill="url(#grid)" />
         </svg>
       </div>
-
-      {/* Interactive floating elements - REMOVED */}
-      {/* <div className="absolute top-1/4 right-[5%] z-10">
-        <motion.div
-          className="w-16 h-16 rounded-full bg-earth-600/30 backdrop-blur-sm border border-earth-500/30 flex items-center justify-center cursor-pointer"
-          whileHover={{
-            scale: 1.1,
-            backgroundColor: "rgba(125, 116, 96, 0.5)",
-          }}
-          whileTap={{ scale: 0.9 }}
-          animate={{
-            y: [0, -10, 0],
-          }}
-          transition={{
-            y: { repeat: Infinity, duration: 2, ease: "easeInOut" },
-            backgroundColor: { duration: 0.3 },
-          }}
-          onClick={() => window.open("https://maps.google.com", "_blank")}
-        >
-          <BsBuilding size={24} className="text-white" />
-        </motion.div>
-      </div>
-
-      <div className="absolute bottom-1/4 left-[5%] z-10">
-        <motion.div
-          className="w-16 h-16 rounded-full bg-earth-600/30 backdrop-blur-sm border border-earth-500/30 flex items-center justify-center cursor-pointer"
-          whileHover={{
-            scale: 1.1,
-            backgroundColor: "rgba(125, 116, 96, 0.5)",
-          }}
-          whileTap={{ scale: 0.9 }}
-          animate={{
-            y: [0, 10, 0],
-          }}
-          transition={{
-            y: { repeat: Infinity, duration: 2.5, ease: "easeInOut" },
-            backgroundColor: { duration: 0.3 },
-          }}
-          onClick={() => window.open("/developers", "_self")}
-        >
-          <FaAward size={24} className="text-white" />
-        </motion.div>
-      </div> */}
 
       <motion.div
         style={{ opacity }}
@@ -204,192 +161,130 @@ export default function DevelopersSection() {
             >
               <div className="flex">
                 {developers.map((developer, index) => (
-                  <div key={developer.id} className="w-full flex-shrink-0 ">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                      {/* Left column - Logo and stats */}
-                      <div className="lg:col-span-4 flex flex-col items-center lg:items-start space-y-6">
-                        {/* Logo container */}
-                        <div className="relative w-full aspect-[3/2] rounded-2xl overflow-hidden shadow-xl border border-earth-700 group">
-                          <Image
-                            src={developer.logo}
-                            alt={`${developer.name} logo`}
-                            fill
-                            className="object-contain p-8 transition-transform duration-700 group-hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-earth-900/10 via-earth-900/5 to-transparent"></div>
+                  <div key={developer.id} className="w-full flex-shrink-0">
+                    {/* New unique layout with overlapping elements */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative">
+                      {/* Left column - Developer info */}
+                      <div className="relative z-10">
+                        {/* Main info card */}
+                        <div className="bg-earth-100/80 backdrop-blur-sm p-8  rounded-tl-[2rem] rounded-br-[2rem] border border-earth-200 relative mb-8">
+                          {/* Header with logo */}
+                          <div className="flex items-center mb-6">
+                            <div className="w-16 h-16 bg-white rounded-tl-xl rounded-br-xl  flex items-center justify-center mr-4 border border-earth-200">
+                              <img
+                                src={developer.logo}
+                                alt={`${developer.name} logo`}
+                                className="w-12 h-12 object-contain"
+                              />
+                            </div>
+                            
+                            <div>
+                              <h3 className="text-2xl font-medium mb-1 text-earth-800">{developer.name}</h3>
+                              <div className="flex items-center">
+                                {[...Array(5)].map((_, i) => (
+                                  <FaStar
+                                    key={i}
+                                    className={i < Math.floor(developer.rating) ? "text-earth-500" : "text-earth-300"}
+                                    size={14}
+                                  />
+                                ))}
+                                <span className="ml-2 text-earth-600 text-sm">{developer.rating}/5</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <p className="text-earth-600 mb-6">{developer.description}</p>
+                          
+                          {/* Stats in horizontal layout */}
+                          <div className="grid grid-cols-3 gap-4 mb-6">
+                            <div className="bg-earth-200/50 rounded-tl-xl rounded-br-xl p-4 text-center">
+                              <p className="text-earth-800 font-medium text-lg">{developer.established}</p>
+                              <p className="text-earth-500 text-xs">Established</p>
+                            </div>
+                            
+                            <div className="bg-earth-200/50 rounded-tl-xl rounded-br-xl p-4 text-center">
+                              <p className="text-earth-800 font-medium text-lg">{developer.projects}</p>
+                              <p className="text-earth-500 text-xs">Projects</p>
+                            </div>
+                            
+                            <div className="bg-earth-200/50 rounded-tl-xl rounded-br-xl p-4 text-center">
+                              <p className="text-earth-800 font-medium text-lg">Premium</p>
+                              <p className="text-earth-500 text-xs">Status</p>
+                            </div>
+                          </div>
                         </div>
-
-                        {/* Stats */}
-                        <div className="w-full bg-earth-100/40 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-                          <div className="absolute inset-0 p-[2px] rounded-xl z-0 bg-gradient-to-br from-earth-400 via-earth-200 to-earth-500 opacity-20"></div>
-                          <h3 className="text-xl font-medium mb-5 flex items-center">
-                            <span className="w-4 h-0.5 bg-earth-500 mr-2"></span>
-                            Key Metrics
-                          </h3>
-
-                          <div className="space-y-4">
-                            <div className="flex items-center group">
-                              <div className="w-10 h-10 rounded-full bg-earth-500 flex items-center justify-center mr-3 group-hover:bg-earth-700 transition-colors duration-300">
-                                <FaCalendarAlt className="text-earth-100 group-hover:text-white transition-colors duration-300" />
-                              </div>
-                              <div className="flex-1">
-                                <span className="text-earth-400 text-sm">
-                                  Established
-                                </span>
-                                <p className="text-earth-500 font-medium group-hover:text-earth-700 transition-colors duration-300">
-                                  {developer.established}
-                                </p>
-                              </div>
-                            </div>
-
-                            <div className="flex items-center group">
-                              <div className="w-10 h-10 rounded-full bg-earth-500 flex items-center justify-center mr-3 group-hover:bg-earth-700 transition-colors duration-300">
-                                <BsBuilding className="text-earth-100 group-hover:text-white transition-colors duration-300" />
-                              </div>
-                              <div className="flex-1">
-                                <span className="text-earth-400 text-sm">
-                                  Projects
-                                </span>
-                                <p className="text-earth-500 font-medium group-hover:text-earth-700 transition-colors duration-300">
-                                  {developer.projects}
-                                </p>
-                              </div>
-                            </div>
-
-                            <div className="flex items-center group">
-                              <div className="w-10 h-10 rounded-full bg-earth-500 flex items-center justify-center mr-3 group-hover:bg-earth-700 transition-colors duration-300">
-                                <FaStar className="text-earth-100 group-hover:text-white transition-colors duration-300" />
-                              </div>
-                              <div className="flex-1">
-                                <span className="text-earth-400 text-sm">
-                                  Rating
-                                </span>
-                                <div className="flex items-center">
-                                  <span className="text-earth-500 font-medium group-hover:text-earth-700 transition-colors duration-300 mr-2">
-                                    {developer.rating}
-                                  </span>
-                                  <div className="flex">
-                                    {[...Array(5)].map((_, i) => (
-                                      <FaStar
-                                        key={i}
-                                        className={
-                                          i < Math.floor(developer.rating)
-                                            ? "text-earth-500"
-                                            : "text-earth-300"
-                                        }
-                                        size={14}
-                                      />
-                                    ))}
-                                  </div>
+                        
+                        {/* Featured projects */}
+                        <div className="bg-earth-700/90 backdrop-blur-sm p-8  rounded-tl-[2rem] rounded-br-[2rem] border border-earth-600">
+                          <h4 className="text-xl font-medium mb-5 text-white flex items-center">
+                            <span className="w-4 h-0.5 bg-earth-400 mr-2"></span>
+                            Signature Projects
+                          </h4>
+                          
+                          <div className="grid grid-cols-3 gap-4 mb-6">
+                            {developer.featured.map((project, idx) => (
+                              <div key={idx} className="group relative overflow-hidden rounded-tl-xl rounded-br-xl aspect-video">
+                                <Image
+                                  src={`/assets/${project.toLowerCase().replace(/\s+/g, "_")}.jpg`}
+                                  alt={project}
+                                  fill
+                                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-earth-900/70 via-earth-900/30 to-transparent"></div>
+                                <div className="absolute bottom-0 left-0 p-3">
+                                  <h5 className="text-white text-sm font-medium">{project}</h5>
                                 </div>
                               </div>
-                            </div>
+                            ))}
+                          </div>
+                          
+                          <div className="flex justify-end">
+                            <Link
+                              href={`/developers/${developer.name.toLowerCase().replace(/\s+/g, "-")}/projects`}
+                              className="px-5 py-3 rounded-tl-lg rounded-br-lg text-sm font-medium bg-earth-500 text-white hover:bg-earth-400 transition-colors flex items-center gap-2"
+                            >
+                              View All Projects
+                              <BsArrowRight size={14} />
+                            </Link>
                           </div>
                         </div>
                       </div>
-
-                      {/* Right column - Content */}
-                      <div className="lg:col-span-8">
-                        <div className="bg-earth-100/40 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg h-full">
-                          <div className="absolute inset-0 p-[2px] rounded-xl z-0 bg-gradient-to-br from-earth-400 via-earth-200 to-earth-500 opacity-20"></div>
-                          <h3 className="text-xl font-medium mb-5 flex items-center text-earth-700">
-                            <span className="w-4 h-0.5 bg-earth-500 mr-2"></span>
-                            {developer.name}
-                          </h3>
-                          <div className="flex items-center mb-4">
-                            <div className="w-10 h-10 rounded-full bg-earth-500 flex items-center justify-center mr-3">
-                              <FaAward className="text-earth-100" />
-                            </div>
-                            <span className="text-earth-500 font-medium">
-                              Premium Developer
-                            </span>
-                          </div>
-
-                          <p className="text-earth-500 mb-6 text-base leading-relaxed">
-                            {developer.description}
-                          </p>
-
-                          <div className="mb-6">
-                            <h4 className="text-xl font-medium mb-5 flex items-center text-earth-700">
-                              <span className="w-4 h-0.5 bg-earth-500 mr-2"></span>
-                              Signature Projects
-                            </h4>
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                              {developer.featured.map((project, idx) => (
-                                <motion.div
-                                  key={idx}
-                                  className="group relative overflow-hidden rounded-lg aspect-video bg-earth-200 border border-earth-300"
-                                  whileHover={{ y: -5 }}
-                                  transition={{ type: "spring", stiffness: 300 }}
-                                >
-                                  {/* Project background image */}
-                                  <Image
-                                    src={`/assets/${project
-                                      .toLowerCase()
-                                      .replace(/\s+/g, "_")}.jpg`}
-                                    alt={project}
-                                    fill
-                                    className="object-cover opacity-90 group-hover:scale-110 transition-transform duration-500"
-                                  />
-                                  <div className="absolute inset-0 bg-gradient-to-t from-earth-900/70 via-earth-900/30 to-transparent"></div>
-                                  <div className="absolute inset-0 bg-earth-600/50 opacity-0 group-hover:opacity-90 transition-opacity duration-300"></div>
-                                  <div className="absolute bottom-0 left-0 p-3 w-full">
-                                    <h5 className="text-white text-sm font-medium group-hover:text-white relative z-10">
-                                      {project}
-                                    </h5>
-                                  </div>
-                                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <BsArrowRight
-                                      className="text-white"
-                                      size={20}
-                                    />
-                                  </div>
-                                </motion.div>
-                              ))}
+                      
+                      {/* Right column - Large showcase image */}
+                      <div className="relative">
+                        <div className="relative h-full rounded-tl-[2rem] rounded-br-[2rem] overflow-hidden l ">
+                          <Image
+                            src={`/assets/${developer.featured[0].toLowerCase().replace(/\s+/g, "_")}.jpg`}
+                            alt={developer.featured[0]}
+                            fill
+                            className="object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-earth-900/80 via-earth-900/40 to-transparent"></div>
+                          
+                          {/* Floating badge */}
+                          <div className="absolute top-8 right-8 bg-earth-500/90 backdrop-blur-sm text-white px-4 py-2 rounded-tl-lg rounded-br-lg ">
+                            <div className="flex items-center">
+                              <FaAward className="mr-2" />
+                              <span>Premium Developer</span>
                             </div>
                           </div>
-
-                          <div className="flex flex-wrap gap-3 mt-8">
-                            <motion.div
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
+                          
+                          {/* Floating info card */}
+                          <div className="absolute bottom-8 left-8 right-8 bg-white/90 backdrop-blur-sm rounded-tl-xl rounded-br-xl p-6 ">
+                            <h4 className="text-xl font-medium mb-2 text-earth-800">Flagship Development</h4>
+                            <p className="text-earth-600 mb-4">{developer.featured[0]}</p>
+                            <Link
+                              href={`/projects/${developer.featured[0].toLowerCase().replace(/\s+/g, "-")}`}
+                              className="inline-flex items-center text-earth-700 hover:text-earth-500 font-medium"
                             >
-                              <Link
-                                href={`/developers/${developer.name
-                                  .toLowerCase()
-                                  .replace(/\s+/g, "-")}`}
-                                className="px-5 py-3 rounded-lg text-sm font-medium bg-earth-600 text-white hover:bg-earth-500 transition-colors flex items-center gap-1 relative overflow-hidden group"
-                              >
-                                <span className="relative z-10">
-                                  View Portfolio
-                                </span>
-                                <BsArrowRight
-                                  size={14}
-                                  className="relative z-10 group-hover:translate-x-1 transition-transform duration-300"
-                                />
-                                <span className="absolute inset-0 bg-gradient-to-r from-earth-500 to-earth-600 transform -skew-x-10 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
-                              </Link>
-                            </motion.div>
-
-                            <motion.div
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                            >
-                              <Link
-                                href={`/developers/${developer.name
-                                  .toLowerCase()
-                                  .replace(/\s+/g, "-")}/projects`}
-                                className="px-5 py-3 rounded-lg text-sm font-medium border border-earth-600 text-earth-500 hover:bg-earth-100 transition-colors flex items-center gap-1"
-                              >
-                                All Projects
-                                <BsArrowRight
-                                  size={14}
-                                  className="group-hover:translate-x-1 transition-transform duration-300 ml-1"
-                                />
-                              </Link>
-                            </motion.div>
+                              Explore Property
+                              <BsArrowRight className="ml-2" />
+                            </Link>
                           </div>
                         </div>
+                        
+                        {/* Decorative element */}
+                        
                       </div>
                     </div>
                   </div>
@@ -400,42 +295,36 @@ export default function DevelopersSection() {
 
           {/* Navigation controls */}
           <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center mt-12 gap-6">
-            <motion.button
+            <button
               onClick={prevDeveloper}
-              className="w-12 h-12 rounded-full flex items-center justify-center border border-earth-600 text-earth-300 hover:bg-earth-700 transition-colors"
+              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-earth-600 text-earth-600 hover:bg-earth-600 hover:text-white transition-colors"
               aria-label="Previous developer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
             >
               <BsArrowLeft size={20} />
-            </motion.button>
+            </button>
 
             <div className="flex gap-3">
               {developers.map((_, index) => (
-                <motion.button
+                <button
                   key={index}
                   onClick={() => setActiveDeveloper(index)}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     index === activeDeveloper
                       ? "bg-earth-500"
-                      : "bg-earth-700 hover:bg-earth-600"
+                      : "bg-earth-300 hover:bg-earth-400"
                   }`}
                   aria-label={`Go to developer ${index + 1}`}
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.8 }}
                 />
               ))}
             </div>
 
-            <motion.button
+            <button
               onClick={nextDeveloper}
-              className="w-12 h-12 rounded-full flex items-center justify-center border border-earth-600 text-earth-300 hover:bg-earth-700 transition-colors"
+              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-earth-600 text-earth-600 hover:bg-earth-600 hover:text-white transition-colors"
               aria-label="Next developer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
             >
               <BsArrowRight size={20} />
-            </motion.button>
+            </button>
           </div>
         </div>
       </motion.div>

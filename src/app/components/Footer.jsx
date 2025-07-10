@@ -23,7 +23,7 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden">
+    <footer className="relative overflow-hidden ">
       {/* Luxury decorative top border */}
       <div className="h-1.5 bg-gradient-to-r from-earth-400/30 via-earth-600 to-earth-400/30"></div>
       
@@ -252,9 +252,9 @@ export default function Footer() {
               {/* Luxury contact cards */}
               <div className="group relative">
                 {/* Luxury glow effect on hover */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/20 to-earth-600/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/20 to-earth-600/20  blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
-                <div className="relative bg-earth-800/40 backdrop-blur-sm rounded-xl p-5 border border-earth-700/50 hover:border-earth-600/50 transition-colors duration-300">
+                <div className="relative bg-earth-800/40 backdrop-blur-sm rounded-tl-[2rem] rounded-br-[2rem] p-5 border border-earth-700/50 hover:border-earth-600/50 transition-colors duration-300">
                   <div className="flex">
                     <div className="w-12 h-12 rounded-lg bg-earth-700/50 flex items-center justify-center mr-4 group-hover:bg-earth-700 transition-colors duration-300">
                       <FaMapMarkerAlt className="text-earth-300 group-hover:text-earth-200 transition-colors duration-300" />
@@ -273,9 +273,9 @@ export default function Footer() {
 
               <div className="group relative">
                 {/* Luxury glow effect on hover */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/20 to-earth-600/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/20 to-earth-600/20  blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
-                <div className="relative bg-earth-800/40 backdrop-blur-sm rounded-xl p-5 border border-earth-700/50 hover:border-earth-600/50 transition-colors duration-300">
+                <div className="relative bg-earth-800/40 backdrop-blur-sm rounded-tl-[2rem] rounded-br-[2rem] p-5 border border-earth-700/50 hover:border-earth-600/50 transition-colors duration-300">
                   <div className="flex">
                     <div className="w-12 h-12 rounded-lg bg-earth-700/50 flex items-center justify-center mr-4 group-hover:bg-earth-700 transition-colors duration-300">
                       <FaPhone className="text-earth-300 group-hover:text-earth-200 transition-colors duration-300" />
@@ -295,9 +295,9 @@ export default function Footer() {
 
               <div className="group relative">
                 {/* Luxury glow effect on hover */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/20 to-earth-600/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/20 to-earth-600/20  blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
-                <div className="relative bg-earth-800/40 backdrop-blur-sm rounded-xl p-5 border border-earth-700/50 hover:border-earth-600/50 transition-colors duration-300">
+                <div className="relative bg-earth-800/40 backdrop-blur-sm rounded-tl-[2rem] rounded-br-[2rem] p-5 border border-earth-700/50 hover:border-earth-600/50 transition-colors duration-300">
                   <div className="flex">
                     <div className="w-12 h-12 rounded-lg bg-earth-700/50 flex items-center justify-center mr-4 group-hover:bg-earth-700 transition-colors duration-300">
                       <FaEnvelope className="text-earth-300 group-hover:text-earth-200 transition-colors duration-300" />
@@ -329,9 +329,9 @@ export default function Footer() {
           viewport={{ once: true }}
         >
           {/* Luxury glow effect on hover */}
-          <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/20 to-earth-600/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="absolute -inset-1 bg-gradient-to-r from-earth-400/20 to-earth-600/20  blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           
-          <div className="relative bg-earth-800/40 backdrop-blur-sm rounded-xl p-8 border border-earth-700/50 group-hover:border-earth-600/50 transition-colors duration-300">
+          <div className="relative bg-earth-800/40 backdrop-blur-sm rounded-tl-[2rem] rounded-br-[2rem] p-8 border border-earth-700/50 group-hover:border-earth-600/50 transition-colors duration-300">
             <div className="grid md:grid-cols-5 gap-8 items-center">
               <div className="md:col-span-2">
                 <h4 className="text-xl font-medium text-earth-100 mb-3 flex items-center">
