@@ -1,0 +1,25 @@
+/* Define font classes */
+.font-ivy {
+  font-family: 'Ivy Mode', sans-serif;
+}
+
+/* Font weight utilities */
+.font-ivy-thin {
+  font-weight: 100;
+}
+
+.font-ivy-light {
+  font-weight: 300;
+}
+
+.font-ivy-regular {
+  font-weight: normal;
+}
+
+.font-ivy-semibold {
+  font-weight: 600;
+}
+
+.font-ivy-bold {
+  font-weight: bold;
+}

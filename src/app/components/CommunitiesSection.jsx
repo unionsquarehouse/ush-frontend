@@ -252,7 +252,7 @@ export default function CommunitiesSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-semibold mb-4">
+          <h2 className="text-5xl font-semibold mb-4">
             <span className="text-earth-500">Explore</span> Dubai Communities
           </h2>
           <div className="h-0.5 w-24 bg-earth-500 mx-auto mb-6"></div>
@@ -341,7 +341,7 @@ export default function CommunitiesSection() {
                                   <FaHome className="text-white text-sm" />
                                 </div>
                                 <div>
-                                  <p className="text-xs text-white/70">
+                                  <p className="text-base text-white/70">
                                     Properties
                                   </p>
                                   <p className="text-white font-medium">
@@ -355,7 +355,7 @@ export default function CommunitiesSection() {
                                   <FaBuilding className="text-white text-sm" />
                                 </div>
                                 <div>
-                                  <p className="text-xs text-white/70">
+                                  <p className="text-base text-white/70">
                                     Price Range
                                   </p>
                                   <p className="text-white font-medium">
@@ -377,7 +377,7 @@ export default function CommunitiesSection() {
                         {/* Community features */}
                         <div className="w-full bg-earth-100/40 backdrop-blur-sm  p-6 shadow-lg">
                           <div className="absolute inset-0 p-[2px] rounded-tl-[3rem] rounded-br-[3rem] z-0 bg-gradient-to-br from-earth-400 via-earth-200 to-earth-500 opacity-20"></div>
-                          <h3 className="text-xl font-medium mb-5 flex items-center ">
+                          <h3 className="text-2xl font-bold mb-5 flex items-center ">
                             <span className="w-4 h-0.5 bg-earth-500 mr-2"></span>
                             Key Features
                           </h3>
@@ -386,7 +386,7 @@ export default function CommunitiesSection() {
                             {community.features.map((feature, idx) => (
                               <motion.div
                                 key={idx}
-                                className="flex items-center group cursor-pointer"
+                                className="flex items-center group cursor-pointer "
                                 whileHover={{ x: 5 }}
                                 transition={{ type: "spring", stiffness: 300 }}
                                 onClick={() => handleFeatureClick(feature, idx)}
@@ -418,25 +418,25 @@ export default function CommunitiesSection() {
                       <div className="lg:col-span-7">
                         <div className="bg-earth-100/40 backdrop-blur-sm  p-6 sm:p-8 shadow-lg h-full">
                           <div className="absolute inset-0 p-[2px] rounded-tl-[3rem] rounded-br-[3rem] z-0 bg-gradient-to-br from-earth-400 via-earth-200 to-earth-500 opacity-20"></div>
-                          <h3 className="text-xl font-medium mb-5 flex items-center text-earth-700">
+                          <h3 className="text-2xl font-bold  mb-5 flex items-center text-earth-700">
                             <span className="w-4 h-0.5 bg-earth-500 mr-2"></span>
                             {community.name}
                           </h3>
                           <div className="flex items-center mb-4">
-                            <div className="w-10 h-10 rounded-full bg-earth-500 flex items-center justify-center mr-3">
+                            <div className="w-10 h-10 rounded-full bg-earth-500 flex items-center justify-center mr-3 text-xl">
                               <FaMapMarkerAlt className="text-earth-100" />
                             </div>
-                            <span className="text-earth-500 font-medium">
+                            <span className="text-earth-500 font-medium text-xl">
                               Premium Community
                             </span>
                           </div>
 
-                          <p className="text-earth-500 mb-6 text-base leading-relaxed">
+                          <p className="text-earth-500 mb-6 text-xl ">
                             {community.description}
                           </p>
 
                           <div className="mb-6">
-                            <h4 className="text-xl font-medium mb-5 flex items-center text-earth-700">
+                            <h4 className="text-xl font-bold mb-5 flex items-center text-earth-700">
                               <span className="w-4 h-0.5 bg-earth-500 mr-2"></span>
                               Location Highlights
                             </h4>
@@ -502,15 +502,15 @@ export default function CommunitiesSection() {
                                   transition={{ type: "spring", stiffness: 300 }}
                                 >
                                   <div className="w-10 h-10 rounded-full bg-earth-100 flex items-center justify-center mr-3 group-hover:bg-earth-700 transition-colors duration-300">
-                                    <span className="text-earth-600 text-lg font-medium group-hover:text-white transition-colors duration-300">
+                                    <span className="text-earth-600 text-xl font-bold group-hover:text-white transition-colors duration-300">
                                       {highlight.number}
                                     </span>
                                   </div>
                                   <div className="flex-1">
-                                    <h5 className="font-medium text-earth-600 mb-1 group-hover:text-earth-700 transition-colors duration-300">
+                                    <h5 className="font-bold text-earth-600 mb-1 group-hover:text-earth-700 transition-colors duration-300">
                                       {highlight.title}
                                     </h5>
-                                    <p className="text-sm text-earth-500 group-hover:text-earth-500 transition-colors duration-300">
+                                    <p className="text-base text-earth-500 group-hover:text-earth-500 transition-colors duration-300">
                                       {highlight.description}
                                     </p>
                                   </div>
@@ -528,7 +528,7 @@ export default function CommunitiesSection() {
                                 href={`/communities/${community.name
                                   .toLowerCase()
                                   .replace(/\s+/g, "-")}`}
-                                className="px-5 py-3 rounded-tl-[1rem] rounded-br-[1rem] text-sm font-medium bg-earth-600 text-white hover:bg-earth-500 transition-colors flex items-center gap-1 relative overflow-hidden group"
+                                className="px-5 py-3 rounded-tl-[1rem] rounded-br-[1rem] text-xl font-medium bg-earth-600 text-white hover:bg-earth-500 transition-colors flex items-center gap-1 relative overflow-hidden group"
                               >
                                 <span className="relative z-10">
                                   View Properties
@@ -547,7 +547,7 @@ export default function CommunitiesSection() {
                             >
                               <Link
                                 href={`/communities`}
-                                className="px-5 py-3 rounded-tl-[1rem] rounded-br-[1rem] text-sm font-medium border border-earth-600 text-earth-500 hover:bg-earth-100 transition-colors flex items-center gap-1"
+                                className="px-5 py-3 rounded-tl-[1rem] rounded-br-[1rem] text-xl font-medium border border-earth-600 text-earth-500 hover:bg-earth-100 transition-colors flex items-center gap-1"
                               >
                                 All Communities
                                 <BsArrowRight
@@ -570,7 +570,7 @@ export default function CommunitiesSection() {
           <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center mt-12 gap-6">
             <motion.button
               onClick={prevCommunity}
-              className="w-12 h-12 rounded-full flex items-center justify-center border border-earth-600 text-earth-300 hover:bg-earth-700 transition-colors"
+              className="w-12 h-12  rounded-tl-xl rounded-br-xl flex items-center justify-center border border-earth-600 text-earth-300 hover:bg-earth-700 transition-colors"
               aria-label="Previous community"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -597,7 +597,7 @@ export default function CommunitiesSection() {
 
             <motion.button
               onClick={nextCommunity}
-              className="w-12 h-12 rounded-full flex items-center justify-center border border-earth-600 text-earth-300 hover:bg-earth-700 transition-colors"
+              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-earth-600 text-earth-300 hover:bg-earth-700 transition-colors"
               aria-label="Next community"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}

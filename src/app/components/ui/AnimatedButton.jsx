@@ -19,9 +19,9 @@ export default function AnimatedButton({
 }) {
   // Size variants
   const sizeClasses = {
-    small: 'px-6 py-2 text-sm',
-    default: 'px-8 py-4',
-    large: 'px-10 py-5 text-lg'
+    small: 'px-6 py-2 text-base',
+    default: 'px-8 py-4 text-lg',
+    large: 'px-10 py-5 text-xl'
   };
   
   // Style variants

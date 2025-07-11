@@ -142,7 +142,7 @@ export default function DevelopersSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-semibold mb-4">
+          <h2 className="text-5xl font-semibold mb-4">
             <span className="text-earth-500">Visionary</span> Developers
           </h2>
           <div className="h-0.5 w-24 bg-earth-500 mx-auto mb-6"></div>
@@ -170,7 +170,7 @@ export default function DevelopersSection() {
                         <div className="bg-earth-100/80 backdrop-blur-sm p-8  rounded-tl-[2rem] rounded-br-[2rem] border border-earth-200 relative mb-8">
                           {/* Header with logo */}
                           <div className="flex items-center mb-6">
-                            <div className="w-16 h-16 bg-white rounded-tl-xl rounded-br-xl  flex items-center justify-center mr-4 border border-earth-200">
+                            <div className="w-20 h-20 bg-white rounded-tl-xl rounded-br-xl  flex items-center justify-center mr-4 border border-earth-200">
                               <img
                                 src={developer.logo}
                                 alt={`${developer.name} logo`}
@@ -179,7 +179,7 @@ export default function DevelopersSection() {
                             </div>
                             
                             <div>
-                              <h3 className="text-2xl font-medium mb-1 text-earth-800">{developer.name}</h3>
+                              <h3 className="text-3xl font-bold mb-1 text-earth-800">{developer.name}</h3>
                               <div className="flex items-center">
                                 {[...Array(5)].map((_, i) => (
                                   <FaStar
@@ -188,7 +188,7 @@ export default function DevelopersSection() {
                                     size={14}
                                   />
                                 ))}
-                                <span className="ml-2 text-earth-600 text-sm">{developer.rating}/5</span>
+                                <span className="ml-2 text-earth-600 text-lg">{developer.rating}/5</span>
                               </div>
                             </div>
                           </div>
@@ -198,25 +198,25 @@ export default function DevelopersSection() {
                           {/* Stats in horizontal layout */}
                           <div className="grid grid-cols-3 gap-4 mb-6">
                             <div className="bg-earth-200/50 rounded-tl-xl rounded-br-xl p-4 text-center">
-                              <p className="text-earth-800 font-medium text-lg">{developer.established}</p>
-                              <p className="text-earth-500 text-xs">Established</p>
+                              <p className="text-earth-800 font-medium text-xl">{developer.established}</p>
+                              <p className="text-earth-500 text-base">Established</p>
                             </div>
                             
                             <div className="bg-earth-200/50 rounded-tl-xl rounded-br-xl p-4 text-center">
-                              <p className="text-earth-800 font-medium text-lg">{developer.projects}</p>
-                              <p className="text-earth-500 text-xs">Projects</p>
+                              <p className="text-earth-800 font-medium text-xl">{developer.projects}</p>
+                              <p className="text-earth-500 text-base">Projects</p>
                             </div>
                             
                             <div className="bg-earth-200/50 rounded-tl-xl rounded-br-xl p-4 text-center">
-                              <p className="text-earth-800 font-medium text-lg">Premium</p>
-                              <p className="text-earth-500 text-xs">Status</p>
+                              <p className="text-earth-800 font-medium text-xl">Premium</p>
+                              <p className="text-earth-500 text-base">Status</p>
                             </div>
                           </div>
                         </div>
                         
                         {/* Featured projects */}
                         <div className="bg-earth-700/90 backdrop-blur-sm p-8  rounded-tl-[2rem] rounded-br-[2rem] border border-earth-600">
-                          <h4 className="text-xl font-medium mb-5 text-white flex items-center">
+                          <h4 className="text-3xl font-medium mb-5 text-white flex items-center">
                             <span className="w-4 h-0.5 bg-earth-400 mr-2"></span>
                             Signature Projects
                           </h4>
@@ -232,7 +232,7 @@ export default function DevelopersSection() {
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-earth-900/70 via-earth-900/30 to-transparent"></div>
                                 <div className="absolute bottom-0 left-0 p-3">
-                                  <h5 className="text-white text-sm font-medium">{project}</h5>
+                                  <h5 className="text-white text-lg font-medium">{project}</h5>
                                 </div>
                               </div>
                             ))}
@@ -241,7 +241,7 @@ export default function DevelopersSection() {
                           <div className="flex justify-end">
                             <Link
                               href={`/developers/${developer.name.toLowerCase().replace(/\s+/g, "-")}/projects`}
-                              className="px-5 py-3 rounded-tl-lg rounded-br-lg text-sm font-medium bg-earth-500 text-white hover:bg-earth-400 transition-colors flex items-center gap-2"
+                              className="px-5 py-3 rounded-tl-lg rounded-br-lg text-lg font-medium bg-earth-500 text-white hover:bg-earth-400 transition-colors flex items-center gap-2"
                             >
                               View All Projects
                               <BsArrowRight size={14} />
@@ -262,7 +262,7 @@ export default function DevelopersSection() {
                           <div className="absolute inset-0 bg-gradient-to-t from-earth-900/80 via-earth-900/40 to-transparent"></div>
                           
                           {/* Floating badge */}
-                          <div className="absolute top-8 right-8 bg-earth-500/90 backdrop-blur-sm text-white px-4 py-2 rounded-tl-lg rounded-br-lg ">
+                          <div className="absolute top-8 right-8 bg-earth-500/90 backdrop-blur-sm text-white px-4 py-2 rounded-tl-lg rounded-br-lg text-xl">
                             <div className="flex items-center">
                               <FaAward className="mr-2" />
                               <span>Premium Developer</span>
@@ -271,11 +271,11 @@ export default function DevelopersSection() {
                           
                           {/* Floating info card */}
                           <div className="absolute bottom-8 left-8 right-8 bg-white/90 backdrop-blur-sm rounded-tl-xl rounded-br-xl p-6 ">
-                            <h4 className="text-xl font-medium mb-2 text-earth-800">Flagship Development</h4>
-                            <p className="text-earth-600 mb-4">{developer.featured[0]}</p>
+                            <h4 className="text-2xl font-bold mb-2 text-earth-800">Flagship Development</h4>
+                            <p className="text-earth-600 mb-4 text-lg">{developer.featured[0]}</p>
                             <Link
                               href={`/projects/${developer.featured[0].toLowerCase().replace(/\s+/g, "-")}`}
-                              className="inline-flex items-center text-earth-700 hover:text-earth-500 font-medium"
+                              className="inline-flex items-center text-earth-700 hover:text-earth-500 text-lg font-medium"
                             >
                               Explore Property
                               <BsArrowRight className="ml-2" />

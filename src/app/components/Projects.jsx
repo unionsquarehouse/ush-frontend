@@ -116,7 +116,7 @@ export default function Projects() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-semibold mb-4">
+          <h2 className="text-5xl font-semibold mb-4">
             <span className="text-earth-500">Featured</span> Off‑Plan Projects
           </h2>
           <div className="h-0.5 w-24 bg-earth-500 mx-auto mb-6"></div>
@@ -158,11 +158,11 @@ export default function Projects() {
                     </div>
                     
                     <div className="absolute bottom-0 left-0 p-6 w-full">
-                      <h3 className="text-xl text-white font-display mb-1">{project.title}</h3>
-                      <p className="text-earth-100 text-sm flex items-center mb-3">
-                        <FaMapMarkerAlt className="mr-1" /> {project.location}
+                      <h3 className="text-xl text-white  mb-1">{project.title}</h3>
+                      <p className="text-earth-100 text-lg flex items-center mb-3">
+                        <FaMapMarkerAlt className="mr-1" /> {project.loc}
                       </p>
-                      <div className="flex justify-between text-sm text-earth-100">
+                      <div className="flex justify-between text-base   text-earth-100">
                         <span>{project.beds} Beds</span>
                         <span>{project.baths} Baths</span>
                         <span>{project.area} sqft</span>

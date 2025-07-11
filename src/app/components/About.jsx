@@ -57,7 +57,7 @@ export default function About() {
   return (
     <section 
       ref={sectionRef}
-      className="py-32 relative overflow-hidden bg-earth-50 text-earth-700"
+      className="py-32 relative overflow-hidden bg-earth-50 text-earth-700 "
     >
       {/* Enhanced background with subtle pattern and gradient */}
       <div className="absolute inset-0 opacity-5">
@@ -87,8 +87,8 @@ export default function About() {
             <span className="w-24 h-0.5 bg-earth-400 block"></span>
             <span className="absolute -top-1 left-0 w-12 h-0.5 bg-earth-600 block"></span>
           </div>
-          <h2 className="text-4xl font-semibold mb-4 tracking-tight">
-            <span className="text-earth-500">About</span> Union Square House
+          <h2 className="text-5xl font-semibold mb-4 tracking-tight ">
+            <span className="text-earth-500 ">About</span> Union Square House
           </h2>
         </motion.div>
 
@@ -154,7 +154,7 @@ export default function About() {
               <div className="absolute inset-0 w-full h-full">
                 <span className="absolute top-0 left-0 w-1/3 h-full bg-white/10 transform -skew-x-20 translate-x-[-150%] group-hover:translate-x-[300%] transition-transform duration-1000"></span>
               </div>
-              <span className="relative z-10 block">
+              <span className="relative z-10 block text-xl">
                 Union Square House is Dubai's premier real estate agency, specializing in luxury properties across the UAE's most prestigious communities. With over a decade of experience, we've built a reputation for excellence, integrity, and unparalleled market knowledge.
               </span>
             </motion.p>
@@ -186,12 +186,12 @@ export default function About() {
                       <card.icon className="text-earth-600 text-xl" />
                     </div>
                     <div>
-                      <h4 className="text-lg font-medium text-earth-700 mb-1">{card.title}</h4>
-                      <p className="text-earth-500 text-sm mb-3">{card.description}</p>
+                      <h4 className="text-2xl font-bold text-earth-700 mb-1">{card.title}</h4>
+                      <p className="text-earth-500 text-xl mb-3">{card.description}</p>
                       
                       <div className="flex items-baseline">
                         <span className="text-2xl font-bold text-earth-600">{card.stat}</span>
-                        <span className="text-earth-500 text-sm ml-1">{card.statLabel}</span>
+                        <span className="text-earth-500 text-base ml-1">{card.statLabel}</span>
                       </div>
                     </div>
                   </div>

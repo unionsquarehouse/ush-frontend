@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        
+        ivy: ["Ivy Mode", "sans-serif"], // Fixed quotes
         display: ['var(--font-playfair)', 'serif'],
         mono: ['var(--font-geist-mono)', 'monospace'],
       },
