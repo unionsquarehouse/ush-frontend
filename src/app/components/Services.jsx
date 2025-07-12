@@ -137,11 +137,11 @@ export default function Services() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <h2 className="text-5xl font-semibold mb-4">
-            <span className="text-earth-500">Our Premium</span> Services
+          <h2 className="text-5xl font-semibold mb-4 text-black">
+            <span className="text-yellow-600">Our Premium</span> Services
           </h2>
-          <div className="h-0.5 w-24 bg-earth-500 mx-auto mb-6"></div>
-          <p className="text-xl text-earth-500 max-w-2xl mx-auto text-center">
+          <div className="h-0.5 w-24 bg-yellow-600 mx-auto mb-6"></div>
+          <p className="text-xl text-black max-w-2xl mx-auto text-center">
             Exceptional real estate solutions tailored to your unique requirements
           </p>
         </motion.div>
@@ -169,14 +169,14 @@ export default function Services() {
                 <div className="text-white mb-4 opacity-0 transform translate-y-10 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
                   <service.icon className="text-2xl mb-2" />
                 </div>
-                <h3 className="text-2xl font-display text-white mb-2">{service.title}</h3>
-                <p className="text-earth-100 mb-4 opacity-80 text-base">{service.desc}</p>
+                <h3 className="text-3xl text-white mb-2">{service.title}</h3>
+                <p className="text-white mb-4 opacity-80 text-base">{service.desc}</p>
                 
                 {/* Features that appear on hover */}
                 <ul className="space-y-2 mb-4 opacity-0 transform translate-y-10 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
                   {service.features.map((feature) => (
-                    <li key={feature} className="text-earth-100  flex items-center text-base">
-                      <span className="w-1.5 h-1.5 bg-earth-300 rounded-full mr-2"></span>
+                    <li key={feature} className="text-white  flex items-center text-base">
+                      <span className="w-1.5 h-1.5 bg-white rounded-full mr-2"></span>
                       {feature}
                     </li>
                   ))}

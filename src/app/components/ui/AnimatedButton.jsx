@@ -9,10 +9,10 @@ export default function AnimatedButton({
   className = '',
   isInView = true,
   animationDelay = 0.6,
-  color = 'earth-800',
-  hoverColor = 'earth-700',
-  gradientFrom = 'earth-700',
-  gradientTo = 'earth-700',
+  color = 'yellow-600',
+  hoverColor = 'yellow-600',
+  gradientFrom = 'yellow-600',
+  gradientTo = 'yellow-600',
   size = 'default',
   containerClassName = 'mt-20 text-center',
   variant = 'solid', // 'solid', 'glass', 'glass-earth'
@@ -24,11 +24,35 @@ export default function AnimatedButton({
     large: 'px-10 py-5 text-xl'
   };
   
-  // Style variants
-  const variantClasses = {
-    solid: `bg-${color} text-white hover:bg-${hoverColor}`,
-    glass: 'btn-glass text-white',
-    'glass-earth': 'btn-glass-earth'
+  // Get the appropriate classes based on the color props
+  const getButtonClasses = () => {
+    if (variant === 'solid') {
+      // Hardcoded classes for specific colors
+      if (color === 'yellow-600') {
+        return 'bg-yellow-600 text-white hover:bg-yellow-500';
+      } else if (color === 'earth-600') {
+        return 'bg-earth-600 text-white hover:bg-earth-500';
+      } else {
+        return 'bg-yellow-600 text-white hover:bg-yellow-500'; // Default fallback
+      }
+    } else if (variant === 'glass') {
+      return 'btn-glass text-white';
+    } else if (variant === 'glass-earth') {
+      return 'btn-glass-earth';
+    }
+    
+    return 'bg-yellow-600 text-white hover:bg-yellow-500'; // Default fallback
+  };
+  
+  // Get gradient classes
+  const getGradientClasses = () => {
+    if (gradientFrom === 'yellow-600' && gradientTo === 'yellow-500') {
+      return 'from-yellow-600 to-yellow-500';
+    } else if (gradientFrom === 'earth-600' && gradientTo === 'earth-500') {
+      return 'from-earth-600 to-earth-500';
+    }
+    
+    return 'from-yellow-600 to-yellow-500'; // Default fallback
   };
   
   return (
@@ -40,7 +64,7 @@ export default function AnimatedButton({
     >
       <Link 
         href={href} 
-        className={`inline-flex items-center ${sizeClasses[size]} ${variantClasses[variant]} rounded-tl-[2rem] rounded-br-[2rem] transition-all duration-300 group relative overflow-hidden ${className}`}
+        className={`inline-flex items-center ${sizeClasses[size]} ${getButtonClasses()} rounded-tl-[2rem] rounded-br-[2rem] transition-all duration-300 group relative overflow-hidden ${className}`}
       >
         {/* Button content */}
         <span className="relative z-10">{children}</span>
@@ -54,7 +78,7 @@ export default function AnimatedButton({
         
         {/* Gradient background for solid variant */}
         {variant === 'solid' && (
-          <span className={`absolute inset-0 bg-gradient-to-r from-${gradientFrom} to-${gradientTo} transform -skew-x-10 translate-x-full group-hover:translate-x-0 transition-transform duration-500`}></span>
+          <span className={`absolute inset-0 bg-gradient-to-r ${getGradientClasses()} transform -skew-x-10 translate-x-full group-hover:translate-x-0 transition-transform duration-500`}></span>
         )}
       </Link>
     </motion.div>

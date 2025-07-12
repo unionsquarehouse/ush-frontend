@@ -116,11 +116,11 @@ export default function Projects() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl font-semibold mb-4">
-            <span className="text-earth-500">Featured</span> Off‑Plan Projects
+          <h2 className="text-5xl font-semibold mb-4 text-black">
+            <span className="text-yellow-600">Featured</span> Off‑Plan Projects
           </h2>
-          <div className="h-0.5 w-24 bg-earth-500 mx-auto mb-6"></div>
-          <p className="text-xl text-earth-500 max-w-2xl mx-auto">
+          <div className="h-0.5 w-24 bg-yellow-600 mx-auto mb-6"></div>
+          <p className="text-xl text-black  max-w-2xl mx-auto">
             Exclusive investment opportunities in Dubai's most sought-after locations
           </p>
         </motion.div>
@@ -150,10 +150,9 @@ export default function Projects() {
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-earth-900/90 via-earth-900/40 to-transparent" />
                     
                     {/* Price tag with clip path */}
-                    <div className="absolute top-6 right-0 clip-path-price bg-earth-50 text-earth-800 py-2 px-6 font-display">
+                    <div className="absolute top-6 right-0 clip-path-price bg-earth-50 text-black py-2 px-6 font-display">
                       {project.price}
                     </div>
                     
@@ -201,10 +200,11 @@ export default function Projects() {
           isInView={isInView}
           animationDelay={0.6}
           containerClassName="mt-16 text-center"
-          color="earth-600"
-          hoverColor="earth-500"
-          gradientFrom="earth-600"
-          gradientTo="earth-500"
+          color="yellow-600"
+          hoverColor="yellow-500"
+          gradientFrom="yellow-600"
+          gradientTo="yellow-500"
+          variant="solid"
         >
           View All Projects
         </AnimatedButton>

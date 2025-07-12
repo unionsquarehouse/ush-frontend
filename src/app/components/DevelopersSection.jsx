@@ -142,17 +142,17 @@ export default function DevelopersSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl font-semibold mb-4">
-            <span className="text-earth-500">Visionary</span> Developers
+          <h2 className="text-5xl font-semibold mb-4 text-black">
+            <span className="text-yellow-600">Visionary</span> Developers 
           </h2>
-          <div className="h-0.5 w-24 bg-earth-500 mx-auto mb-6"></div>
-          <p className="text-xl text-earth-500 max-w-2xl mx-auto">
+          <div className="h-0.5 w-24 bg-yellow-600 mx-auto mb-6"></div>
+          <p className="text-xl text-black max-w-2xl mx-auto">
             The masterminds behind Dubai's architectural marvels
           </p>
         </motion.div>
 
         {/* Developer showcase with fixed container */}
-        <div className="relative pb-24">
+        <div className="relative pb-24 ">
           {/* Current developer display */}
           <div className="overflow-hidden">
             <div
@@ -165,9 +165,10 @@ export default function DevelopersSection() {
                     {/* New unique layout with overlapping elements */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative">
                       {/* Left column - Developer info */}
-                      <div className="relative z-10">
+                      <div className="relative z-10 ">
                         {/* Main info card */}
-                        <div className="bg-earth-100/80 backdrop-blur-sm p-8  rounded-tl-[2rem] rounded-br-[2rem] border border-earth-200 relative mb-8">
+                        <div className="backdrop-blur-sm p-6 sm:p-8 mb-8">
+                          <div className="absolute inset-0 p-[2px] rounded-tl-[3rem] rounded-br-[3rem] z-0 bg-gradient-to-br from-gray-300 via-gray-400 to-gray-300 opacity-40"></div>
                           {/* Header with logo */}
                           <div className="flex items-center mb-6">
                             <div className="w-20 h-20 bg-white rounded-tl-xl rounded-br-xl  flex items-center justify-center mr-4 border border-earth-200">
@@ -179,45 +180,46 @@ export default function DevelopersSection() {
                             </div>
                             
                             <div>
-                              <h3 className="text-3xl font-bold mb-1 text-earth-800">{developer.name}</h3>
+                              <h3 className="text-3xl font-bold mb-1 text-black">{developer.name}</h3>
                               <div className="flex items-center">
                                 {[...Array(5)].map((_, i) => (
                                   <FaStar
                                     key={i}
-                                    className={i < Math.floor(developer.rating) ? "text-earth-500" : "text-earth-300"}
+                                    className={i < Math.floor(developer.rating) ? "text-yellow-600" : "text-gray-300"}
                                     size={14}
                                   />
                                 ))}
-                                <span className="ml-2 text-earth-600 text-lg">{developer.rating}/5</span>
+                                <span className="ml-2 text-black text-lg">{developer.rating}/5</span>
                               </div>
                             </div>
                           </div>
                           
-                          <p className="text-earth-600 mb-6">{developer.description}</p>
+                          <p className="text-black   mb-6">{developer.description}</p>
                           
                           {/* Stats in horizontal layout */}
                           <div className="grid grid-cols-3 gap-4 mb-6">
-                            <div className="bg-earth-200/50 rounded-tl-xl rounded-br-xl p-4 text-center">
-                              <p className="text-earth-800 font-medium text-xl">{developer.established}</p>
-                              <p className="text-earth-500 text-base">Established</p>
+                            <div className="bg-white rounded-tl-2xl rounded-br-2xl p-4 text-center">
+                              <p className="text-black font-medium text-xl">{developer.established}</p>
+                              <p className="text-black text-base">Established</p>
                             </div>
                             
-                            <div className="bg-earth-200/50 rounded-tl-xl rounded-br-xl p-4 text-center">
-                              <p className="text-earth-800 font-medium text-xl">{developer.projects}</p>
-                              <p className="text-earth-500 text-base">Projects</p>
+                            <div className="bg-white rounded-tl-2xl rounded-br-2xl p-4 text-center">
+                              <p className="text-black font-medium text-xl">{developer.projects}</p>
+                              <p className="text-black text-base">Projects</p>
                             </div>
                             
-                            <div className="bg-earth-200/50 rounded-tl-xl rounded-br-xl p-4 text-center">
-                              <p className="text-earth-800 font-medium text-xl">Premium</p>
-                              <p className="text-earth-500 text-base">Status</p>
+                            <div className="bg-white rounded-tl-2xl rounded-br-2xl p-4 text-center">
+                              <p className="text-black font-medium text-xl">Premium</p>
+                              <p className="text-black text-base">Status</p>
                             </div>
                           </div>
                         </div>
                         
                         {/* Featured projects */}
-                        <div className="bg-earth-700/90 backdrop-blur-sm p-8  rounded-tl-[2rem] rounded-br-[2rem] border border-earth-600">
-                          <h4 className="text-3xl font-medium mb-5 text-white flex items-center">
-                            <span className="w-4 h-0.5 bg-earth-400 mr-2"></span>
+                        <div className="backdrop-blur-sm p-8 rounded-tl-[3rem] rounded-br-[3rem] relative">
+                          <div className="absolute inset-0 p-[2px] rounded-tl-[3rem] rounded-br-[3rem] z-0 bg-gradient-to-br from-gray-300 via-gray-400 to-gray-300 opacity-40"></div>
+                          <h4 className="text-3xl mb-5 text-black flex items-center relative z-10">
+                            <span className="w-4 h-0.5 bg-black mr-2"></span>
                             Signature Projects
                           </h4>
                           
@@ -241,10 +243,11 @@ export default function DevelopersSection() {
                           <div className="flex justify-end">
                             <Link
                               href={`/developers/${developer.name.toLowerCase().replace(/\s+/g, "-")}/projects`}
-                              className="px-5 py-3 rounded-tl-lg rounded-br-lg text-lg font-medium bg-earth-500 text-white hover:bg-earth-400 transition-colors flex items-center gap-2"
+                              className="px-6 py-4 rounded-tl-[2rem] rounded-br-[2rem] text-lg bg-yellow-600 text-white hover:bg-yellow-600 transition-colors flex items-center gap-1 relative overflow-hidden group"
                             >
-                              View All Projects
-                              <BsArrowRight size={14} />
+                              <span className="relative z-10">View All Projects</span>
+                              <BsArrowRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
+                              <span className="absolute inset-0 bg-gradient-to-r from-yellow-500 to-yellow-600 transform -skew-x-10 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
                             </Link>
                           </div>
                         </div>
@@ -262,7 +265,7 @@ export default function DevelopersSection() {
                           <div className="absolute inset-0 bg-gradient-to-t from-earth-900/80 via-earth-900/40 to-transparent"></div>
                           
                           {/* Floating badge */}
-                          <div className="absolute top-8 right-8 bg-earth-500/90 backdrop-blur-sm text-white px-4 py-2 rounded-tl-lg rounded-br-lg text-xl">
+                          <div className="absolute top-8 right-8 bg-[#9F3349] backdrop-blur-sm text-white px-4 py-2 rounded-tl-lg rounded-br-lg text-xl">
                             <div className="flex items-center">
                               <FaAward className="mr-2" />
                               <span>Premium Developer</span>
@@ -270,12 +273,12 @@ export default function DevelopersSection() {
                           </div>
                           
                           {/* Floating info card */}
-                          <div className="absolute bottom-8 left-8 right-8 bg-white/90 backdrop-blur-sm rounded-tl-xl rounded-br-xl p-6 ">
-                            <h4 className="text-2xl font-bold mb-2 text-earth-800">Flagship Development</h4>
-                            <p className="text-earth-600 mb-4 text-lg">{developer.featured[0]}</p>
+                          <div className="absolute bottom-8 left-8 right-8   rounded-tl-xl rounded-br-xl p-6 ">
+                            <h4 className="text-2xl font-bold mb-2 text-white">Flagship Development</h4>
+                            <p className="text-white mb-4 text-lg">{developer.featured[0]}</p>
                             <Link
                               href={`/projects/${developer.featured[0].toLowerCase().replace(/\s+/g, "-")}`}
-                              className="inline-flex items-center text-earth-700 hover:text-earth-500 text-lg font-medium"
+                              className="inline-flex items-center text-white hover:text-[#9F3349] text-lg font-medium"
                             >
                               Explore Property
                               <BsArrowRight className="ml-2" />
@@ -295,36 +298,42 @@ export default function DevelopersSection() {
 
           {/* Navigation controls */}
           <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center mt-12 gap-6">
-            <button
+            <motion.button
               onClick={prevDeveloper}
-              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-earth-600 text-earth-600 hover:bg-earth-600 hover:text-white transition-colors"
+              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white transition-colors"
               aria-label="Previous developer"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
               <BsArrowLeft size={20} />
-            </button>
+            </motion.button>
 
             <div className="flex gap-3">
               {developers.map((_, index) => (
-                <button
+                <motion.button
                   key={index}
                   onClick={() => setActiveDeveloper(index)}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     index === activeDeveloper
-                      ? "bg-earth-500"
-                      : "bg-earth-300 hover:bg-earth-400"
+                      ? "bg-yellow-600"
+                      : "bg-yellow-700 hover:bg-yellow-600"
                   }`}
                   aria-label={`Go to developer ${index + 1}`}
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.8 }}
                 />
               ))}
             </div>
 
-            <button
+            <motion.button
               onClick={nextDeveloper}
-              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-earth-600 text-earth-600 hover:bg-earth-600 hover:text-white transition-colors"
+              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white transition-colors"
               aria-label="Next developer"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
               <BsArrowRight size={20} />
-            </button>
+            </motion.button>
           </div>
         </div>
       </motion.div>

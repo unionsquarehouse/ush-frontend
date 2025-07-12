@@ -57,7 +57,7 @@ export default function About() {
   return (
     <section 
       ref={sectionRef}
-      className="py-32 relative overflow-hidden bg-earth-50 text-earth-700 "
+      className="py-32 relative overflow-hidden bg-white text-black "
     >
       {/* Enhanced background with subtle pattern and gradient */}
       <div className="absolute inset-0 opacity-5">
@@ -84,11 +84,11 @@ export default function About() {
           className="text-center mb-16"
         >
           <div className="relative mb-4 inline-block">
-            <span className="w-24 h-0.5 bg-earth-400 block"></span>
-            <span className="absolute -top-1 left-0 w-12 h-0.5 bg-earth-600 block"></span>
+            <span className="w-24 h-0.5 bg-yellow-600 block"></span>
+            <span className="absolute -top-1 left-0 w-12 h-0.5 bg-yellow-700 block"></span>
           </div>
           <h2 className="text-5xl font-semibold mb-4 tracking-tight ">
-            <span className="text-earth-500 ">About</span> Union Square House
+            <span className="text-yellow-600 ">About</span> Union Square House
           </h2>
         </motion.div>
 
@@ -99,7 +99,7 @@ export default function About() {
             className="relative"
             style={{ y }}
           >
-            <div className="relative h-[500px] rounded-tl-[3rem] rounded-br-[3rem] overflow-hidden shadow-xl border border-earth-700/30 group">
+            <div className="relative h-[500px] rounded-tl-[3rem] rounded-br-[3rem] overflow-hidden  border border-earth-700/30 group">
               <Image
                 src="/assets/ush-office.webp"
                 alt="Union Square House Office"
@@ -147,7 +147,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-earth-700 text-lg mb-8 glass-card-earth p-6  backdrop-blur-sm relative overflow-hidden group hover-lift"
+              className="text-black text-lg mb-8 glass-card-earth p-6  backdrop-blur-sm relative overflow-hidden group hover-lift"
               whileHover={{ y: -5 }}
             >
               {/* Glass shimmer effect */}
@@ -163,35 +163,31 @@ export default function About() {
               {cards.map((card, idx) => (
                 <motion.div
                   key={idx}
-                  className={`rounded-xl p-5 cursor-pointer transition-all duration-300 overflow-hidden relative group ${
-                    activeCard === idx ? 'ring-2 ring-earth-500 shadow-lg' : 'hover:shadow-lg'
+                  className={` p-5 cursor-pointer transition-all duration-300 overflow-hidden relative group ${
+                    activeCard === idx ? 'ring-2 ring-earth-500 ' : 'h'
                   }`}
                   onClick={() => setActiveCard(activeCard === idx ? null : idx)}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: idx * 0.1 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true }} 
                   whileHover={{ y: -5 }}
                 >
                   {/* Background gradient with glass effect */}
                   <div className="absolute inset-0 glass-card-earth"></div>
                   
-                  {/* Glass shimmer effect */}
-                  <div className="absolute inset-0 w-full h-full">
-                    <span className="absolute top-0 left-0 w-1/3 h-full bg-white/10 transform -skew-x-20 translate-x-[-150%] group-hover:translate-x-[300%] transition-transform duration-1000"></span>
-                  </div>
-                  
+                 
                   <div className="flex items-start relative z-10">
-                    <div className="w-12 h-12 rounded-full glass-light flex items-center justify-center mr-4 group-hover:bg-earth-500/20 transition-colors">
-                      <card.icon className="text-earth-600 text-xl" />
+                    <div className="w-12 h-12 flex items-center justify-center mr-4 ">
+                      <card.icon className="text-black text-2xl" />
                     </div>
                     <div>
-                      <h4 className="text-2xl font-bold text-earth-700 mb-1">{card.title}</h4>
-                      <p className="text-earth-500 text-xl mb-3">{card.description}</p>
+                      <h4 className="text-2xl font-bold text-black mb-1">{card.title}</h4>
+                      <p className="text-black/70 text-xl mb-3">{card.description}</p>
                       
                       <div className="flex items-baseline">
-                        <span className="text-2xl font-bold text-earth-600">{card.stat}</span>
-                        <span className="text-earth-500 text-base ml-1">{card.statLabel}</span>
+                        <span className="text-2xl font-bold text-black/70">{card.stat}</span>
+                        <span className="text-black/70 text-base ml-1">{card.statLabel}</span>
                       </div>
                     </div>
                   </div>

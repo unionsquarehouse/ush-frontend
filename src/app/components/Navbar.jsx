@@ -91,7 +91,7 @@ export default function Navbar() {
           {/* CTA Button with glass morphism */}
           <Link
             href="/contact"
-            className={`ml-2 px-5 py-2 rounded-lg transition-all duration-300 ${
+            className={`ml-2 px-6 py-3 rounded-tl-[2rem] rounded-br-[2rem] transition-all duration-300 ${
               scrolled
                 ? "btn-glass-earth"
                 : "btn-glass text-white"

@@ -36,7 +36,8 @@ export default function Hero() {
   const [loopNum, setLoopNum] = useState(0);
   const [typingSpeed, setTypingSpeed] = useState(150);
   
-  const words = ["Discover Luxury", "Discover Exclusive", "Discover Premium"];
+  const words = [
+     "Discover Exclusive"];
   const period = 2000;
   
   useEffect(() => {
@@ -141,13 +142,15 @@ export default function Hero() {
           >
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-white mb-6 mr-2 font-ivy">
               
-              <span className="text-yellow-800 inline-block min-h-[1.2em] min-w-[7ch]">
-                {text}
-                <span className="animate-pulse">|</span>
+              <span className="inline-block min-h-[1.2em] min-w-[7ch] relative">
+              <span className="bg-gradient-to-r from-[#9F3349]  via-[#a53047] to-[#e24d6b] bg-clip-text text-transparent drop-shadow-[#9F3349]">
+                  {text}
+                </span>
+                <span className="animate-pulse text-[#9F3349] drop-shadow-[#9F3349]">|</span>
               </span> <br/>
               Dubai Properties
             </h1>
-            <p className="text-xl text-earth-100/80 max-w-2xl mx-auto">
+            <p className="text-xl text-white max-w-2xl mx-auto">
               Curated collection of the most prestigious properties in Dubai's most coveted locations.
             </p>
           </motion.div>
@@ -163,14 +166,14 @@ export default function Hero() {
               <form onSubmit={handleSearch} className="flex flex-col md:flex-row">
                 {/* Main search input */}
                 <div className="flex-1 relative">
-                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-earth-400">
+                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white">
                     <FaSearch />
                   </div>
                   <input 
                     type="text" 
                     name="keyword"
                     placeholder="Search properties..." 
-                    className="w-full bg-transparent border-0 h-14 pl-12 pr-4 text-white placeholder-earth-400 focus:outline-none"
+                    className="w-full bg-transparent border-0 h-14 pl-12 pr-4 text-white placeholder-white focus:outline-none"
                     value={searchForm.keyword}
                     onChange={handleInputChange}
                   />
@@ -189,7 +192,7 @@ export default function Hero() {
                       <option key={location} value={location} className="bg-earth-800">{location}</option>
                     ))}
                   </select>
-                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-earth-400 pointer-events-none">
+                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white pointer-events-none">
                     <FaChevronDown size={12} />
                   </div>
                 </div>
@@ -198,7 +201,7 @@ export default function Hero() {
                 <button
                   type="submit"
                   disabled={isSearching}
-                  className="h-14 px-8 bg-earth-600 text-white font-medium transition-colors hover:bg-earth-500 flex items-center justify-center"
+                  className="h-14 px-8 bg-[#9F3349] text-white font-medium transition-colors hover:bg-earth-500 flex items-center justify-center"
                 >
                   {isSearching ? (
                     <span className="flex items-center">
@@ -227,14 +230,14 @@ export default function Hero() {
               <Link
                 key={type}
                 href={`/listings?type=${type.toLowerCase()}`}
-                className="px-4 py-2 text-earth-200 hover:text-white transition-colors"
+                className="px-4 py-2 text-white hover:text-white transition-colors"
               >
                 {type}
               </Link>
             ))}
             <Link
               href="/listings"
-              className="px-4 py-2 text-earth-400 hover:text-white transition-colors flex items-center"
+              className="px-4 py-2 text-white hover:text-white transition-colors flex items-center"
             >
               View All <FaArrowRight className="ml-2 text-xs" />
             </Link>

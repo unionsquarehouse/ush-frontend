@@ -13,12 +13,12 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: black;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: black;
     --foreground: #ededed;
   }
 }
@@ -295,7 +295,7 @@ body {
   
   /* Earth-toned glass */
   .glass-earth {
-    @apply bg-earth-800/20 backdrop-blur-sm border border-earth-700/30 shadow-md;
+    @apply bg-yellow-700 backdrop-blur-sm border border-yellow-700/30 shadow-md;
   }
   
   /* Glass button styles */
@@ -306,23 +306,21 @@ body {
   }
   
   .btn-glass-earth {
-    @apply relative overflow-hidden bg-earth-700/80 backdrop-blur-md border border-earth-600/50 
-           hover:bg-earth-600/80 hover:border-earth-500/50 transition-all duration-300
+    @apply relative overflow-hidden bg-yellow-600 backdrop-blur-md 
+           hover:bg-earth-600/80 hover:border-yellow-700/50 transition-all duration-300
            shadow-md hover:shadow-lg text-white;
   }
   
   /* Glass card with hover effect */
   .glass-card {
-    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-xl
+    @apply  border border-black/20 rounded-xl
            hover:bg-white/15 hover:border-white/30 transition-all duration-300
-           shadow-lg hover:shadow-xl;
+          ;
   }
   
   /* Glass card with earth tones */
   .glass-card-earth {
-    @apply bg-white border border-earth-700/20 rounded-tl-[2rem] rounded-br-[2rem]
-            transition-all duration-300
-           hover:shadow-xl;
+    @apply border border-black/20 rounded-tl-[2rem] rounded-br-[2rem];
   }
 }
 
