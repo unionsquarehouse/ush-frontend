@@ -152,7 +152,7 @@ export default function Projects() {
                     />
                     
                     {/* Price tag with clip path */}
-                    <div className="absolute top-6 right-0 clip-path-price bg-earth-50 text-black py-2 px-6 font-display">
+                    <div className="absolute top-6 right-0 clip-path-price bg-yellow-600 text-white py-2 px-6 font-display">
                       {project.price}
                     </div>
                     

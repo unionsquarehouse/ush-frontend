@@ -79,7 +79,7 @@ export default function Footer() {
               </div>
 
               {/* Description with luxury typography */}
-              <p className="text-white leading-relaxed text-base">
+              <p className="text-white leading-relaxed text-sm">
                 Dubai's multi-award winning real estate agency, recognized for
                 excellence in luxury property sales and leasing across the UAE's
                 most prestigious communities. We pride ourselves on exceptional service
@@ -88,7 +88,7 @@ export default function Footer() {
 
               {/* Awards badges with luxury styling */}
               <div className="pt-2">
-                <h5 className="text-white text-base font-medium mb-4 flex items-center">
+                <h5 className="text-white text-sm font-medium mb-4 flex items-center">
                   <FaAward className="mr-2 text-[#9F3349]" />
                   Award-Winning Excellence
                 </h5>
@@ -118,7 +118,7 @@ export default function Footer() {
                   </div>
                   
                   {/* Award count */}
-                  <div className="flex items-center text-white text-base">
+                  <div className="flex items-center text-white text-sm">
                     <span className="px-3 py-1.5 bg-black/50 backdrop-blur-sm rounded-lg border-2 border-[#9F3349]">+12 Awards</span>
                   </div>
                 </div>
@@ -126,7 +126,7 @@ export default function Footer() {
 
               {/* Social Media with luxury hover effects */}
               <div className="pt-4">
-                <h5 className="text-white text-base font-medium mb-4 flex items-center">
+                <h5 className="text-white text-sm font-medium mb-4 flex items-center">
                   <FaEnvelope className="mr-2 text-[#9F3349]" />
                   Connect With Us
                 </h5>
@@ -169,9 +169,9 @@ export default function Footer() {
             transition={{ duration: 0.7, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h4 className="text-xl font-medium mb-8 text-white flex items-center">
+            <h4 className="text-lg font-medium mb-8 text-white flex items-center">
               <div className="w-10 h-10 rounded-full bg-[#9F3349] flex items-center justify-center mr-3">
-                <FaRegBuilding className="text-white text-lg" />
+                <FaRegBuilding className="text-white text-base" />
               </div>
               Quick Links
             </h4>
@@ -186,7 +186,7 @@ export default function Footer() {
                 <li key={index} className="group">
                   <Link
                     href={link.href}
-                    className="text-white hover:text-white text-base flex items-center group-hover:translate-x-1 transform transition-transform duration-300"
+                    className="text-white hover:text-white text-sm flex items-center group-hover:translate-x-1 transform transition-transform duration-300"
                   >
                     <div className="w-0 h-px bg-earth-400 mr-0 group-hover:w-3 group-hover:mr-2 transition-all duration-300"></div>
                     {link.name}
@@ -204,9 +204,9 @@ export default function Footer() {
             transition={{ duration: 0.7, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h4 className="text-xl font-medium mb-8 text-white flex items-center">
+            <h4 className="text-lg font-medium mb-8 text-white flex items-center">
               <div className="w-10 h-10 rounded-full bg-[#9F3349] flex items-center justify-center mr-3">
-                <FaRegHandshake className="text-white text-lg" />
+                <FaRegHandshake className="text-white text-base" />
               </div>
               Property Types
             </h4>
@@ -221,7 +221,7 @@ export default function Footer() {
                 <li key={index} className="group">
                   <Link
                     href={link.href}
-                    className="text-white hover:text-white transition-colors duration-300 text-base flex items-center group-hover:translate-x-1 transform transition-transform duration-300"
+                    className="text-white hover:text-white transition-colors duration-300 text-sm flex items-center group-hover:translate-x-1 transform transition-transform duration-300"
                   >
                     <div className="w-0 h-px bg-earth-400 mr-0 group-hover:w-3 group-hover:mr-2 transition-all duration-300"></div>
                     {link.name}
@@ -239,9 +239,9 @@ export default function Footer() {
             transition={{ duration: 0.7, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <h4 className="text-xl font-medium mb-8 text-white flex items-center">
+            <h4 className="text-lg font-medium mb-8 text-white flex items-center">
               <div className="w-10 h-10 rounded-full bg-[#9F3349] flex items-center justify-center mr-3">
-                <FaPhone className="text-white text-lg" />
+                <FaPhone className="text-white text-base" />
               </div>
               Contact Us
             </h4>
@@ -258,10 +258,10 @@ export default function Footer() {
                       <FaMapMarkerAlt className="text-white group-hover:text-white transition-colors duration-300" />
                     </div>
                     <div>
-                      <h5 className="text-white font-medium mb-1">
+                      <h5 className="text-white font-medium mb-1 text-lg">
                         Our Location
                       </h5>
-                      <p className="text-white text-base">
+                      <p className="text-white text-xs">
                         Business Bay, Dubai, United Arab Emirates
                       </p>
                     </div>
@@ -279,10 +279,10 @@ export default function Footer() {
                       <FaPhone className="text-white group-hover:text-white transition-colors duration-300" />
                     </div>
                     <div>
-                      <h5 className="text-white font-medium mb-1">Call Us</h5>
+                      <h5 className="text-white font-medium mb-1 text-lg">Call Us</h5>
                       <a
                         href="tel:+97144589090"
-                        className="text-white text-base hover:text-white group-hover:translate-x-1 transform transition-transform duration-300 flex items-center"
+                        className="text-white text-xs hover:text-white group-hover:translate-x-1 transform transition-transform duration-300 flex items-center"
                       >
                         <div className="w-0 h-px bg-[#9F3349] mr-0 group-hover:w-3 group-hover:mr-2 transition-all duration-300"></div>
                         +971 4 458 9090
@@ -302,12 +302,12 @@ export default function Footer() {
                       <FaEnvelope className="text-white group-hover:text-white transition-colors duration-300" />
                     </div>
                     <div>
-                      <h5 className="text-white font-medium mb-1">
+                      <h5 className="text-white font-medium mb-1 text-lg">
                         Email Us
                       </h5>
                       <a
                         href="mailto:info@ushre.com"
-                        className="text-white text-base hover:text-white group-hover:translate-x-1 transform transition-transform duration-300 flex items-center"
+                        className="text-white text-xs hover:text-white group-hover:translate-x-1 transform transition-transform duration-300 flex items-center"
                       >
                         <div className="w-0 h-px bg-[#9F3349] mr-0 group-hover:w-3 group-hover:mr-2 transition-all duration-300"></div>
                         info@ushre.com
@@ -334,13 +334,13 @@ export default function Footer() {
           <div className="relative bg-black/40 backdrop-blur-sm rounded-tl-[2rem] rounded-br-[2rem] p-8 border-2 border-[#9F3349]  transition-colors duration-300">
             <div className="grid md:grid-cols-5 gap-8 items-center">
               <div className="md:col-span-2">
-                <h4 className="text-xl font-medium text-white mb-3 flex items-center">
+                <h4 className="text-lg font-medium text-white mb-3 flex items-center">
                   <div className="w-8 h-8 rounded-full bg-[#9F3349] flex items-center justify-center mr-3 ">
-                    <FaEnvelope className="text-white text-base" />
+                    <FaEnvelope className="text-white text-sm" />
                   </div>
                   Stay Updated
                 </h4>
-                <p className="text-white text-base leading-relaxed">
+                <p className="text-white text-sm leading-relaxed">
                   Subscribe to our newsletter for exclusive property updates, market insights, and luxury lifestyle content.
                 </p>
               </div>
@@ -385,14 +385,14 @@ export default function Footer() {
       {/* Bottom Bar with luxury styling */}
       <div className="relative border-t border-earth-800/70">
         <div className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto relative z-10 py-8 flex flex-col md:flex-row justify-between items-center">
-          <div className="text-white text-base mb-6 md:mb-0 flex items-center">
+          <div className="text-white text-sm mb-6 md:mb-0 flex items-center">
             <FaRegCopyright className="mr-2" />
             <span>{new Date().getFullYear()} Union Square House Real Estate —</span>
             <span className="ml-1 px-2 py-0.5 bg-[#9F3349] rounded-md text-xs border border-earth-700/50">
               Regulated by RERA, Dubai
             </span>
           </div>
-          <div className="text-white text-base flex space-x-8">
+          <div className="text-white text-sm flex space-x-8">
             <Link
               href="/privacy-policy"
               className="hover:text-white transition-colors duration-300 relative group flex items-center"

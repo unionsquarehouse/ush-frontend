@@ -43,7 +43,7 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled || mobileMenuOpen 
-          ? "bg-earth-50/80 backdrop-blur-md shadow-md border-b border-earth-200/30" 
+          ? "bg-earth-50/80 backdrop-blur-md shadow-md " 
           : "bg-transparent"
       }`}
     >
@@ -78,10 +78,10 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`px-4 py-2 rounded-lg transition-all duration-300 ${
+              className={`px-4 py-2 rounded-lg transition-all duration-300 bg-transparent ${
                 scrolled
-                  ? "text-earth-800 hover:bg-earth-200/50"
-                  : "text-white hover:bg-white/10 backdrop-blur-sm"
+                  ? "text-earth-800 "
+                  : "text-white  "
               }`}
             >
               {link.label}

@@ -418,7 +418,7 @@ export default function CommunitiesSection() {
                       <div className="lg:col-span-7">
                         <div className="backdrop-blur-sm  p-6 sm:p-8 shadow-lg h-full">
                           <div className="absolute inset-0 p-[2px] rounded-tl-[3rem] rounded-br-[3rem] z-0 bg-gradient-to-br from-gray-300 via-gray-400 to-gray-300 opacity-40"></div>
-                          <h3 className="text-2xl font-bold  mb-5 flex items-center text-blaxck">
+                          <h3 className="text-2xl font-bold  mb-5 flex items-center text-black">
                             <span className="w-4 h-0.5 bg-black mr-2"></span>
                             {community.name}
                           </h3>
@@ -426,7 +426,7 @@ export default function CommunitiesSection() {
                             <div className="w-10 h-10 rounded-full bg-black/60 flex items-center justify-center mr-3 text-xl">
                               <FaMapMarkerAlt className="text-white" />
                             </div>
-                            <span className="text-black font-medium text-xl">
+                            <span className="text-black font-medium text-2xl">
                               Premium Community
                             </span>
                           </div>
