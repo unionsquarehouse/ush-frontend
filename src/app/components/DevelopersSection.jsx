@@ -3,9 +3,10 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { BsArrowLeft, BsArrowRight, BsBuilding, BsPlus } from "react-icons/bs";
 import { FaStar, FaAward, FaCalendarAlt, FaChartLine } from "react-icons/fa";
+import AnimatedButton from "./ui/AnimatedButton";
 
 const developers = [
   {
@@ -72,6 +73,8 @@ export default function DevelopersSection() {
   const [activeDeveloper, setActiveDeveloper] = useState(0);
   const containerRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -143,7 +146,7 @@ export default function DevelopersSection() {
           className="text-center mb-16"
         >
           <h2 className="text-5xl font-semibold mb-4 text-black">
-            <span className="text-yellow-600">Visionary</span> Developers 
+            <span className="text-yellow-600">Visionary</span> Developers
           </h2>
           <div className="h-0.5 w-24 bg-yellow-600 mx-auto mb-6"></div>
           <p className="text-xl text-black max-w-2xl mx-auto">
@@ -178,43 +181,61 @@ export default function DevelopersSection() {
                                 className="w-12 h-12 object-contain"
                               />
                             </div>
-                            
+
                             <div>
-                              <h3 className="text-3xl font-bold mb-1 text-black">{developer.name}</h3>
+                              <h3 className="text-3xl font-bold mb-1 text-black">
+                                {developer.name}
+                              </h3>
                               <div className="flex items-center">
                                 {[...Array(5)].map((_, i) => (
                                   <FaStar
                                     key={i}
-                                    className={i < Math.floor(developer.rating) ? "text-yellow-600" : "text-gray-300"}
+                                    className={
+                                      i < Math.floor(developer.rating)
+                                        ? "text-yellow-600"
+                                        : "text-gray-300"
+                                    }
                                     size={14}
                                   />
                                 ))}
-                                <span className="ml-2 text-black text-lg">{developer.rating}/5</span>
+                                <span className="ml-2 text-black text-lg">
+                                  {developer.rating}/5
+                                </span>
                               </div>
                             </div>
                           </div>
-                          
-                          <p className="text-black   mb-6">{developer.description}</p>
-                          
+
+                          <p className="text-black   mb-6">
+                            {developer.description}
+                          </p>
+
                           {/* Stats in horizontal layout */}
                           <div className="grid grid-cols-3 gap-4 mb-6">
                             <div className="bg-white rounded-tl-2xl rounded-br-2xl p-4 text-center">
-                              <p className="text-black font-medium text-xl">{developer.established}</p>
-                              <p className="text-black text-base">Established</p>
+                              <p className="text-black font-medium text-xl">
+                                {developer.established}
+                              </p>
+                              <p className="text-black text-base">
+                                Established
+                              </p>
                             </div>
-                            
+
                             <div className="bg-white rounded-tl-2xl rounded-br-2xl p-4 text-center">
-                              <p className="text-black font-medium text-xl">{developer.projects}</p>
+                              <p className="text-black font-medium text-xl">
+                                {developer.projects}
+                              </p>
                               <p className="text-black text-base">Projects</p>
                             </div>
-                            
+
                             <div className="bg-white rounded-tl-2xl rounded-br-2xl p-4 text-center">
-                              <p className="text-black font-medium text-xl">Premium</p>
+                              <p className="text-black font-medium text-xl">
+                                Premium
+                              </p>
                               <p className="text-black text-base">Status</p>
                             </div>
                           </div>
                         </div>
-                        
+
                         {/* Featured projects */}
                         <div className="backdrop-blur-sm p-8 rounded-tl-[3rem] rounded-br-[3rem] relative">
                           <div className="absolute inset-0 p-[2px] rounded-tl-[3rem] rounded-br-[3rem] z-0 bg-gradient-to-br from-gray-300 via-gray-400 to-gray-300 opacity-40"></div>
@@ -222,48 +243,70 @@ export default function DevelopersSection() {
                             <span className="w-4 h-0.5 bg-black mr-2"></span>
                             Signature Projects
                           </h4>
-                          
+
                           <div className="grid grid-cols-3 gap-4 mb-6">
                             {developer.featured.map((project, idx) => (
-                              <div key={idx} className="group relative overflow-hidden rounded-tl-xl rounded-br-xl aspect-video">
+                              <div
+                                key={idx}
+                                className="group relative overflow-hidden rounded-tl-xl rounded-br-xl aspect-video"
+                              >
                                 <Image
-                                  src={`/assets/${project.toLowerCase().replace(/\s+/g, "_")}.jpg`}
+                                  src={`/assets/${project
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "_")}.jpg`}
                                   alt={project}
                                   fill
                                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-earth-900/70 via-earth-900/30 to-transparent"></div>
                                 <div className="absolute bottom-0 left-0 p-3">
-                                  <h5 className="text-white text-lg font-medium">{project}</h5>
+                                  <h5 className="text-white text-lg font-medium">
+                                    {project}
+                                  </h5>
                                 </div>
                               </div>
                             ))}
                           </div>
-                          
+
                           <div className="flex justify-end">
-                            <Link
+                            {/* <Link
                               href={`/developers/${developer.name.toLowerCase().replace(/\s+/g, "-")}/projects`}
                               className="px-6 py-4 rounded-tl-[2rem] rounded-br-[2rem] text-lg bg-yellow-600 text-white hover:bg-yellow-600 transition-colors flex items-center gap-1 relative overflow-hidden group"
                             >
                               <span className="relative z-10">View All Projects</span>
                               <BsArrowRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
                               <span className="absolute inset-0 bg-gradient-to-r from-yellow-500 to-yellow-600 transform -skew-x-10 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
-                            </Link>
+                            </Link> */}
+
+                            <AnimatedButton
+                              href={`/developers/${developer.name.toLowerCase().replace(/\s+/g, "-")}/projects`}
+                              animationDelay={0.6}
+                              containerClassName=" text-center"
+                              color="yellow-600"
+                              hoverColor="yellow-500"
+                              gradientFrom="yellow-600"
+                              gradientTo="yellow-500"
+                              variant="solid"
+                            >
+                              View All Projects
+                            </AnimatedButton>
                           </div>
                         </div>
                       </div>
-                      
+
                       {/* Right column - Large showcase image */}
                       <div className="relative">
                         <div className="relative h-full rounded-tl-[2rem] rounded-br-[2rem] overflow-hidden l ">
                           <Image
-                            src={`/assets/${developer.featured[0].toLowerCase().replace(/\s+/g, "_")}.jpg`}
+                            src={`/assets/${developer.featured[0]
+                              .toLowerCase()
+                              .replace(/\s+/g, "_")}.jpg`}
                             alt={developer.featured[0]}
                             fill
                             className="object-cover"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-earth-900/80 via-earth-900/40 to-transparent"></div>
-                          
+
                           {/* Floating badge */}
                           <div className="absolute top-8 right-8 bg-[#9F3349] backdrop-blur-sm text-white px-4 py-2 rounded-tl-lg rounded-br-lg text-xl">
                             <div className="flex items-center">
@@ -271,13 +314,19 @@ export default function DevelopersSection() {
                               <span>Premium Developer</span>
                             </div>
                           </div>
-                          
+
                           {/* Floating info card */}
                           <div className="absolute bottom-8 left-8 right-8   rounded-tl-xl rounded-br-xl p-6 ">
-                            <h4 className="text-2xl font-bold mb-2 text-white">Flagship Development</h4>
-                            <p className="text-white mb-4 text-lg">{developer.featured[0]}</p>
+                            <h4 className="text-2xl font-bold mb-2 text-white">
+                              Flagship Development
+                            </h4>
+                            <p className="text-white mb-4 text-lg">
+                              {developer.featured[0]}
+                            </p>
                             <Link
-                              href={`/projects/${developer.featured[0].toLowerCase().replace(/\s+/g, "-")}`}
+                              href={`/projects/${developer.featured[0]
+                                .toLowerCase()
+                                .replace(/\s+/g, "-")}`}
                               className="inline-flex items-center text-white hover:text-[#9F3349] text-lg font-medium"
                             >
                               Explore Property
@@ -285,9 +334,8 @@ export default function DevelopersSection() {
                             </Link>
                           </div>
                         </div>
-                        
+
                         {/* Decorative element */}
-                        
                       </div>
                     </div>
                   </div>

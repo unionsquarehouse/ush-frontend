@@ -8,6 +8,7 @@ import {
   useScroll,
   useTransform,
   AnimatePresence,
+  useInView,
 } from "framer-motion";
 import {
   FaHome,
@@ -29,6 +30,7 @@ import {
   BsStars,
   BsZoomIn,
 } from "react-icons/bs";
+import AnimatedButton from "./ui/AnimatedButton";
 
 const communities = [
   {
@@ -99,6 +101,9 @@ export default function CommunitiesSection() {
   const [showContactModal, setShowContactModal] = useState(false);
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [showImageZoom, setShowImageZoom] = useState(false);
+
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -415,8 +420,8 @@ export default function CommunitiesSection() {
                       </div>
 
                       {/* Right column - Content */}
-                      <div className="lg:col-span-7">
-                        <div className="backdrop-blur-sm  p-6 sm:p-8 shadow-lg h-full">
+                      <div className="lg:col-span-7 ">
+                        <div className="backdrop-blur-sm  p-6 sm:p-8 shadow-lg h-full ">
                           <div className="absolute inset-0 p-[2px] rounded-tl-[3rem] rounded-br-[3rem] z-0 bg-gradient-to-br from-gray-300 via-gray-400 to-gray-300 opacity-40"></div>
                           <h3 className="text-2xl font-bold  mb-5 flex items-center text-black">
                             <span className="w-4 h-0.5 bg-black mr-2"></span>
@@ -445,61 +450,68 @@ export default function CommunitiesSection() {
                                 {
                                   number: "01",
                                   title: "Strategic Location",
-                                  description: community.name === "Palm Jumeirah" 
-                                    ? "Iconic man-made island with stunning sea views"
-                                    : community.name === "Downtown Dubai"
-                                    ? "Heart of the city near Burj Khalifa"
-                                    : community.name === "Dubai Marina"
-                                    ? "Waterfront community with yacht harbor"
-                                    : community.name === "Arabian Ranches"
-                                    ? "Serene desert-themed community"
-                                    : "Prestigious area with golf course views"
+                                  description:
+                                    community.name === "Palm Jumeirah"
+                                      ? "Iconic man-made island with stunning sea views"
+                                      : community.name === "Downtown Dubai"
+                                      ? "Heart of the city near Burj Khalifa"
+                                      : community.name === "Dubai Marina"
+                                      ? "Waterfront community with yacht harbor"
+                                      : community.name === "Arabian Ranches"
+                                      ? "Serene desert-themed community"
+                                      : "Prestigious area with golf course views",
                                 },
                                 {
                                   number: "02",
                                   title: "Connectivity",
-                                  description: community.name === "Palm Jumeirah" 
-                                    ? "30 min to Dubai Airport, 15 min to Dubai Marina"
-                                    : community.name === "Downtown Dubai"
-                                    ? "15 min to Dubai Airport, central location"
-                                    : community.name === "Dubai Marina"
-                                    ? "35 min to Dubai Airport, near JBR Beach"
-                                    : community.name === "Arabian Ranches"
-                                    ? "25 min to Downtown, near Dubai Autodrome"
-                                    : "20 min to Downtown, near Al Khail Road"
+                                  description:
+                                    community.name === "Palm Jumeirah"
+                                      ? "30 min to Dubai Airport, 15 min to Dubai Marina"
+                                      : community.name === "Downtown Dubai"
+                                      ? "15 min to Dubai Airport, central location"
+                                      : community.name === "Dubai Marina"
+                                      ? "35 min to Dubai Airport, near JBR Beach"
+                                      : community.name === "Arabian Ranches"
+                                      ? "25 min to Downtown, near Dubai Autodrome"
+                                      : "20 min to Downtown, near Al Khail Road",
                                 },
                                 {
                                   number: "03",
                                   title: "Lifestyle",
-                                  description: community.name === "Palm Jumeirah" 
-                                    ? "Luxury beachfront living with 5-star hotels"
-                                    : community.name === "Downtown Dubai"
-                                    ? "Urban lifestyle with shopping and dining"
-                                    : community.name === "Dubai Marina"
-                                    ? "Vibrant waterfront lifestyle with cafes"
-                                    : community.name === "Arabian Ranches"
-                                    ? "Family-friendly with equestrian center"
-                                    : "Modern luxury with parks and retail"
+                                  description:
+                                    community.name === "Palm Jumeirah"
+                                      ? "Luxury beachfront living with 5-star hotels"
+                                      : community.name === "Downtown Dubai"
+                                      ? "Urban lifestyle with shopping and dining"
+                                      : community.name === "Dubai Marina"
+                                      ? "Vibrant waterfront lifestyle with cafes"
+                                      : community.name === "Arabian Ranches"
+                                      ? "Family-friendly with equestrian center"
+                                      : "Modern luxury with parks and retail",
                                 },
                                 {
                                   number: "04",
                                   title: "Investment Value",
-                                  description: community.name === "Palm Jumeirah" 
-                                    ? "Premium ROI with consistent appreciation"
-                                    : community.name === "Downtown Dubai"
-                                    ? "High rental yields and capital growth"
-                                    : community.name === "Dubai Marina"
-                                    ? "Strong rental demand from professionals"
-                                    : community.name === "Arabian Ranches"
-                                    ? "Stable long-term investment with families"
-                                    : "Emerging area with growth potential"
-                                }
+                                  description:
+                                    community.name === "Palm Jumeirah"
+                                      ? "Premium ROI with consistent appreciation"
+                                      : community.name === "Downtown Dubai"
+                                      ? "High rental yields and capital growth"
+                                      : community.name === "Dubai Marina"
+                                      ? "Strong rental demand from professionals"
+                                      : community.name === "Arabian Ranches"
+                                      ? "Stable long-term investment with families"
+                                      : "Emerging area with growth potential",
+                                },
                               ].map((highlight, idx) => (
                                 <motion.div
                                   key={idx}
                                   className="flex items-center group cursor-pointer"
                                   whileHover={{ x: 5 }}
-                                  transition={{ type: "spring", stiffness: 300 }}
+                                  transition={{
+                                    type: "spring",
+                                    stiffness: 300,
+                                  }}
                                 >
                                   <div className="w-10 h-10 rounded-full bg-black/60 flex items-center justify-center mr-3 group-hover:bg-earth-700 transition-colors duration-300">
                                     <span className="text-white text-xl font-bold group-hover:text-white transition-colors duration-300">
@@ -524,11 +536,11 @@ export default function CommunitiesSection() {
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                             >
-                              <Link
+                              {/* <Link
                                 href={`/communities/${community.name
                                   .toLowerCase()
                                   .replace(/\s+/g, "-")}`}
-                                className="px-6 py-4 rounded-tl-[2rem] rounded-br-[2rem] text-lg bg-yellow-600 text-white hover:bg-yellow-600 transition-colors flex items-center gap-1 relative overflow-hidden group"
+                                className="px-6 py-4 rounded-tl-[2rem] rounded-br-[2rem] text-lg bg-gradient-to-r from-yellow-600 to-yellow-700  text-white hover:bg-yellow-600 transition-colors flex items-center gap-1 relative overflow-hidden group"
                               >
                                 <span className="relative z-10">
                                   View Properties
@@ -537,15 +549,30 @@ export default function CommunitiesSection() {
                                   size={14}
                                   className="relative z-10 group-hover:translate-x-1 transition-transform duration-300"
                                 />
-                                <span className="absolute inset-0 bg-gradient-to-r from-yellow-500 to-yellow-600 transform -skew-x-10 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
-                              </Link>
+                                <span className="absolute inset-0 bg-gradient-to-r from-yellow-600 to-yellow-700 transform -skew-x-10 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
+                              </Link> */}
+
+                              <AnimatedButton
+                                href={`/communities/${community.name
+                                  .toLowerCase()
+                                  .replace(/\s+/g, "-")}`}
+                                animationDelay={0.6}
+                                containerClassName=" text-center"
+                                color="yellow-600"
+                                hoverColor="yellow-500"
+                                gradientFrom="yellow-600"
+                                gradientTo="yellow-500"
+                                variant="solid"
+                              >
+                                View Properties
+                              </AnimatedButton>
                             </motion.div>
 
                             <motion.div
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                             >
-                              <Link
+                              {/* <Link
                                 href={`/communities`}
                                 className="px-6 py-4 rounded-tl-[2rem] rounded-br-[2rem] text-lg font-medium border border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white transition-colors flex items-center gap-1"
                               >
@@ -554,7 +581,17 @@ export default function CommunitiesSection() {
                                   size={14}
                                   className="group-hover:translate-x-1 transition-transform duration-300 ml-1"
                                 />
-                              </Link>
+                              </Link> */}
+
+                              <AnimatedButton
+                                href={`/communities`}
+                                animationDelay={0.6}
+                                containerClassName=" text-center"
+                                
+                                variant="glass"
+                              >
+                                All Communities
+                              </AnimatedButton>
                             </motion.div>
                           </div>
                         </div>

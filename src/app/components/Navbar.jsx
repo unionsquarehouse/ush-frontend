@@ -3,11 +3,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { FaBars, FaTimes, FaArrowRight } from "react-icons/fa";
+import AnimatedButton from "./ui/AnimatedButton";
 
 export default function Navbar() {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -42,8 +45,8 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled || mobileMenuOpen 
-          ? "bg-earth-50/80 backdrop-blur-md shadow-md " 
+        scrolled || mobileMenuOpen
+          ? "bg-earth-50/80 backdrop-blur-md shadow-md "
           : "bg-transparent"
       }`}
     >
@@ -79,22 +82,31 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               className={`px-4 py-2 rounded-lg transition-all duration-300 bg-transparent ${
-                scrolled
-                  ? "text-earth-800 "
-                  : "text-white  "
+                scrolled ? "text-earth-800 " : "text-white  "
               }`}
             >
               {link.label}
             </Link>
           ))}
-          
+
           {/* CTA Button with glass morphism */}
-          <Link
+          <AnimatedButton
+            href="/contact-us"
+            animationDelay={0.6}
+            containerClassName=" text-center"
+            color="yellow-600"
+            hoverColor="yellow-500"
+            gradientFrom="yellow-600"
+            gradientTo="yellow-500"
+            variant="solid"
+            size="small"
+          >
+            Contact Us
+          </AnimatedButton>
+          {/* <Link
             href="/contact"
-            className={`ml-2 px-6 py-3 rounded-tl-[2rem] rounded-br-[2rem] transition-all duration-300 ${
-              scrolled
-                ? "btn-glass-earth"
-                : "btn-glass text-white"
+            className={`ml-2 btn-glass-earth px-6 py-3 rounded-tl-[2rem] rounded-br-[2rem] transition-all duration-300 ${
+              scrolled ? "btn-glass-earth" : "btn-glass text-white"
             }`}
           >
             <span className="relative z-10 flex items-center">
@@ -104,15 +116,17 @@ export default function Navbar() {
             <span className="absolute inset-0 w-full h-full">
               <span className="absolute top-0 left-0 w-1/3 h-full bg-white/20 transform -skew-x-20 translate-x-[-150%] group-hover:translate-x-[300%] transition-transform duration-1000"></span>
             </span>
-          </Link>
+          </Link> */}
         </nav>
 
         {/* Mobile menu button with glass effect when scrolled */}
         <button
           className={`md:hidden text-2xl focus:outline-none z-50 ${
-            mobileMenuOpen 
-              ? "p-2 rounded-full bg-earth-200/30 backdrop-blur-sm" 
-              : scrolled ? "p-2 rounded-full hover:bg-earth-200/30" : ""
+            mobileMenuOpen
+              ? "p-2 rounded-full bg-earth-200/30 backdrop-blur-sm"
+              : scrolled
+              ? "p-2 rounded-full hover:bg-earth-200/30"
+              : ""
           }`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
@@ -124,7 +138,7 @@ export default function Navbar() {
           )}
         </button>
       </div>
-      
+
       {/* Mobile Menu with glass morphism */}
       <motion.div
         className={`md:hidden fixed inset-0 z-40 ${
@@ -137,7 +151,10 @@ export default function Navbar() {
           closed: { opacity: 0 },
         }}
       >
-        <div className="absolute inset-0 bg-earth-900/60 backdrop-blur-lg" onClick={() => setMobileMenuOpen(false)} />
+        <div
+          className="absolute inset-0 bg-earth-900/60 backdrop-blur-lg"
+          onClick={() => setMobileMenuOpen(false)}
+        />
         <motion.div
           className="absolute right-0 top-0 bottom-0 w-3/4 max-w-sm bg-earth-50/90 backdrop-blur-md shadow-xl border-l border-earth-200/30 p-6 pt-24"
           variants={{

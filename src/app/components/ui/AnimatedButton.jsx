@@ -19,7 +19,7 @@ export default function AnimatedButton({
 }) {
   // Size variants
   const sizeClasses = {
-    small: 'px-6 py-2 text-base',
+    small: 'px-6 py-3 text-base',
     default: 'px-8 py-4 text-lg',
     large: 'px-10 py-5 text-xl'
   };
@@ -29,14 +29,14 @@ export default function AnimatedButton({
     if (variant === 'solid') {
       // Hardcoded classes for specific colors
       if (color === 'yellow-600') {
-        return 'bg-yellow-600 text-white hover:bg-yellow-500';
+        return 'bg-gradient-to-r from-yellow-600 to-yellow-700 text-white hover:bg-yellow-500';
       } else if (color === 'earth-600') {
         return 'bg-earth-600 text-white hover:bg-earth-500';
       } else {
         return 'bg-yellow-600 text-white hover:bg-yellow-500'; // Default fallback
       }
     } else if (variant === 'glass') {
-      return 'btn-glass text-white';
+      return 'btn-glass text-black';
     } else if (variant === 'glass-earth') {
       return 'btn-glass-earth';
     }
@@ -47,12 +47,12 @@ export default function AnimatedButton({
   // Get gradient classes
   const getGradientClasses = () => {
     if (gradientFrom === 'yellow-600' && gradientTo === 'yellow-500') {
-      return 'from-yellow-600 to-yellow-500';
+      return 'from-yellow-600 to-yellow-800';
     } else if (gradientFrom === 'earth-600' && gradientTo === 'earth-500') {
       return 'from-earth-600 to-earth-500';
     }
     
-    return 'from-yellow-600 to-yellow-500'; // Default fallback
+    return 'from-yellow-600 to-yellow-800'; // Default fallback
   };
   
   return (

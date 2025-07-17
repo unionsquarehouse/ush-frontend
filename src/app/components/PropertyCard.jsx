@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaBed, FaBath, FaRuler, FaMapMarkerAlt } from "react-icons/fa";
+import { FaBed, FaBath, FaRuler, FaMapMarkerAlt, FaArrowRight } from "react-icons/fa";
 import { BsArrowRight } from "react-icons/bs";
 import Link from "next/link";
 
