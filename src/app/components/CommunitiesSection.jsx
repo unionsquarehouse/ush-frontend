@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   motion,
   useScroll,
@@ -310,9 +311,7 @@ export default function CommunitiesSection() {
                               className="absolute top-4 left-4 w-10 h-10 rounded-full bg-earth-600/60 backdrop-blur-md border border-earth-500/40 flex items-center justify-center shadow-lg hover:bg-earth-500/70 transition-all duration-300"
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
-                              onClick={() =>
-                                window.open(community.mapLink, "_blank")
-                              }
+                              onClick={() => router.push(community.mapLink)}
                               aria-label="View on map"
                             >
                               <BsGeoAlt className="text-white" />

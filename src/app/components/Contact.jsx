@@ -24,6 +24,7 @@ import {
 } from "react-icons/fa";
 import Image from "next/image";
 import confetti from "canvas-confetti";
+import { useRouter } from "next/navigation";
 // PhoneInput import removed
 
 export default function Contact() {
@@ -806,11 +807,10 @@ export default function Contact() {
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ delay: 0.9, duration: 0.3 }}
                       onClick={() =>
-                        window.open(
+                        router.push(
                           `/projects/${properties[activeProperty].name
                             .toLowerCase()
-                            .replace(/\s+/g, "-")}`,
-                          "_blank"
+                            .replace(/\s+/g, "-")}`
                         )
                       }
                     >
@@ -835,7 +835,7 @@ export default function Contact() {
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ delay: 0.5, duration: 0.3 }}
-                      onClick={() => window.open("tel:+97144589090", "_blank")}
+                      onClick={() => router.push("tel:+97144589090")}
                     >
                       <div className="relative">
                         <div className="absolute inset-0 bg-white rounded-full animate-ping opacity-10"></div>
@@ -853,7 +853,7 @@ export default function Contact() {
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ delay: 0.7, duration: 0.3 }}
-                      onClick={() => window.open("/projects", "_blank")}
+                      onClick={() => router.push("/projects")}
                     >
                       <div className="relative">
                         <div className="absolute inset-0 bg-white rounded-full animate-ping opacity-10"></div>
