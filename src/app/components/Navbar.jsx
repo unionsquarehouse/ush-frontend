@@ -17,16 +17,23 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
+      if (typeof window !== 'undefined') {
+        const isScrolled = window.scrollY > 10;
+        if (isScrolled !== scrolled) {
+          setScrolled(isScrolled);
+        }
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    // Only add event listener on client side
+    if (typeof window !== 'undefined') {
+      window.addEventListener("scroll", handleScroll);
+    }
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener("scroll", handleScroll);
+      }
     };
   }, [scrolled]);
 
