@@ -84,11 +84,11 @@ export default function About() {
           className="text-center mb-16"
         >
           <div className="relative mb-4 inline-block">
-            <span className="w-24 h-0.5 bg-yellow-600 block"></span>
+            <span className="w-24 h-0.5 bg-gradient-to-r from-[#876F4E] to-[#68543b] block"></span>
             <span className="absolute -top-1 left-0 w-12 h-0.5 bg-yellow-700 block"></span>
           </div>
-          <h2 className="text-5xl font-semibold mb-4 tracking-tight ">
-            <span className="text-yellow-600 ">About</span> Union Square House
+          <h2 className="text-5xl mb-4 tracking-tight flex items-center justify-center">
+            <span className="text-[#876F4E] shine-effect mr-2">About</span> Union Square House
           </h2>
         </motion.div>
 

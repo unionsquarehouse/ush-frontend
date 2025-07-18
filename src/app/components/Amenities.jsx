@@ -1,94 +1,72 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { useState, useRef, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
+import Image from "next/image";
 import {
-  FaSwimmingPool,
-  FaDumbbell,
-  FaChild,
-  FaLeaf,
-  FaConciergeBell,
-  FaHotTub,
-  FaCouch,
-  FaUtensils,
+  FaBuilding,
+  FaHome,
+  FaKey,
   FaChevronRight,
   FaChevronLeft,
-} from 'react-icons/fa';
+} from "react-icons/fa";
+import AnimatedButton from "./ui/AnimatedButton";
 
 const amenities = [
   {
-    icon: <FaSwimmingPool />,
-    title: 'Infinity Pool & Sun Deck',
-    description: 'Relax in a tranquil infinity-edge pool surrounded by curated landscaping and skyline views.',
-    image: '/assets/pool.png', // Add your image path here
-    color: '#267677', // brand color
-    gradient: 'from-cyan-500 to-teal-700',
+    icon: <FaBuilding />,
+    title: "Off‑Plan Projects",
+    description:
+      "Investor‑friendly, over 500+ freehold developments with premium ROI potential and exclusive pre-launch access.",
+    image: "/assets/services/offplan.jpg",
+    color: "#EAB308",
+    gradient: "from-earth-800/80 to-earth-700/90",
+    features: [
+      "Pre-launch Access",
+      "Developer Partnerships",
+      "Payment Plan Options",
+      "ROI Analysis",
+    ],
   },
   {
-    icon: <FaCouch />,
-    title: 'Indoor Lounge',
-    description: 'A chic indoor retreat for entertaining or unwinding in elegant comfort.',
-    image: '/assets/lounge.png',
-    color: '#267677',
-    gradient: 'from-indigo-500 to-purple-700',
+    icon: <FaHome />,
+    title: "Residential Sales",
+    description:
+      "Exclusive villas, townhouses & luxury apartments across Dubai's most prestigious communities with expert guidance.",
+    image: "/assets/services/residential.jpg",
+    color: "#EAB308",
+    gradient: "from-earth-700/80 to-earth-600/90",
+    features: [
+      "Premium Listings",
+      "Virtual Tours",
+      "Negotiation Expertise",
+      "Market Analysis",
+    ],
   },
   {
-    icon: <FaHotTub />,
-    title: 'Yoga Deck & Outdoor Lounge',
-    description: 'Wellness and social zones designed for morning stretches or sunset conversations.',
-    image: '/assets/yoga-deck.jpg',
-    color: '#267677',
-    gradient: 'from-amber-500 to-orange-700',
-  },
-  {
-    icon: <FaChild />,
-    title: "Kid's Play Area",
-    description: 'A vibrant, safe space designed for creative play and family-friendly moments.',
-    image: '/assets/play-area.png',
-    color: '#267677',
-    gradient: 'from-pink-500 to-rose-700',
-  },
-  {
-    icon: <FaDumbbell />,
-    title: 'State-of-the-Art Gym',
-    description: 'Fully equipped fitness center with modern machines and natural light.',
-    image: '/assets/gym.png',
-    color: '#267677',
-    gradient: 'from-blue-500 to-indigo-700',
-  },
-//   {
-//     icon: <FaLeaf />,
-//     title: 'Connected Park Access',
-//     description: 'Enjoy seamless connection to nearby parks and green spaces for daily recreation.',
-//     image: '/assets/park.jpg',
-//     color: '#267677',
-//     gradient: 'from-green-500 to-emerald-700',
-//   },
-  {
-    icon: <FaConciergeBell />,
-    title: 'Concierge & Valet Services',
-    description: '24/7 premium hotel-style services at your doorstep for seamless living.',
-    image: '/assets/concierge.jpg',
-    color: '#267677',
-    gradient: 'from-red-500 to-rose-700',
-  },
-  {
-    icon: <FaUtensils />,
-    title: 'À La Carte Hotel Services',
-    description: 'Room service, housekeeping, and more — tailored to elevate your lifestyle.',
-    image: '/assets/service.jpg',
-    color: '#267677',
-    gradient: 'from-violet-500 to-purple-700',
+    icon: <FaKey />,
+    title: "Rentals & Leasing",
+    description:
+      "Expert guidance on premium rentals tailored to your lifestyle and investment objectives with comprehensive support.",
+    image: "/assets/services/rentals.jpg",
+    color: "#EAB308",
+    gradient: "from-earth-600/80 to-earth-500/90",
+    features: [
+      "Tenant Screening",
+      "Property Management",
+      "Legal Assistance",
+      "Rental Optimization",
+    ],
   },
 ];
-
 
 export default function Amenities() {
   const [activeAmenity, setActiveAmenity] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const autoPlayRef = useRef(null);
   const containerRef = useRef(null);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   // Handle auto-play functionality
   useEffect(() => {
@@ -97,7 +75,7 @@ export default function Amenities() {
         setActiveAmenity((prev) => (prev + 1) % amenities.length);
       }, 5000);
     }
-    
+
     return () => {
       if (autoPlayRef.current) clearInterval(autoPlayRef.current);
     };
@@ -109,7 +87,9 @@ export default function Amenities() {
 
   // Navigation functions
   const goToPrev = () => {
-    setActiveAmenity((prev) => (prev - 1 + amenities.length) % amenities.length);
+    setActiveAmenity(
+      (prev) => (prev - 1 + amenities.length) % amenities.length
+    );
   };
 
   const goToNext = () => {
@@ -121,8 +101,8 @@ export default function Amenities() {
   };
 
   return (
-    <section 
-      className="py-32 bg-gradient-to-b from-white to-gray-50 text-black overflow-hidden" 
+    <section
+      className=" bg-gradient-to-b from-white to-gray-50 text-black overflow-hidden"
       id="amenities"
       ref={containerRef}
       onMouseEnter={handleMouseEnter}
@@ -138,10 +118,11 @@ export default function Amenities() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl 2xl:text-6xl font-light mb-4">
-            Lifestyle <span className="font-semibold text-brand">Amenities</span>
+            Lifestyle <span className=" text-yellow-600">Amenities</span>
           </h2>
           <p className="text-gray-500 max-w-2xl mx-auto text-lg 2xl:text-xl">
-            Curated spaces and hotel-style comforts designed for artful, effortless living.
+            Curated spaces and hotel-style comforts designed for artful,
+            effortless living.
           </p>
         </motion.div>
 
@@ -156,7 +137,7 @@ export default function Amenities() {
               <FaChevronLeft className="text-xl" />
             </button>
           </div>
-          
+
           <div className="absolute top-1/2 right-4 z-30 hidden lg:block">
             <button
               onClick={goToNext}
@@ -172,35 +153,41 @@ export default function Amenities() {
             {amenities.map((amenity, index) => {
               // Calculate position in the carousel
               const isActive = index === activeAmenity;
-              const isPrev = (index === activeAmenity - 1) || (activeAmenity === 0 && index === amenities.length - 1);
-              const isNext = (index === activeAmenity + 1) || (activeAmenity === amenities.length - 1 && index === 0);
-              
+              const isPrev =
+                index === activeAmenity - 1 ||
+                (activeAmenity === 0 && index === amenities.length - 1);
+              const isNext =
+                index === activeAmenity + 1 ||
+                (activeAmenity === amenities.length - 1 && index === 0);
+
               // Determine position class
               let positionClass = "hidden";
               if (isActive) positionClass = "center-item";
               else if (isPrev) positionClass = "left-item";
               else if (isNext) positionClass = "right-item";
-              
+
               return (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0 }}
-                  animate={{ 
-                    opacity: isActive ? 1 : (isPrev || isNext) ? 0.7 : 0,
+                  animate={{
+                    opacity: isActive ? 1 : isPrev || isNext ? 0.7 : 0,
                     x: isActive ? 0 : isPrev ? -350 : isNext ? 350 : 0,
                     scale: isActive ? 1 : 0.8,
                     zIndex: isActive ? 20 : isPrev ? 10 : isNext ? 10 : 5,
-                    rotateY: isActive ? 0 : isPrev ? 15 : -15
+                    rotateY: isActive ? 0 : isPrev ? 15 : -15,
                   }}
                   transition={{ duration: 0.6, ease: "easeInOut" }}
-                  className={`absolute top-0 w-full h-full ${positionClass} ${isActive ? 'z-20' : 'z-10'}`}
+                  className={`absolute top-0 w-full h-full ${positionClass} ${
+                    isActive ? "z-20" : "z-10"
+                  }`}
                 >
                   <div className="w-full max-w-2xl mx-auto h-full rounded-2xl shadow-2xl overflow-hidden border border-gray-200 bg-white">
                     <div className="w-full h-full flex flex-col">
                       {/* Image Section - Mobile responsive */}
                       <div className="relative h-[200px] sm:h-[250px] md:h-[300px] overflow-hidden">
                         {amenity.image ? (
-                          <Image 
+                          <Image
                             src={amenity.image}
                             alt={amenity.title}
                             fill
@@ -210,42 +197,46 @@ export default function Amenities() {
                           />
                         ) : (
                           <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                            <div className="text-brand text-6xl sm:text-8xl opacity-30">
+                            <div className="text-yellow-600 text-6xl sm:text-8xl">
                               {amenity.icon}
                             </div>
                           </div>
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
                       </div>
-                      
+
                       {/* Content Section - Mobile responsive */}
                       <div className="p-4 sm:p-6 md:p-8 flex-grow flex flex-col">
                         {/* Top Section with Icon */}
                         <div className="flex items-center mb-4 sm:mb-6">
-                          <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-brand flex items-center justify-center text-white text-xl sm:text-2xl md:text-3xl mr-3 sm:mr-4 md:mr-5 shadow-md">
+                          <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-black/60 flex items-center justify-center text-white text-xl sm:text-2xl md:text-3xl mr-3 sm:mr-4 md:mr-5 shadow-md">
                             {amenity.icon}
                           </div>
                           <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light">
                             {amenity.title}
                           </h3>
                         </div>
-                        
+
                         {/* Middle Section with Description */}
                         <div className="flex-grow">
                           <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed">
                             {amenity.description}
                           </p>
                         </div>
-                        
+
                         {/* Bottom Section with Features */}
                         <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                           {[1, 2, 3, 4].map((_, i) => (
                             <div key={i} className="flex items-center">
                               <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-brand mr-2 sm:mr-3"></div>
                               <span className="text-gray-500 text-xs sm:text-sm">
-                                {i === 0 ? 'Premium Experience' : 
-                                 i === 1 ? 'Exclusive Access' : 
-                                 i === 2 ? 'Luxury Design' : 'Personalized Service'}
+                                {i === 0
+                                  ? "Premium Experience"
+                                  : i === 1
+                                  ? "Exclusive Access"
+                                  : i === 2
+                                  ? "Luxury Design"
+                                  : "Personalized Service"}
                               </span>
                             </div>
                           ))}
@@ -266,15 +257,25 @@ export default function Amenities() {
               key={index}
               onClick={() => goToAmenity(index)}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === activeAmenity ? 'bg-brand scale-125' : 'bg-gray-300 hover:bg-gray-400'
+                index === activeAmenity
+                  ? "bg-brand scale-125"
+                  : "bg-gray-300 hover:bg-gray-400"
               }`}
               aria-label={`Go to amenity ${index + 1}`}
             />
           ))}
         </div>
 
+        <AnimatedButton
+          href="/services"
+          isInView={isInView}
+          animationDelay={0.6}
+          containerClassName="mt-20 text-center"
+        >
+          View All Services
+        </AnimatedButton>
+
         {/* Amenities Quick Access */}
-       
       </div>
 
       {/* Add CSS for 3D perspective */}
@@ -282,19 +283,19 @@ export default function Amenities() {
         .perspective-1000 {
           perspective: 1000px;
         }
-        
+
         .preserve-3d {
           transform-style: preserve-3d;
         }
-        
+
         .center-item {
           transform: translateZ(0px);
         }
-        
+
         .left-item {
           transform: translateZ(-150px) translateX(-350px) rotateY(15deg);
         }
-        
+
         .right-item {
           transform: translateZ(-150px) translateX(350px) rotateY(-15deg);
         }

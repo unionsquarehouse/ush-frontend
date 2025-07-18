@@ -81,13 +81,16 @@ export default function Contact() {
     const value = e.target.value.replace(/\D/g, ""); // Remove non-digits
     setPhoneNumber(value);
     setIsPhoneValid(validatePhone(value));
-    setFormState(prev => ({ ...prev, phone: `+${countryCode}${value}` }));
+    setFormState((prev) => ({ ...prev, phone: `+${countryCode}${value}` }));
   };
 
   // Handle country code change
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
-    setFormState(prev => ({ ...prev, phone: `+${e.target.value}${phoneNumber}` }));
+    setFormState((prev) => ({
+      ...prev,
+      phone: `+${e.target.value}${phoneNumber}`,
+    }));
   };
 
   // Update form state when property changes
@@ -669,7 +672,7 @@ export default function Contact() {
             <span className="w-24 h-0.5 bg-earth-400 block"></span>
             <span className="absolute -top-1 left-0 w-12 h-0.5 bg-earth-600 block"></span>
           </div>
-          <h3 className="text-5xl font-semibold mb-6 text-earth-800 text-center tracking-tight">
+          <h3 className="text-5xl  mb-6 text-earth-800 text-center tracking-tight">
             Discover Your Dream Home
           </h3>
           <p className="text-earth-600 text-center max-w-2xl text-lg">
@@ -915,10 +918,7 @@ export default function Contact() {
                           </h4>
                           <p className="text-earth-600 mb-4 text-sm">
                             You've unlocked a private viewing of{" "}
-                            <span className="font-semibold">
-                              {formState.property}
-                            </span>
-                            .
+                            <span className="">{formState.property}</span>.
                           </p>
                           <div className="flex justify-center space-x-3">
                             <div className="flex items-center bg-earth-100 px-3 py-1.5 rounded-full">
@@ -958,10 +958,8 @@ export default function Contact() {
                           </h4>
                           <p className="text-earth-600 mb-4 text-sm">
                             Your inquiry about{" "}
-                            <span className="font-semibold">
-                              {formState.property}
-                            </span>{" "}
-                            has been received.
+                            <span className="">{formState.property}</span> has
+                            been received.
                           </p>
                           <motion.div
                             className="h-1 bg-gradient-to-r from-earth-400 to-earth-600 rounded-full"
@@ -1062,7 +1060,11 @@ export default function Contact() {
                                     <option value="974">🇶🇦 +974</option>
                                   </select>
                                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-earth-700">
-                                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <svg
+                                      className="fill-current h-4 w-4"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 20 20"
+                                    >
                                       <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                     </svg>
                                   </div>
@@ -1074,9 +1076,14 @@ export default function Contact() {
                                     value={phoneNumber}
                                     onChange={handlePhoneChange}
                                     className={`w-full px-4 py-2 bg-earth-50 border border-l-0 ${
-                                      phoneNumber && (isPhoneValid ? "border-green-500" : "border-red-500")
+                                      phoneNumber &&
+                                      (isPhoneValid
+                                        ? "border-green-500"
+                                        : "border-red-500")
                                     } rounded-r-lg focus:outline-none focus:ring-2 ${
-                                      isPhoneValid ? "focus:ring-green-500" : "focus:ring-earth-500"
+                                      isPhoneValid
+                                        ? "focus:ring-green-500"
+                                        : "focus:ring-earth-500"
                                     } focus:bg-white transition-all duration-300`}
                                     placeholder="50 123 4567"
                                     required
@@ -1094,7 +1101,8 @@ export default function Contact() {
                               </div>
                               {phoneNumber && !isPhoneValid && (
                                 <p className="text-red-500 text-xs mt-1">
-                                  Please enter a valid phone number (at least 8 digits)
+                                  Please enter a valid phone number (at least 8
+                                  digits)
                                 </p>
                               )}
                             </div>
@@ -1173,13 +1181,19 @@ export default function Contact() {
                           <motion.span
                             className="absolute inset-0 bg-earth-800"
                             initial={{ opacity: 1 }}
-                            animate={{ opacity: formProgress >= 75 && isPhoneValid ? 0 : 1 }}
+                            animate={{
+                              opacity:
+                                formProgress >= 75 && isPhoneValid ? 0 : 1,
+                            }}
                             transition={{ duration: 0.5 }}
                           />
                           <motion.span
                             className="absolute inset-0 bg-gradient-to-r from-earth-700 to-earth-900"
                             initial={{ scaleX: 0 }}
-                            animate={{ scaleX: formProgress >= 75 && isPhoneValid ? 1 : 0 }}
+                            animate={{
+                              scaleX:
+                                formProgress >= 75 && isPhoneValid ? 1 : 0,
+                            }}
                             transition={{ duration: 0.5 }}
                             style={{ transformOrigin: "left" }}
                           />
@@ -1229,7 +1243,8 @@ export default function Contact() {
                               d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
                             />
                           </svg>
-                          Your information is secure and will never be shared with third parties.
+                          Your information is secure and will never be shared
+                          with third parties.
                         </div>
                       </form>
                     </>

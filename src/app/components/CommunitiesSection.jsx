@@ -257,14 +257,15 @@ export default function CommunitiesSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl font-semibold mb-4">
-            <span className="text-yellow-600">Explore</span> Dubai Communities
+          <h2 className="text-5xl  mb-4 flex items-center justify-center">
+            <span className="text-[#876F4E] shine-effect mr-2">Explore</span>{" "}
+            Dubai Communities
           </h2>
-          <div className="h-0.5 w-24 bg-yellow-600 mx-auto mb-6"></div>
-          <p className="text-xl max-w-2xl mx-auto">
+          <div className="h-0.5 w-24 bg-gradient-to-r from-[#876F4E] to-[#68543b] mx-auto mb-6"></div>
+          {/* <p className="text-xl max-w-2xl mx-auto">
             Discover Dubai's most prestigious neighborhoods and find your
             perfect home
-          </p>
+          </p> */}
         </motion.div>
 
         {/* Community showcase with fixed container */}
@@ -587,7 +588,6 @@ export default function CommunitiesSection() {
                                 href={`/communities`}
                                 animationDelay={0.6}
                                 containerClassName=" text-center"
-                                
                                 variant="glass"
                               >
                                 All Communities
@@ -607,7 +607,7 @@ export default function CommunitiesSection() {
           <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center mt-12 gap-6">
             <motion.button
               onClick={prevCommunity}
-              className="w-12 h-12  rounded-tl-xl rounded-br-xl flex items-center justify-center border border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white transition-colors"
+              className="w-12 h-12  rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#876F4E] hover:bg-[#876F4E] hover:text-white transition-colors"
               aria-label="Previous community"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -622,8 +622,8 @@ export default function CommunitiesSection() {
                   onClick={() => setActiveCommunity(index)}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     index === activeCommunity
-                      ? "bg-yellow-600"
-                      : "bg-yellow-700 hover:bg-yellow-600"
+                      ? "bg-gradient-to-r from-[#876F4E] to-[#68543b] scale-125"
+                      : "bg-gradient-to-r from-[#ad8f65] to-[#947753]"
                   }`}
                   aria-label={`Go to community ${index + 1}`}
                   whileHover={{ scale: 1.2 }}
@@ -634,7 +634,7 @@ export default function CommunitiesSection() {
 
             <motion.button
               onClick={nextCommunity}
-              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white transition-colors"
+              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#876F4E] hover:bg-[#876F4E] hover:text-white transition-colors"
               aria-label="Next community"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}

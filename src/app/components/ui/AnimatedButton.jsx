@@ -29,7 +29,7 @@ export default function AnimatedButton({
     if (variant === 'solid') {
       // Hardcoded classes for specific colors
       if (color === 'yellow-600') {
-        return 'bg-gradient-to-r from-yellow-600 to-yellow-700 text-white hover:bg-yellow-500';
+        return 'bg-gradient-to-r from-[#876F4E] to-[#68543b] text-white hover:bg-yellow-500';
       } else if (color === 'earth-600') {
         return 'bg-earth-600 text-white hover:bg-earth-500';
       } else {
@@ -47,7 +47,7 @@ export default function AnimatedButton({
   // Get gradient classes
   const getGradientClasses = () => {
     if (gradientFrom === 'yellow-600' && gradientTo === 'yellow-500') {
-      return 'from-yellow-600 to-yellow-800';
+      return 'from-[#866c4c] to-[#ac895e]';
     } else if (gradientFrom === 'earth-600' && gradientTo === 'earth-500') {
       return 'from-earth-600 to-earth-500';
     }

@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import { Playfair_Display } from "next/font/google";
 import { Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -22,6 +23,13 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+});
+
 export const metadata = {
   title: "Union Square House | Dubai Real Estate",
   description: "Multi-Award Winning Real Estate Agency in Dubai",
@@ -31,7 +39,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`font-sans antialiased`}
+        className={` font-sans antialiased`}
       >
         <Navbar />
         <main className="overflow-x-hidden">{children}</main>

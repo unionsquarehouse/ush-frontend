@@ -116,17 +116,19 @@ export default function Projects() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl font-semibold mb-4 text-black">
-            <span className="text-yellow-600">Featured</span> Off‑Plan Projects
+          <h2 className="text-5xl  mb-4 text-black flex items-center justify-center">
+            <span className="text-[#876F4E] shine-effect mr-2">Featured</span>{" "}
+            Off‑Plan Projects
           </h2>
-          <div className="h-0.5 w-24 bg-yellow-600 mx-auto mb-6"></div>
-          <p className="text-xl text-black  max-w-2xl mx-auto">
-            Exclusive investment opportunities in Dubai's most sought-after locations
-          </p>
+          <div className="h-0.5 w-24 bg-gradient-to-r from-[#876F4E] to-[#68543b] mx-auto mb-6"></div>
+          {/* <p className="text-xl text-black  max-w-2xl mx-auto">
+            Exclusive investment opportunities in Dubai's most sought-after
+            locations
+          </p> */}
         </motion.div>
 
         {/* Projects grid */}
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -150,14 +152,16 @@ export default function Projects() {
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    
+
                     {/* Price tag with clip path */}
-                    <div className="absolute top-6 right-0 clip-path-price bg-gradient-to-r from-yellow-600 to-yellow-700  text-white py-2 px-6 font-display">
+                    <div className="absolute top-6 right-0 clip-path-price bg-gradient-to-r from-[#876F4E] to-[#68543b] shine-effect-absolute text-white py-2 px-6 font-display">
                       {project.price}
                     </div>
-                    
+
                     <div className="absolute bottom-0 left-0 p-6 w-full">
-                      <h3 className="text-xl text-white  mb-1">{project.title}</h3>
+                      <h3 className="text-xl text-white  mb-1">
+                        {project.title}
+                      </h3>
                       <p className="text-earth-100 text-lg flex items-center mb-3">
                         <FaMapMarkerAlt className="mr-1" /> {project.loc}
                       </p>
@@ -169,7 +173,7 @@ export default function Projects() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Shadow effect */}
                 <div className="absolute -bottom-10 left-5 right-5 h-[20px] bg-black/20 blur-xl rounded-full transform-gpu transition-all duration-500 group-hover:scale-110"></div>
               </div>
@@ -185,8 +189,8 @@ export default function Projects() {
               onClick={() => setActiveProject(index)}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 index === activeProject
-                  ? "bg-earth-500"
-                  : "bg-earth-700 hover:bg-earth-600"
+                  ? "bg-gradient-to-r from-[#876F4E] to-[#68543b] scale-125"
+                      : "bg-gradient-to-r from-[#ad8f65] to-[#947753]"
               }`}
               aria-label={`Go to project ${index + 1}`}
               whileHover={{ scale: 1.2 }}

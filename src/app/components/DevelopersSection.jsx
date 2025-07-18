@@ -145,13 +145,14 @@ export default function DevelopersSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl font-semibold mb-4 text-black">
-            <span className="text-yellow-600">Visionary</span> Developers
+          <h2 className="text-5xl  mb-4 text-black flex items-center justify-center">
+            <span className="text-[#876F4E] shine-effect mr-2">Visionary</span>{" "}
+            Developers
           </h2>
-          <div className="h-0.5 w-24 bg-yellow-600 mx-auto mb-6"></div>
-          <p className="text-xl text-black max-w-2xl mx-auto">
+          <div className="h-0.5 w-24  bg-gradient-to-r from-[#876F4E] to-[#68543b] mx-auto mb-6"></div>
+          {/* <p className="text-xl text-black max-w-2xl mx-auto">
             The masterminds behind Dubai's architectural marvels
-          </p>
+          </p> */}
         </motion.div>
 
         {/* Developer showcase with fixed container */}
@@ -279,7 +280,9 @@ export default function DevelopersSection() {
                             </Link> */}
 
                             <AnimatedButton
-                              href={`/developers/${developer.name.toLowerCase().replace(/\s+/g, "-")}/projects`}
+                              href={`/developers/${developer.name
+                                .toLowerCase()
+                                .replace(/\s+/g, "-")}/projects`}
                               animationDelay={0.6}
                               containerClassName=" text-center"
                               color="yellow-600"
@@ -309,7 +312,7 @@ export default function DevelopersSection() {
 
                           {/* Floating badge */}
                           <div className="absolute top-8 right-8 bg-[#9F3349] backdrop-blur-sm text-white px-4 py-2 rounded-tl-lg rounded-br-lg text-xl">
-                            <div className="flex items-center">
+                            <div className="flex items-center ">
                               <FaAward className="mr-2" />
                               <span>Premium Developer</span>
                             </div>
@@ -348,7 +351,7 @@ export default function DevelopersSection() {
           <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center mt-12 gap-6">
             <motion.button
               onClick={prevDeveloper}
-              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white transition-colors"
+              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#876F4E] hover:bg-[#876F4E] hover:text-white transition-colors"
               aria-label="Previous developer"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -363,8 +366,8 @@ export default function DevelopersSection() {
                   onClick={() => setActiveDeveloper(index)}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     index === activeDeveloper
-                      ? "bg-yellow-600"
-                      : "bg-yellow-700 hover:bg-yellow-600"
+                      ? "bg-gradient-to-r from-[#876F4E] to-[#68543b] scale-125"
+                      : "bg-gradient-to-r from-[#ad8f65] to-[#947753]"
                   }`}
                   aria-label={`Go to developer ${index + 1}`}
                   whileHover={{ scale: 1.2 }}
@@ -375,7 +378,7 @@ export default function DevelopersSection() {
 
             <motion.button
               onClick={nextDeveloper}
-              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white transition-colors"
+              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#876F4E] hover:bg-[#876F4E] hover:text-white transition-colors"
               aria-label="Next developer"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}

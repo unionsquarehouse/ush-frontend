@@ -41,6 +41,13 @@ export default {
           800: "#4d473b",
           900: "#38342c",
         },
+         cyan: {
+          200: '#A5F3FC',
+          300: '#67E8F9',
+          400: '#22D3EE',
+          500: '#06B6D4',
+          600: '#0891B2',
+        },
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

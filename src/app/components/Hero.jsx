@@ -140,7 +140,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-white mb-6 mr-2 font-ivy">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-white mb-6 mr-2 ">
               
               <span className="inline-block min-h-[1.2em] min-w-[7ch] relative">
               <span className="bg-gradient-to-r from-[#9F3349]  via-[#a53047] to-[#e24d6b] bg-clip-text text-transparent drop-shadow-[#9F3349]">
@@ -150,7 +150,7 @@ export default function Hero() {
               </span> <br/>
               Dubai Properties
             </h1>
-            <p className="text-xl text-white max-w-2xl mx-auto">
+            <p className="text-xl text-white max-w-2xl mx-auto ">
               Curated collection of the most prestigious properties in Dubai's most coveted locations.
             </p>
           </motion.div>

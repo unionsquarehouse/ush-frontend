@@ -5,6 +5,8 @@ import Contact from './components/Contact';
 import Hero from './components/Hero';
 import CommunitiesSection from './components/CommunitiesSection';
 import DevelopersSection from './components/DevelopersSection';
+import DubaiMap from './components/DubaiInteractiveMap';
+import Amenities from './components/Amenities';
 
 export default function Home() {
   return (
@@ -14,7 +16,9 @@ export default function Home() {
       <Projects />
       <CommunitiesSection />
       <Services />
+      {/* <Amenities/> */}
       <DevelopersSection />
+      <DubaiMap/>
       {/* <Contact /> */}
     </>
   );
