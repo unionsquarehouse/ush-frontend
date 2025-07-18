@@ -117,7 +117,7 @@ export default function Projects() {
           className="text-center mb-16"
         >
           <h2 className="text-5xl  mb-4 text-black flex items-center justify-center">
-            <span className="text-[#876F4E] shine-effect mr-2">Featured</span>{" "}
+            <span className="text-[#ac895e] shine-effect mr-2">Featured</span>{" "}
             Off‑Plan Projects
           </h2>
           <div className="h-0.5 w-24 bg-gradient-to-r from-[#876F4E] to-[#68543b] mx-auto mb-6"></div>
@@ -190,7 +190,7 @@ export default function Projects() {
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 index === activeProject
                   ? "bg-gradient-to-r from-[#876F4E] to-[#68543b] scale-125"
-                      : "bg-gradient-to-r from-[#ad8f65] to-[#947753]"
+                  : "bg-gradient-to-r from-[#ad8f65] to-[#947753]"
               }`}
               aria-label={`Go to project ${index + 1}`}
               whileHover={{ scale: 1.2 }}

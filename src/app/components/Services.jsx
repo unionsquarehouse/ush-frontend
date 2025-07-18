@@ -118,7 +118,7 @@ export default function Services() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl 2xl:text-5xl font-light mb-4 flex items-center justify-center">
-            <span className="text-[#876F4E] shine-effect mr-2">
+            <span className="text-[#ac895e] shine-effect mr-2">
               Our Premium
             </span>{" "}
             Services
@@ -135,7 +135,7 @@ export default function Services() {
           <div className="absolute top-1/2 left-4 z-30 hidden lg:block">
             <button
               onClick={goToPrev}
-              className="w-12 h-12  rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#876F4E] hover:bg-[#876F4E] hover:text-white transition-colors"
+              className="w-12 h-12  rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#ac895e] hover:bg-[#876F4E] hover:text-white transition-colors"
               aria-label="Previous amenity"
             >
               <FaChevronLeft className="text-xl" />
@@ -145,7 +145,7 @@ export default function Services() {
           <div className="absolute top-1/2 right-4 z-30 hidden lg:block">
             <button
               onClick={goToNext}
-              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#876F4E] hover:bg-[#876F4E] hover:text-white transition-colors"
+              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#ac895e] hover:bg-[#876F4E] hover:text-white transition-colors"
               aria-label="Next amenity"
             >
               <FaChevronRight className="text-xl" />

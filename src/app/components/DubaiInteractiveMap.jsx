@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import Link from "next/link";
 
 // Sample data for Dubai areas with additional metrics
 const dubaiAreas = [
@@ -11,7 +12,8 @@ const dubaiAreas = [
     roi: "6.5%",
     population: "16,000",
     avgPrice: "AED 2.1M",
-    description: "The vibrant heart of Dubai, home to Burj Khalifa and Dubai Mall.",
+    description:
+      "The vibrant heart of Dubai, home to Burj Khalifa and Dubai Mall.",
     growth: "8.2%",
     category: "Premium",
   },
@@ -47,7 +49,7 @@ const dubaiAreas = [
   },
   {
     name: "Jumeirah Village Circle",
-    coordinates: [25.0572, 55.2190],
+    coordinates: [25.0572, 55.219],
     roi: "8.0%",
     population: "40,000",
     avgPrice: "AED 950K",
@@ -61,7 +63,8 @@ const dubaiAreas = [
     roi: "7.5%",
     population: "35,000",
     avgPrice: "AED 900K",
-    description: "Tech-driven community with a mix of business and residential properties.",
+    description:
+      "Tech-driven community with a mix of business and residential properties.",
     growth: "8.1%",
     category: "Tech Hub",
   },
@@ -71,7 +74,8 @@ const dubaiAreas = [
     roi: "6.0%",
     population: "60,000",
     avgPrice: "AED 1.4M",
-    description: "A well-developed neighborhood with schools, malls, and hospitals.",
+    description:
+      "A well-developed neighborhood with schools, malls, and hospitals.",
     growth: "5.7%",
     category: "Family Friendly",
   },
@@ -87,7 +91,7 @@ const dubaiAreas = [
   },
   {
     name: "Mirdif",
-    coordinates: [25.2210, 55.4105],
+    coordinates: [25.221, 55.4105],
     roi: "6.3%",
     population: "45,000",
     avgPrice: "AED 1.2M",
@@ -101,7 +105,8 @@ const dubaiAreas = [
     roi: "7.6%",
     population: "10,000",
     avgPrice: "AED 2.3M",
-    description: "A waterfront development with views of the future tallest tower.",
+    description:
+      "A waterfront development with views of the future tallest tower.",
     growth: "9.0%",
     category: "Emerging",
   },
@@ -111,7 +116,8 @@ const dubaiAreas = [
     roi: "6.9%",
     population: "60,000",
     avgPrice: "AED 1.5M",
-    description: "A mixed-use development with high-rise buildings around lakes.",
+    description:
+      "A mixed-use development with high-rise buildings around lakes.",
     growth: "6.7%",
     category: "Premium",
   },
@@ -126,7 +132,6 @@ const dubaiAreas = [
     category: "Luxury",
   },
 ];
-
 
 const DubaiMap = () => {
   const mapRef = useRef(null);
@@ -145,8 +150,9 @@ const DubaiMap = () => {
 
     // Add satellite/hybrid themed tiles with better visibility
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 20
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 20,
     }).addTo(map);
 
     // Add custom zoom control
@@ -154,12 +160,14 @@ const DubaiMap = () => {
 
     // Create custom marker icon
     const customIcon = L.icon({
-      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconUrl:
+        "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+      shadowUrl:
+        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
       iconSize: [25, 41],
       iconAnchor: [12, 41],
       popupAnchor: [1, -34],
-      shadowSize: [41, 41]
+      shadowSize: [41, 41],
     });
 
     // Store map reference
@@ -178,43 +186,50 @@ const DubaiMap = () => {
     const map = mapRef.current._leaflet_map;
 
     // Clear existing markers
-    markersRef.current.forEach(marker => map.removeLayer(marker));
+    markersRef.current.forEach((marker) => map.removeLayer(marker));
     markersRef.current = [];
 
     // Create custom marker icon
     const customIcon = L.icon({
-      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconUrl:
+        "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+      shadowUrl:
+        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
       iconSize: [25, 41],
       iconAnchor: [12, 41],
       popupAnchor: [1, -34],
-      shadowSize: [41, 41]
+      shadowSize: [41, 41],
     });
 
     // Add filtered markers
     filteredAreas.forEach((area) => {
       const marker = L.marker([area.coordinates[0], area.coordinates[1]], {
-        icon: customIcon
+        icon: customIcon,
       }).addTo(map);
 
       // Add popup with area info
-      marker.bindPopup(`
-        <div class="bg-earth-800 text-white p-4 rounded-lg min-w-[200px]">
+      marker.bindPopup(
+        `
+        <div class="bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white p-6 rounded-tl-[2rem] rounded-br-[2rem] min-w-[200px]">
           <h3 class="text-lg font-bold mb-2">${area.name}</h3>
           <p class="text-sm mb-2">${area.description}</p>
           <div class="flex justify-between text-xs">
-            <span class="text-yellow-400">ROI: ${area.roi}</span>
-            <span class="text-gray-300">${area.category}</span>
+            <span class="text-white">ROI: ${area.roi}</span>
+            <span class="text-white">${area.category}</span>
           </div>
         </div>
-      `, {
-        closeButton: false,
-        className: 'custom-popup'
-      });
+      `,
+        {
+          closeButton: false,
+          className: "custom-popup",
+        }
+      );
 
       marker.on("click", () => {
         setSelectedArea(area);
-        map.flyTo([area.coordinates[0], area.coordinates[1]], 14, { duration: 1 });
+        map.flyTo([area.coordinates[0], area.coordinates[1]], 14, {
+          duration: 1,
+        });
       });
 
       markersRef.current.push(marker);
@@ -232,7 +247,9 @@ const DubaiMap = () => {
     setSelectedArea(area);
     if (mapRef.current?._leaflet_map) {
       const map = mapRef.current._leaflet_map;
-      map.flyTo([area.coordinates[0], area.coordinates[1]], 14, { duration: 1 });
+      map.flyTo([area.coordinates[0], area.coordinates[1]], 14, {
+        duration: 1,
+      });
     }
   };
 
@@ -249,7 +266,7 @@ const DubaiMap = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-5xl mb-4 text-black flex items-center justify-center font-sans">
-            <span className="text-[#876F4E] shine-effect mr-2">Dubai</span>{" "}
+            <span className="text-[#ac895e] shine-effect mr-2">Dubai</span>{" "}
             Investment Map
           </h2>
           <div className="h-0.5 w-24  bg-gradient-to-r from-[#876F4E] to-[#68543b] mx-auto mb-6"></div>
@@ -265,12 +282,16 @@ const DubaiMap = () => {
           {/* Control Panel */}
           <div
             className={`absolute h-[80vh] top-6 left-6 w-80 bg-white/95 backdrop-blur-lg rounded-tl-2xl rounded-br-2xl shadow-xl transition-all duration-500 border border-earth-200 z-30 ${
-              isPanelOpen ? "translate-x-0 opacity-100" : "-translate-x-96 opacity-0"
+              isPanelOpen
+                ? "translate-x-0 opacity-100"
+                : "-translate-x-96 opacity-0"
             }`}
           >
             <div className="p-6 overflow-hidden">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold text-earth-800 font-sans">Investment Zones</h3>
+                <h3 className="text-2xl font-bold text-earth-800 font-sans">
+                  Investment Zones
+                </h3>
                 <button
                   onClick={() => setIsPanelOpen(false)}
                   className="text-earth-400 hover:text-earth-600 transition-colors text-xl"
@@ -285,14 +306,14 @@ const DubaiMap = () => {
                 placeholder="Search areas..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-earth-50 text-earth-800 rounded-tl-lg rounded-br-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-yellow-500 border border-earth-200 font-sans"
+                className="w-full bg-earth-50 text-earth-800 rounded-tl-lg rounded-br-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200 font-sans"
               />
 
               {/* Category Filter */}
               <select
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="w-full bg-earth-50 text-earth-800 rounded-tl-lg rounded-br-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-yellow-500 border border-earth-200 font-sans"
+                className="w-full bg-earth-50 text-earth-800 rounded-tl-lg rounded-br-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200 font-sans"
               >
                 <option value="All">All Categories</option>
                 <option value="Premium">Premium</option>
@@ -308,11 +329,19 @@ const DubaiMap = () => {
                     onClick={() => handleAreaClick(area)}
                     className="p-4 bg-earth-50 rounded-tl-xl rounded-br-xl hover:bg-earth-100 cursor-pointer transition-all duration-300 border border-earth-200"
                   >
-                    <h4 className="text-lg font-semibold text-earth-800 font-sans">{area.name}</h4>
-                    <p className="text-sm text-earth-600 font-sans">{area.description}</p>
+                    <h4 className="text-lg font-semibold text-earth-800 font-sans">
+                      {area.name}
+                    </h4>
+                    <p className="text-sm text-earth-600 font-sans">
+                      {area.description}
+                    </p>
                     <div className="flex justify-between mt-2">
-                      <span className="text-yellow-600 font-bold text-sm">ROI: {area.roi}</span>
-                      <span className="text-earth-600 text-sm">{area.category}</span>
+                      <span className="text-[#ac895e] font-bold text-sm">
+                        ROI: {area.roi}
+                      </span>
+                      <span className="text-earth-600 text-sm">
+                        {area.category}
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -323,27 +352,47 @@ const DubaiMap = () => {
           {/* Area Details Panel */}
           {selectedArea && (
             <div className="absolute bottom-6 right-6 w-96 bg-white/95 backdrop-blur-lg rounded-tl-2xl rounded-br-2xl shadow-xl p-6 border border-earth-200 z-30">
-              <h3 className="text-2xl font-bold text-earth-800 mb-2 font-sans">{selectedArea.name}</h3>
-              <p className="text-sm text-earth-600 mb-4 font-sans">{selectedArea.description}</p>
+              <h3 className="text-2xl font-bold text-earth-800 mb-2 font-sans">
+                {selectedArea.name}
+              </h3>
+              <p className="text-sm text-earth-600 mb-4 font-sans">
+                {selectedArea.description}
+              </p>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-earth-50 p-3 rounded-tl-lg rounded-br-lg border border-earth-200">
-                  <span className="text-earth-600 font-medium text-sm font-sans">ROI</span>
-                  <p className="text-yellow-600 text-lg font-bold font-sans">{selectedArea.roi}</p>
+                  <span className="text-earth-600 font-medium text-sm font-sans">
+                    ROI
+                  </span>
+                  <p className="text-[#ac895e] text-lg font-bold font-sans">
+                    {selectedArea.roi}
+                  </p>
                 </div>
                 <div className="bg-earth-50 p-3 rounded-tl-lg rounded-br-lg border border-earth-200">
-                  <span className="text-earth-600 font-medium text-sm font-sans">Growth</span>
-                  <p className="text-earth-800 text-lg font-bold font-sans">{selectedArea.growth}</p>
+                  <span className="text-earth-600 font-medium text-sm font-sans">
+                    Growth
+                  </span>
+                  <p className="text-earth-800 text-lg font-bold font-sans">
+                    {selectedArea.growth}
+                  </p>
                 </div>
                 <div className="bg-earth-50 p-3 rounded-tl-lg rounded-br-lg border border-earth-200">
-                  <span className="text-earth-600 font-medium text-sm font-sans">Population</span>
-                  <p className="text-earth-800 text-lg font-bold font-sans">{selectedArea.population}</p>
+                  <span className="text-earth-600 font-medium text-sm font-sans">
+                    Population
+                  </span>
+                  <p className="text-earth-800 text-lg font-bold font-sans">
+                    {selectedArea.population}
+                  </p>
                 </div>
                 <div className="bg-earth-50 p-3 rounded-tl-lg rounded-br-lg border border-earth-200">
-                  <span className="text-earth-600 font-medium text-sm font-sans">Avg. Price</span>
-                  <p className="text-earth-800 text-lg font-bold font-sans">{selectedArea.avgPrice}</p>
+                  <span className="text-earth-600 font-medium text-sm font-sans">
+                    Avg. Price
+                  </span>
+                  <p className="text-earth-800 text-lg font-bold font-sans">
+                    {selectedArea.avgPrice}
+                  </p>
                 </div>
               </div>
-              <button className="mt-4 w-full bg-gradient-to-r from-[#876F4E] to-[#68543b] text-white py-3 rounded-tl-xl rounded-br-xl hover:bg-[#6b563d]  duration-300 shadow-lg font-sans font-medium">
+              <button className="mt-4 w-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white py-3 rounded-tl-xl rounded-br-xl hover:bg-[#6b563d]  duration-300 shadow-lg font-sans font-medium">
                 Explore Properties
               </button>
             </div>
@@ -353,9 +402,15 @@ const DubaiMap = () => {
           <div className="absolute top-6 right-6 z-30">
             <button
               onClick={() => setIsPanelOpen(!isPanelOpen)}
-              className="bg-gradient-to-r from-[#876F4E] to-[#68543b] text-white px-6 py-3 rounded-tl-[2rem] rounded-br-[2rem]  duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 font-sans font-medium"
+              className="inline-flex items-center px-6 py-3 text-base bg-gradient-to-r from-[#866c4c] to-[#ac895e] btn-glass text-white rounded-tl-[2rem] rounded-br-[2rem] transition-all duration-300 group relative overflow-hidden"
             >
-              {isPanelOpen ? "Hide Panel" : "Show Panel"}
+              <span className="relative z-10">
+                {isPanelOpen ? "Hide Panel" : "Show Panel"}
+              </span>
+
+              <span className="absolute inset-0 w-full h-full">
+                <span className="absolute top-0 left-0 w-1/3 h-full bg-white/20 transform -skew-x-20 translate-x-[-150%] group-hover:translate-x-[300%] transition-transform duration-1000"></span>
+              </span>
             </button>
           </div>
         </div>
@@ -364,10 +419,4 @@ const DubaiMap = () => {
   );
 };
 
-export default DubaiMap;  
-
-
-
-
-
-
+export default DubaiMap;

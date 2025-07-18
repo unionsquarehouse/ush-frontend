@@ -8,9 +8,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        ivy: ["Ivy Mode", "sans-serif"], // Fixed quotes
+        ivy: ["Ivy Mode", "sans-serif"],
         display: ['var(--font-playfair)', 'serif'],
         mono: ['var(--font-geist-mono)', 'monospace'],
+        montserrat: ['var(--font-montserrat)', 'sans-serif'],
       },
       fontSize: {
         'xs': ['0.75rem', { lineHeight: '1rem' }],

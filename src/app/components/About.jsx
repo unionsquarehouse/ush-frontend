@@ -88,7 +88,7 @@ export default function About() {
             <span className="absolute -top-1 left-0 w-12 h-0.5 bg-yellow-700 block"></span>
           </div>
           <h2 className="text-5xl mb-4 tracking-tight flex items-center justify-center">
-            <span className="text-[#876F4E] shine-effect mr-2">About</span> Union Square House
+            <span className="text-[#ac895e] shine-effect mr-2">About</span> Union Square House
           </h2>
         </motion.div>
 
@@ -125,7 +125,7 @@ export default function About() {
                       <div className="w-12 h-12 rounded-full bg-earth-600/80 flex items-center justify-center">
                         <FaBuilding className="text-white text-xl" />
                       </div>
-                      <h3 className="text-2xl font-bold text-white">
+                      <h3 className="text-2xl  text-white">
                         Union Square House
                       </h3>
                     </div>
@@ -154,9 +154,9 @@ export default function About() {
               <div className="absolute inset-0 w-full h-full">
                 <span className="absolute top-0 left-0 w-1/3 h-full bg-white/10 transform -skew-x-20 translate-x-[-150%] group-hover:translate-x-[300%] transition-transform duration-1000"></span>
               </div>
-              <span className="relative z-10 block text-xl">
+              <div className="relative z-10 block text-xl">
                 Union Square House is Dubai's premier real estate agency, specializing in luxury properties across the UAE's most prestigious communities. With over a decade of experience, we've built a reputation for excellence, integrity, and unparalleled market knowledge.
-              </span>
+              </div>
             </motion.p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
