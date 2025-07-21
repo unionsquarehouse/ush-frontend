@@ -28,8 +28,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        brand: "#EDE9E4",
-        "brand-hover": "#212721",
+        brand: "#866c4c",
+        "brand-hover": "#ac895e",
         earth: {
           50: "#f5f5f0",
           100: "#e6e4d8",
@@ -51,6 +51,10 @@ export default {
         },
       },
       backgroundImage: {
+        'brand-gradient':'bg-gradient-to-r from-[#866c4c] to-[#ac895e]',
+      },
+      backgroundImage: {
+        
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'noise': "url('/assets/noise.png')",

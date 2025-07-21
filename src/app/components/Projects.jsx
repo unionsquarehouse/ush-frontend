@@ -4,9 +4,6 @@ import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import PropertyCard from "./PropertyCard";
 import AnimatedButton from "./ui/AnimatedButton";
-import { BsArrowRight } from "react-icons/bs";
-import { FaMapMarkerAlt } from "react-icons/fa";
-import Image from "next/image";
 
 export default function Projects() {
   const sectionRef = useRef(null);
@@ -29,7 +26,7 @@ export default function Projects() {
         return {
           id: attrs.id,
           title: attrs.title,
-          loc: attrs.loc,
+          location: attrs.loc, // Renamed to match PropertyCard props
           info: attrs.info,
           price: attrs.price,
           beds: attrs.beds,
@@ -37,14 +34,14 @@ export default function Projects() {
           area: attrs.area,
           color: attrs.color,
           features: attrs.features?.map((f) => f.feature) || [],
-          image:attrs?.image?.formats?.large?.url ?
-           "http://localhost:1337"+attrs?.image?.formats?.large?.url:
-          attrs?.image?.formats?.large?.url
-            
+          image: attrs?.image?.formats?.large?.url ?
+            "http://localhost:1337" + attrs?.image?.formats?.large?.url :
+            attrs?.image?.formats?.large?.url,
+          status: "Off-Plan" // Adding status for PropertyCard
         };
       });
 
-      setProjects(formattedProjects.slice(0,3));
+      setProjects(formattedProjects.slice(0, 3));
     };
 
     fetchProjects();
@@ -52,7 +49,7 @@ export default function Projects() {
 
   // Auto-rotate projects
   useEffect(() => {
-    if (isHovering) return;
+    if (isHovering || projects.length === 0) return;
     const timer = setTimeout(() => {
       setActiveProject((prev) => (prev + 1) % projects.length);
     }, 5000);
@@ -66,17 +63,6 @@ export default function Projects() {
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
-  // Auto-rotate projects unless hovering
-  useEffect(() => {
-    if (isHovering) return;
-
-    const timer = setTimeout(() => {
-      setActiveProject((prev) => (prev + 1) % projects.length);
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [activeProject, isHovering]);
-
   return (
     <section
       id="projects"
@@ -85,28 +71,6 @@ export default function Projects() {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      {/* Background pattern */}
-      {/* <div className="absolute inset-0 opacity-5">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern
-              id="grid"
-              width="40"
-              height="40"
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M 40 0 L 0 0 0 40"
-                fill="none"
-                stroke="white"
-                strokeWidth="1"
-              />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-      </div> */}  
-
       <motion.div
         style={{ opacity }}
         className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto relative z-10"
@@ -119,15 +83,11 @@ export default function Projects() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl  mb-4 text-black flex items-center justify-center">
+          <h2 className="text-5xl mb-4 text-black flex items-center justify-center">
             <span className="text-[#ac895e] shine-effect mr-2">Featured</span>{" "}
             Off‑Plan Projects
           </h2>
           <div className="h-0.5 w-24 bg-gradient-to-r from-[#876F4E] to-[#68543b] mx-auto mb-6"></div>
-          {/* <p className="text-xl text-black  max-w-2xl mx-auto">
-            Exclusive investment opportunities in Dubai's most sought-after
-            locations
-          </p> */}
         </motion.div>
 
         {/* Projects grid */}
@@ -140,48 +100,12 @@ export default function Projects() {
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
-              className="perspective-1000 h-[450px] group"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
+              className="h-full"
             >
-              <div className="relative h-full w-full preserve-3d transition-all duration-500 group-hover:[transform:rotateY(10deg)]">
-                {/* Front of card */}
-                <div className="absolute inset-0 backface-hidden rounded-tl-[3rem] rounded-br-[3rem] overflow-hidden">
-                  <div className="relative h-full">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-
-                     <div className="absolute inset-0 bg-gradient-to-t from-earth-900/70 via-transparent to-transparent"></div>
-
-                    {/* Price tag with clip path */}
-                    <div className="absolute top-6 right-0 clip-path-price bg-gradient-to-r from-[#866c4c] to-[#ac895e] shine-effect-absolute text-white py-2 px-6 font-display">
-                      {project.price}
-                    </div>
-
-                    <div className="absolute bottom-0 left-0 p-6 w-full">
-                      <h3 className="text-xl text-white  mb-1">
-                        {project.title}
-                      </h3>
-                      <p className="text-earth-100 text-lg flex items-center mb-3">
-                        <FaMapMarkerAlt className="mr-1" /> {project.loc}
-                      </p>
-                      <div className="flex justify-between text-base   text-earth-100">
-                        <span>{project.beds}</span>
-                        <span>{project.baths}</span>
-                        <span>{project.area}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Shadow effect */}
-                <div className="absolute -bottom-10 left-5 right-5 h-[20px] bg-black/20 blur-xl rounded-full transform-gpu transition-all duration-500 group-hover:scale-110"></div>
-              </div>
+              <PropertyCard project={project} />
             </motion.div>
           ))}
         </motion.div>

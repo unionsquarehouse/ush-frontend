@@ -8,88 +8,52 @@ import {
 } from "react-icons/fa";
 import { BsArrowRight } from "react-icons/bs";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function PropertyCard({ project }) {
   return (
-    <div className="glass-card-earth rounded-2xl overflow-hidden shadow-lg h-full group hover-lift">
-      {/* Property image */}
-      <div className="relative h-64 w-full overflow-hidden">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-earth-900/70 via-earth-900/30 to-transparent"></div>
+    <motion.div
+      key={project.id}
+      className="perspective-1000 h-[450px] group"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      // transition={{ delay: index * 0.1 }}
+    >
+      <div className="relative h-full w-full preserve-3d transition-all duration-500 group-hover:[transform:rotateY(10deg)]">
+        {/* Front of card */}
+        <div className="absolute inset-0 backface-hidden rounded-tl-[3rem] rounded-br-[3rem] overflow-hidden">
+          <div className="relative h-full">
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+            />
 
-        {/* Price tag with glass effect */}
-        <div className="absolute top-4 right-0 glass-earth clip-path-price px-4 py-2">
-          <span className="text-sm font-medium text-white">
-            {project.price}
-          </span>
-        </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-earth-900/70 via-transparent to-transparent"></div>
 
-        {/* Status badge with glass effect */}
-        {project.status && (
-          <div className="absolute top-4 left-4 glass-light rounded-full px-3 py-1">
-            <span className="text-xs font-medium text-earth-800">
-              {project.status}
-            </span>
-          </div>
-        )}
-      </div>
-
-      {/* Content with glass effect */}
-      <div className="p-6 relative">
-        {/* Glass shimmer effect */}
-        <div className="absolute inset-0 w-full h-full">
-          <span className="absolute top-0 left-0 w-1/3 h-full bg-earth-400/10 transform -skew-x-20 translate-x-[-150%] group-hover:translate-x-[300%] transition-transform duration-1500"></span>
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10">
-          <h3 className="text-xl  text-earth-800 mb-2">{project.title}</h3>
-          <p className="text-earth-600 text-sm flex items-center mb-4">
-            <FaMapMarkerAlt className="mr-2 text-earth-500" />
-            {project.location}
-          </p>
-
-          {/* Features with glass effect */}
-          <div className="flex justify-between mb-4">
-            <div className="flex items-center glass-light px-2 py-1 rounded-lg">
-              <FaBed className="text-earth-600 mr-1" />
-              <span className="text-xs text-earth-700">
-                {project.beds} Beds
-              </span>
+            {/* Price tag with clip path */}
+            <div className="absolute top-6 right-0 clip-path-price bg-gradient-to-r from-[#866c4c] to-[#ac895e] shine-effect-absolute text-white py-2 px-6 font-display">
+              {project.price}
             </div>
-            <div className="flex items-center glass-light px-2 py-1 rounded-lg">
-              <FaBath className="text-earth-600 mr-1" />
-              <span className="text-xs text-earth-700">
-                {project.baths} Baths
-              </span>
-            </div>
-            <div className="flex items-center glass-light px-2 py-1 rounded-lg">
-              <FaRuler className="text-earth-600 mr-1" />
-              <span className="text-xs text-earth-700">
-                {project.area} sqft
-              </span>
+
+            <div className="absolute bottom-0 left-0 p-6 w-full">
+              <h3 className="text-xl text-white  mb-1">{project.title}</h3>
+              <p className="text-earth-100 text-lg flex items-center mb-3">
+                <FaMapMarkerAlt className="mr-1" /> {project.loc}
+              </p>
+              <div className="flex justify-between text-base   text-earth-100">
+                <span>{project.beds}</span>
+                <span>{project.baths}</span>
+                <span>{project.area}</span>
+              </div>
             </div>
           </div>
-
-          {/* CTA button with glass effect */}
-          <Link
-            href={`/properties/${project.id}`}
-            className="w-full btn-glass-earth py-2 rounded-lg flex items-center justify-center mt-4"
-          >
-            <span className="relative z-10 flex items-center">
-              View Details
-              <FaArrowRight className="ml-2 text-sm" />
-            </span>
-            <span className="absolute inset-0 w-full h-full">
-              <span className="absolute top-0 left-0 w-1/3 h-full bg-white/20 transform -skew-x-20 translate-x-[-150%] group-hover:translate-x-[300%] transition-transform duration-1000"></span>
-            </span>
-          </Link>
         </div>
+
+        {/* Shadow effect */}
+        <div className="absolute -bottom-10 left-5 right-5 h-[20px] bg-black/20 blur-xl rounded-full transform-gpu transition-all duration-500 group-hover:scale-110"></div>
       </div>
-    </div>
+    </motion.div>
   );
 }

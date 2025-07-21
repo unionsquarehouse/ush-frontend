@@ -17,7 +17,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         const isScrolled = window.scrollY > 10;
         if (isScrolled !== scrolled) {
           setScrolled(isScrolled);
@@ -26,12 +26,12 @@ export default function Navbar() {
     };
 
     // Only add event listener on client side
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       window.addEventListener("scroll", handleScroll);
     }
 
     return () => {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         window.removeEventListener("scroll", handleScroll);
       }
     };
@@ -44,6 +44,8 @@ export default function Navbar() {
 
   const navLinks = [
     { label: "Home", href: "/" },
+    { label: "Projects", href: "/projects" },
+    { label: "Communities", href: "/communities" },
     { label: "About", href: "/about" },
     { label: "Listings", href: "/listings" },
     { label: "Agents", href: "/agents" },

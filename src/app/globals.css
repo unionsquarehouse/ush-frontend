@@ -730,3 +730,7 @@ body {
 }
 
 
+#itemsPerPage > option:hover{
+  background-color: #876F4E !important;
+  color: white !important;
+}
