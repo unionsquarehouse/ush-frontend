@@ -181,71 +181,6 @@ export default function CommunitiesSection() {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern
-              id="grid"
-              width="40"
-              height="40"
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M 40 0 L 0 0 0 40"
-                fill="none"
-                stroke="white"
-                strokeWidth="1"
-              />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-      </div>
-
-      {/* Interactive floating elements - REMOVED */}
-      {/* <div className="absolute top-1/4 right-[5%] z-10">
-        <motion.div
-          className="w-16 h-16 rounded-full bg-earth-600/30 backdrop-blur-sm border border-earth-500/30 flex items-center justify-center cursor-pointer"
-          whileHover={{
-            scale: 1.1,
-            backgroundColor: "rgba(125, 116, 96, 0.5)",
-          }}
-          whileTap={{ scale: 0.9 }}
-          animate={{
-            y: [0, -10, 0],
-          }}
-          transition={{
-            y: { repeat: Infinity, duration: 2, ease: "easeInOut" },
-            backgroundColor: { duration: 0.3 },
-          }}
-          onClick={() => window.open("https://maps.google.com", "_blank")}
-        >
-          <BsGeoAlt size={24} className="text-white" />
-        </motion.div>
-      </div>
-
-      <div className="absolute bottom-1/4 left-[5%] z-10">
-        <motion.div
-          className="w-16 h-16 rounded-full bg-earth-600/30 backdrop-blur-sm border border-earth-500/30 flex items-center justify-center cursor-pointer"
-          whileHover={{
-            scale: 1.1,
-            backgroundColor: "rgba(125, 116, 96, 0.5)",
-          }}
-          whileTap={{ scale: 0.9 }}
-          animate={{
-            y: [0, 10, 0],
-          }}
-          transition={{
-            y: { repeat: Infinity, duration: 2.5, ease: "easeInOut" },
-            backgroundColor: { duration: 0.3 },
-          }}
-          onClick={() => window.open("/communities", "_self")}
-        >
-          <BsBuilding size={24} className="text-white" />
-        </motion.div>
-      </div> */}
-
       <motion.div
         style={{ opacity }}
         className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto relative z-10 text-black"
@@ -422,7 +357,8 @@ export default function CommunitiesSection() {
                       {/* Right column - Content */}
                       <div className="lg:col-span-7 ">
                         <div className="backdrop-blur-sm  p-6 sm:p-8 shadow-lg h-full ">
-                          {/* <div className="absolute inset-0 p-[2px] rounded-tl-[3rem] rounded-br-[3rem] z-0 bg-gradient-to-br from-gray-300 via-gray-400 to-gray-300 opacity-40"></div> */}
+                         
+                          <div className="absolute inset-0 p-[2px] rounded-tl-[3rem] rounded-br-[3rem] z-0 bg-gradient-to-br from-gray-300 via-gray-400 to-gray-300 opacity-40"></div>
                           <h3 className="text-2xl font-bold  mb-5 flex items-center text-black">
                             <span className="w-4 h-0.5 bg-black mr-2"></span>
                             {community.name}
@@ -536,22 +472,6 @@ export default function CommunitiesSection() {
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                             >
-                              {/* <Link
-                                href={`/communities/${community.name
-                                  .toLowerCase()
-                                  .replace(/\s+/g, "-")}`}
-                                className="px-6 py-4 rounded-tl-[2rem] rounded-br-[2rem] text-lg bg-gradient-to-r from-yellow-600 to-yellow-700  text-white hover:bg-yellow-600 transition-colors flex items-center gap-1 relative overflow-hidden group"
-                              >
-                                <span className="relative z-10">
-                                  View Properties
-                                </span>
-                                <BsArrowRight
-                                  size={14}
-                                  className="relative z-10 group-hover:translate-x-1 transition-transform duration-300"
-                                />
-                                <span className="absolute inset-0 bg-gradient-to-r from-yellow-600 to-yellow-700 transform -skew-x-10 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
-                              </Link> */}
-
                               <AnimatedButton
                                 href={`/communities/${community.name
                                   .toLowerCase()
@@ -572,17 +492,6 @@ export default function CommunitiesSection() {
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                             >
-                              {/* <Link
-                                href={`/communities`}
-                                className="px-6 py-4 rounded-tl-[2rem] rounded-br-[2rem] text-lg font-medium border border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white transition-colors flex items-center gap-1"
-                              >
-                                All Communities
-                                <BsArrowRight
-                                  size={14}
-                                  className="group-hover:translate-x-1 transition-transform duration-300 ml-1"
-                                />
-                              </Link> */}
-
                               <AnimatedButton
                                 href={`/communities`}
                                 animationDelay={0.6}
