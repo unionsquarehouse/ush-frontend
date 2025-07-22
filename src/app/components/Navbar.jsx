@@ -54,15 +54,15 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 transition-all duration-500 z-50 ${
-        scrolled || mobileMenuOpen
-          ? "bg-earth-50/80 backdrop-blur-md shadow-md "
+        scrolled || mobileMenuOpen || pathname !== "/"
+          ? "bg-white "
           : "bg-transparent"
       }`}
     >
       <div className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto flex justify-between items-center py-6">
         <Link href="/" className="flex items-center">
           <div className="h-10 w-auto relative">
-            {scrolled || mobileMenuOpen ? (
+            {scrolled || mobileMenuOpen || pathname !== "/" ? (
               <Image
                 src="/assets/ush_logo_dark.svg"
                 alt="USHRE"
@@ -91,7 +91,7 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               className={`px-4 py-2 rounded-lg transition-all duration-300 bg-transparent ${
-                scrolled ? "text-earth-800 " : "text-white  "
+                scrolled || pathname !== "/" ? "text-earth-800 " : "text-white  "
               }`}
             >
               {link.label}
@@ -143,7 +143,7 @@ export default function Navbar() {
           {mobileMenuOpen ? (
             <FaTimes className="text-earth-800" />
           ) : (
-            <FaBars className={scrolled ? "text-earth-800" : "text-white"} />
+            <FaBars className={scrolled || pathname !== "/" ? "text-earth-800" : "text-white"} />
           )}
         </button>
       </div>

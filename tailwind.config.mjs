@@ -50,7 +50,7 @@ export default {
           600: '#0891B2',
         },
       },
-      backgroundImage: {
+      background: {
         'brand-gradient':'bg-gradient-to-r from-[#866c4c] to-[#ac895e]',
       },
       backgroundImage: {

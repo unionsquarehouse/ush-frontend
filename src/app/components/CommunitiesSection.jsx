@@ -232,7 +232,7 @@ export default function CommunitiesSection() {
                           <div className="absolute inset-0">
                             {/* Virtual Tour Button */}
                             <motion.button
-                              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-earth-600/60 backdrop-blur-md border border-earth-500/40 flex items-center justify-center shadow-lg hover:bg-earth-500/70 transition-all duration-300"
+                              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] backdrop-blur-md border border-earth-500/40 flex items-center justify-center shadow-lg hover:bg-earth-500/70 transition-all duration-300"
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                               onClick={handleVirtualTour}
@@ -243,7 +243,7 @@ export default function CommunitiesSection() {
 
                             {/* Map Location Button */}
                             <motion.button
-                              className="absolute top-4 left-4 w-10 h-10 rounded-full bg-earth-600/60 backdrop-blur-md border border-earth-500/40 flex items-center justify-center shadow-lg hover:bg-earth-500/70 transition-all duration-300"
+                              className="absolute top-4 left-4 w-10 h-10 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] backdrop-blur-md border border-earth-500/40 flex items-center justify-center shadow-lg hover:bg-earth-500/70 transition-all duration-300"
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                               onClick={() => router.push(community.mapLink)}
@@ -254,7 +254,7 @@ export default function CommunitiesSection() {
 
                             {/* Contact Agent Button */}
                             <motion.button
-                              className="absolute bottom-20 right-4 w-10 h-10 rounded-full bg-earth-600/60 backdrop-blur-md border border-earth-500/40 flex items-center justify-center shadow-lg hover:bg-earth-500/70 transition-all duration-300"
+                              className="absolute bottom-20 right-4 w-10 h-10 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] backdrop-blur-md border border-earth-500/40 flex items-center justify-center shadow-lg hover:bg-earth-500/70 transition-all duration-300"
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                               onClick={handleContactAgent}
@@ -267,7 +267,7 @@ export default function CommunitiesSection() {
                           {/* Community name overlay */}
                           <div className="absolute bottom-0 left-0 p-6 w-full">
                             <div className="flex items-center gap-2 mb-2">
-                              <div className="w-10 h-10 rounded-full bg-earth-700/50 backdrop-blur-sm flex items-center justify-center">
+                              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] backdrop-blur-sm flex items-center justify-center">
                                 <FaMapMarkerAlt className="text-white" />
                               </div>
                               <h3 className="text-2xl font-bold text-white">
@@ -277,7 +277,7 @@ export default function CommunitiesSection() {
 
                             <div className="flex gap-4 mt-3">
                               <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] flex items-center justify-center">
                                   <FaHome className="text-white text-sm" />
                                 </div>
                                 <div>
@@ -291,7 +291,7 @@ export default function CommunitiesSection() {
                               </div>
 
                               <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] flex items-center justify-center">
                                   <FaBuilding className="text-white text-sm" />
                                 </div>
                                 <div>
@@ -331,7 +331,7 @@ export default function CommunitiesSection() {
                                 transition={{ type: "spring", stiffness: 300 }}
                                 onClick={() => handleFeatureClick(feature, idx)}
                               >
-                                <div className="w-10 h-10 rounded-full bg-black/60  text-white flex items-center justify-center mr-3 group-hover:bg-earth-700 transition-colors duration-300">
+                                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e]  text-white flex items-center justify-center mr-3 group-hover:bg-earth-700 transition-colors duration-300">
                                   {idx === 0 && (
                                     <FaSwimmingPool className=" group-hover:text-white transition-colors duration-300" />
                                   )}
@@ -364,7 +364,7 @@ export default function CommunitiesSection() {
                             {community.name}
                           </h3>
                           <div className="flex items-center mb-4">
-                            <div className="w-10 h-10 rounded-full bg-black/60 flex items-center justify-center mr-3 text-xl">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] flex items-center justify-center mr-3 text-xl">
                               <FaMapMarkerAlt className="text-white" />
                             </div>
                             <span className="text-black font-medium text-2xl">
@@ -449,7 +449,7 @@ export default function CommunitiesSection() {
                                     stiffness: 300,
                                   }}
                                 >
-                                  <div className="w-10 h-10 rounded-full bg-black/60 flex items-center justify-center mr-3 group-hover:bg-earth-700 transition-colors duration-300">
+                                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] flex items-center justify-center mr-3 group-hover:bg-earth-700 transition-colors duration-300">
                                     <span className="text-white text-xl font-bold group-hover:text-white transition-colors duration-300">
                                       {highlight.number}
                                     </span>

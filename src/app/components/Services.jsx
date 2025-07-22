@@ -201,7 +201,7 @@ export default function Services() {
                           />
                         ) : (
                           <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                            <div className="text-yellow-600 text-6xl sm:text-8xl">
+                            <div className="text-brand text-6xl sm:text-8xl">
                               {amenity.icon}
                             </div>
                           </div>
@@ -213,7 +213,7 @@ export default function Services() {
                       <div className="p-4 sm:p-6 md:p-8 flex-grow flex flex-col">
                         {/* Top Section with Icon */}
                         <div className="flex items-center mb-4 sm:mb-6">
-                          <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-black/60 flex items-center justify-center text-white text-xl sm:text-2xl md:text-3xl mr-3 sm:mr-4 md:mr-5 shadow-md">
+                          <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] flex items-center justify-center text-white text-xl sm:text-2xl md:text-3xl mr-3 sm:mr-4 md:mr-5 shadow-md">
                             {amenity.icon}
                           </div>
                           <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light">
@@ -240,7 +240,7 @@ export default function Services() {
                                   ? "Exclusive Access"
                                   : i === 2
                                   ? "Luxury Design"
-                                  : "Personalized Service"}
+                                  : "Personalized Szervice"}
                               </span>
                             </div>
                           ))}

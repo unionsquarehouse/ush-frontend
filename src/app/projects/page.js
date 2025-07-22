@@ -21,7 +21,7 @@ export default function Projects() {
   const [selectedBedrooms, setSelectedBedrooms] = useState("");
   const [selectedBathrooms, setSelectedBathrooms] = useState("");
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(3);
+  const [pageSize, setPageSize] = useState(12);
   const [showFilters, setShowFilters] = useState(false);
 
   // Extract unique values for filter options
@@ -138,7 +138,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="pt-24 pb-32 relative overflow-hidden bg-earth-50"
+      className="py-32 relative overflow-hidden bg-earth-50"
       ref={sectionRef}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
@@ -177,7 +177,7 @@ export default function Projects() {
                 <input
                   type="text"
                   placeholder="Search by title or location..."
-                  className="w-full bg-white/90 placeholder-brand backdrop-blur-sm text-brand rounded-tl-[1.5rem] rounded-br-[1.5rem] pl-12 pr-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200 shadow-inner transition-all duration-300 hover:"
+                  className="w-full bg-white/90 placeholder-brand backdrop-blur-sm text-brand rounded-tl-[2rem] rounded-br-[2rem] pl-6 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200 shadow-inner transition-all duration-300 hover:"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -186,7 +186,7 @@ export default function Projects() {
               {/* Filter Toggle Button */}
               <motion.button
                 onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white rounded-tl-[1.5rem] rounded-br-[1.5rem] px-6 py-4 hover: transition-all duration-300 hover:-translate-y-1"
+                className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white rounded-tl-[2rem] rounded-br-[2rem] px-6 py-2 hover: transition-all duration-300 hover:-translate-y-1"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -359,7 +359,7 @@ export default function Projects() {
         </motion.div>
 
         {/* Results Summary */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           className="mb-8"
@@ -367,7 +367,7 @@ export default function Projects() {
           <p className="text-brand text-center">
             Showing {filteredProjects.length} of {projects.length} projects
           </p>
-        </motion.div>
+        </motion.div> */}
 
         {/* Projects Grid */}
         <motion.div

@@ -155,7 +155,7 @@ const DubaiMapContent = () => {
     }).addTo(map);
 
     // Add custom zoom control
-    L.control.zoom({ position: "bottomright" }).addTo(map);
+    // L.control.zoom({ position: "bottomright" }).addTo(map);
 
     // Create custom marker icon
     const customIcon = L.icon({

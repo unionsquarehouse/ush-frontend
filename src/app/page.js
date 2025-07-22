@@ -9,6 +9,7 @@ import CommunitiesSection from './components/CommunitiesSection';
 import DevelopersSection from './components/DevelopersSection';
 import DubaiMap from './components/DubaiInteractiveMap';
 import Amenities from './components/Amenities';
+import CallToAction from './components/CallToAction';
 
 export default function Home() {
   return (

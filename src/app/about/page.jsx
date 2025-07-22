@@ -1,15 +1,26 @@
+"use client";
+
+
+import ProfessionalGuidance from "../components/about/ProfessionalGuidance";
+import OurMission from "../components/about/OurMission";
+import OurServices from "../components/about/OurServices";
+import ContactCTA from "../components/about/ContactCTA";
 import TeamGrid from "../components/TeamGrid";
+import AboutHero from "../components/about/AboutHero";
+import Services from "../components/Services";
+import CallToAction from "../components/CallToAction";
 
 export default function AboutPage() {
   return (
-    <section className="py-20">
-      <div className="container mx-auto px-6 md:px-0 text-center">
-        <h2 className="text-3xl  mb-6">About Union Square House</h2>
-        <p className="max-w-3xl mx-auto text-gray-700 mb-12">
-          Recognised by developers like Emaar, Meraas, Damac for consistent excellence…
-        </p>
-        <TeamGrid />
-      </div>
-    </section>
+    <div className="pt-20">
+      <AboutHero />
+      <ProfessionalGuidance />
+      <OurMission />
+      <Services/>
+      {/* <OurServices /> */}
+            <CallToAction/>
+      
+      {/* <ContactCTA /> */}
+    </div>
   );
 }
