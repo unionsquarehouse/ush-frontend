@@ -357,7 +357,6 @@ export default function CommunitiesSection() {
                       {/* Right column - Content */}
                       <div className="lg:col-span-7 ">
                         <div className="backdrop-blur-sm  p-6 sm:p-8 shadow-lg h-full ">
-                         
                           <div className="absolute inset-0 p-[2px] rounded-tl-[3rem] rounded-br-[3rem] z-0 bg-gradient-to-br from-gray-300 via-gray-400 to-gray-300 opacity-40"></div>
                           <h3 className="text-2xl font-bold  mb-5 flex items-center text-black">
                             <span className="w-4 h-0.5 bg-black mr-2"></span>
