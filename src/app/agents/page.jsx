@@ -1,4 +1,4 @@
-import AgentCard from "../components/AgentCard";
+
 
 const agents = [
   { name: 'John Doe', phone: '+971 50 1234567', email: 'john@ushre.com', img: null },

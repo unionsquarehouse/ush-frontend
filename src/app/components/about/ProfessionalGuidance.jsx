@@ -37,7 +37,7 @@ export default function ProfessionalGuidance() {
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section className="pt-40 pb-32 bg-white">
       <div className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left Column - Content */}

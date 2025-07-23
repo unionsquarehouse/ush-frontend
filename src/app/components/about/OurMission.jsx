@@ -70,7 +70,7 @@ export default function OurMission() {
           </div>
           
           <h2 className="text-5xl lg:text-6xl font-bold mb-8 flex justify-center items-center gap-2">
-            <span className="text-brand shine-effect">Our</span>{" "}
+            <span className="text-[#ac895e] shine-effect">Our</span>{" "}
             <span className="text-black relative group">
               Mission
               <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-brand to-brand-hover rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>

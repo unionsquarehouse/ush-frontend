@@ -102,20 +102,20 @@ export default function Services() {
 
   return (
     <section
-      className="bg-gradient-to-b from-white to-gray-50 text-black overflow-hidden"
+      className="bg-gradient-to-b pb-10 from-white to-gray-50 text-black overflow-hidden"
       id="amenities"
       ref={containerRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="w-[85vw] lg:w-[80vw] mx-auto">
+      <div className="w-[90vw] md:w-[85vw]   mx-auto">
         {/* Heading */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center "
         >
           <h2 className="text-4xl 2xl:text-5xl font-light mb-4 flex items-center justify-center">
             <span className="text-[#ac895e] shine-effect mr-2">

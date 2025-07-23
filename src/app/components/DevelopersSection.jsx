@@ -383,12 +383,12 @@ import {
   ArrowRight,
   Users,
 } from "lucide-react";
-import { Card, CardContent } from "./ui/Card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { BsArrowRight, BsArrowLeft } from "react-icons/bs";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { Card, CardContent } from "./ui/card";
 
 const developers = [
   {
@@ -473,11 +473,11 @@ export default function DevelopersSection() {
 
   return (
     <section
-      className="py-24 bg-earth-50"
+      className="pb-32 bg-earth-50"
       onMouseEnter={() => setIsAutoPlay(false)}
       onMouseLeave={() => setIsAutoPlay(true)}
     >
-      <div className="container mx-auto px-4">
+      <div className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw]  mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 mb-4">
@@ -590,7 +590,7 @@ export default function DevelopersSection() {
             </div>
 
             {/* Featured Projects */}
-            <Card className="bg-white border-earth-200">
+            {/* <Card className="bg-white border-earth-200">
               <CardContent className="p-6">
                 <h4 className="text-xl text-black font-semibold mb-4 flex items-center gap-2">
                   <span className="w-4 h-0.5  bg-brand"></span>
@@ -626,12 +626,12 @@ export default function DevelopersSection() {
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </CardContent>
-            </Card>
+            </Card> */}
           </div>
 
           {/* Right Column - Hero Image */}
           <div className="relative">
-            <div className="relative rounded-tl-[2rem] rounded-br-[2rem] overflow-hidden aspect-square bg-earth-100">
+            <div className="relative rounded-tl-[3rem] rounded-br-[3rem] overflow-hidden aspect-square bg-earth-100">
               <Image
                 src={`/assets/${currentDeveloper.featured[0]
                   .toLowerCase()

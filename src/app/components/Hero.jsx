@@ -245,42 +245,7 @@ export default function Hero() {
         </motion.div>
       </div>
       
-      {/* Minimal scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-0 right-0 flex justify-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-      >
-        <a
-          href="#about"
-          className="flex flex-col items-center"
-          aria-label="Scroll to explore"
-        >
-          <motion.div
-            className="w-8 h-12 border border-earth-500/40 rounded-full flex items-center justify-center"
-            animate={{ y: [0, 5, 0] }}
-            transition={{
-              repeat: Infinity,
-              duration: 1.5,
-              ease: "easeInOut",
-            }}
-          >
-            <motion.div
-              className="w-1.5 h-1.5 bg-earth-400 rounded-full"
-              animate={{
-                y: [0, 4, 0],
-                opacity: [0.5, 1, 0.5],
-              }}
-              transition={{
-                repeat: Infinity,
-                duration: 1.5,
-                ease: "easeInOut",
-              }}
-            />
-          </motion.div>
-        </a>
-      </motion.div>
+      
     </section>
   );
 }

@@ -29,7 +29,7 @@ export default function AboutHero() {
           >
             <div className="mb-6">
               <span className="w-24 h-0.5 bg-gradient-to-r from-[#876F4E] to-[#68543b] block mb-4"></span>
-              <h1 className="text-5xl lg:text-6xl font-bold text-[#876F4E] shine-effect mb-6">
+              <h1 className="text-5xl lg:text-6xl font-bold text-[#ac895e] shine-effect mb-6">
                 About <span className="text-black">Union Square House</span>
               </h1>
             </div>

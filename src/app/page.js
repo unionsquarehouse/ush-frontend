@@ -10,6 +10,7 @@ import DevelopersSection from './components/DevelopersSection';
 import DubaiMap from './components/DubaiInteractiveMap';
 import Amenities from './components/Amenities';
 import CallToAction from './components/CallToAction';
+import DiscoverProperty from './components/DiscoverProperty';
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
       <Services />
       {/* <Amenities/> */}
       <DevelopersSection />
+      <DiscoverProperty/>
       <DubaiMap/>
       {/* <Contact /> */}
     </>

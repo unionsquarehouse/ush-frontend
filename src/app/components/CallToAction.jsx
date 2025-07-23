@@ -46,7 +46,7 @@ export default function CallToAction() {
     <>
       <section 
         ref={containerRef}
-        className="py-32 relative overflow-hidden"
+        className=" relative overflow-hidden pb-40"
         id="cta-section"
       >
         {/* Futuristic background elements */}
