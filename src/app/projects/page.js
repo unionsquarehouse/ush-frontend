@@ -17,11 +17,19 @@ export default function Projects() {
   const [searchTerm, setSearchTerm] = useState("");
   const [appliedSearchTerm, setAppliedSearchTerm] = useState(""); // New state for applied search
   const [priceRange, setPriceRange] = useState([0, 50000000]);
+  const [appliedPriceRange, setAppliedPriceRange] = useState([0, 50000000]); // Applied price range
   const [selectedLocation, setSelectedLocation] = useState("");
+  const [appliedLocation, setAppliedLocation] = useState(""); // Applied location
   const [selectedBedrooms, setSelectedBedrooms] = useState("");
+  const [appliedBedrooms, setAppliedBedrooms] = useState(""); // Applied bedrooms
   const [selectedBathrooms, setSelectedBathrooms] = useState("");
+  const [appliedBathrooms, setAppliedBathrooms] = useState(""); // Applied bathrooms
   const [selectedType, setSelectedType] = useState("");
+  const [appliedType, setAppliedType] = useState(""); // Applied type
+  const [selectedDeveloper, setSelectedDeveloper] = useState("");
+  const [appliedDeveloper, setAppliedDeveloper] = useState(""); // Applied developer
   const [completionStatus, setCompletionStatus] = useState("");
+  const [appliedCompletionStatus, setAppliedCompletionStatus] = useState(""); // Applied completion status
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(12);
   const [showFilters, setShowFilters] = useState(false);
@@ -33,12 +41,71 @@ export default function Projects() {
   const [locations, setLocations] = useState([]);
   const [bedroomOptions, setBedroomOptions] = useState([]);
   const [bathroomOptions, setBathroomOptions] = useState([]);
+  const [typeOptions, setTypeOptions] = useState([]);
+  const [developerOptions, setDeveloperOptions] = useState([]);
+  const [completionStatusOptions, setCompletionStatusOptions] = useState([]);
+
+  // Fetch all filter options on component mount
+  useEffect(() => {
+    const fetchFilterOptions = async () => {
+      try {
+        // Fetch all projects to get filter options
+        const res = await axios.get('/api/pf/projects');
+        const json = await res.json();
+        
+        if (json.success) {
+          // Extract unique filter options from ALL data
+          const uniqueLocations = [...new Set(json.data.map(p => ({ id: p.locationId, name: p.location })).filter(l => l.id && l.name))];
+          const uniqueBedrooms = [...new Set(json.data.map(p => p.beds).filter(bed => bed && bed > 0))].sort((a, b) => a - b);
+          const uniqueBathrooms = [...new Set(json.data.map(p => p.baths).filter(bath => bath && bath > 0))].sort((a, b) => a - b);
+          const uniqueTypes = [...new Set(json.data.map(p => p.type).filter(Boolean))].sort();
+          const uniqueCompletionStatus = [...new Set(json.data.map(p => p.completionStatus).filter(Boolean))].sort();
+
+          console.log('Filter options extracted:', {
+            locations: uniqueLocations.length,
+            bedrooms: uniqueBedrooms,
+            bathrooms: uniqueBathrooms,
+            types: uniqueTypes,
+            developers: uniqueDevelopers,
+            completionStatus: uniqueCompletionStatus
+          });
+
+          setLocations(uniqueLocations);
+          setBedroomOptions(uniqueBedrooms.length > 0 ? uniqueBedrooms : [1, 2, 3, 4, 5]);
+          setBathroomOptions(uniqueBathrooms.length > 0 ? uniqueBathrooms : [1, 2, 3, 4, 5]);
+          setTypeOptions(uniqueTypes.length > 0 ? uniqueTypes : ['Apartment', 'Villa', 'Townhouse', 'Penthouse']);
+          setCompletionStatusOptions(uniqueCompletionStatus.length > 0 ? uniqueCompletionStatus : ['Ready', 'Off Plan', 'Under Construction']);
+        }
+      } catch (err) {
+        console.error("Error fetching filter options:", err);
+        // Set fallback options if API fails
+        setBedroomOptions([1, 2, 3, 4, 5]);
+        setBathroomOptions([1, 2, 3, 4, 5]);
+        setTypeOptions(['Apartment', 'Villa', 'Townhouse', 'Penthouse']);
+        setCompletionStatusOptions(['Ready', 'Off Plan', 'Under Construction']);
+      }
+    };
+
+    fetchFilterOptions();
+  }, []);
 
   // Handle search submission
   const handleSearch = (e) => {
     e.preventDefault();
     setAppliedSearchTerm(searchTerm);
     setPage(1); // Reset to first page when searching
+  };
+
+  // Handle apply filters
+  const handleApplyFilters = () => {
+    setAppliedSearchTerm(searchTerm);
+    setAppliedPriceRange([...priceRange]);
+    setAppliedLocation(selectedLocation);
+    setAppliedBedrooms(selectedBedrooms);
+    setAppliedBathrooms(selectedBathrooms);
+    setAppliedType(selectedType);
+    setAppliedCompletionStatus(completionStatus);
+    setPage(1); // Reset to first page when applying filters
   };
 
   // Handle search icon click
@@ -52,24 +119,44 @@ export default function Projects() {
       try {
         setLoading(true);
         
-        // Build query parameters
+        // Determine which endpoint to use based on APPLIED filters
+        const hasFilters = appliedSearchTerm || 
+                          appliedPriceRange[0] > 0 || 
+                          appliedPriceRange[1] < 50000000 || 
+                          appliedLocation || 
+                          appliedBedrooms || 
+                          appliedBathrooms || 
+                          appliedType || 
+                          appliedCompletionStatus ||
+                          orderBy !== 'publishedAt' ||
+                          sortOrder !== 'desc';
+
+        const endpoint = hasFilters ? '/api/pf/projects/search' : '/api/pf/projects';
+        
+        // Build query parameters using APPLIED filters
         const params = new URLSearchParams({
           page: page.toString(),
           limit: pageSize.toString(),
-          orderBy,
-          sort: sortOrder,
         });
 
-        if (appliedSearchTerm) params.append('search', appliedSearchTerm);
-        if (priceRange[0] > 0) params.append('priceFrom', priceRange[0].toString());
-        if (priceRange[1] < 50000000) params.append('priceTo', priceRange[1].toString());
-        if (selectedLocation) params.append('locationId', selectedLocation);
-        if (selectedBedrooms) params.append('bedrooms', selectedBedrooms);
-        if (selectedBathrooms) params.append('bathrooms', selectedBathrooms);
-        if (selectedType) params.append('type', selectedType);
-        if (completionStatus) params.append('completionStatus', completionStatus);
+        if (hasFilters) {
+          params.append('orderBy', orderBy);
+          params.append('sort', sortOrder);
+          
+          if (appliedSearchTerm) params.append('search', appliedSearchTerm);
+          if (appliedPriceRange[0] > 0) params.append('priceFrom', appliedPriceRange[0].toString());
+          if (appliedPriceRange[1] < 50000000) params.append('priceTo', appliedPriceRange[1].toString());
+          if (appliedLocation) params.append('locationId', appliedLocation);
+          if (appliedBedrooms) params.append('bedrooms', appliedBedrooms);
+          if (appliedBathrooms) params.append('bathrooms', appliedBathrooms);
+          if (appliedType) params.append('type', appliedType);
+          if (appliedCompletionStatus) params.append('completionStatus', appliedCompletionStatus);
+        }
 
-        const res = await fetch(`/api/pf/projects?${params.toString()}`);
+        console.log('Using endpoint:', endpoint);
+        console.log('With params:', params.toString());
+
+        const res = await fetch(`${endpoint}?${params.toString()}`);
         const json = await res.json();
         
         console.log("Projects API response:", json);
@@ -97,7 +184,7 @@ export default function Projects() {
     };
 
     fetchProjects();
-  }, [page, pageSize, appliedSearchTerm, priceRange, selectedLocation, selectedBedrooms, selectedBathrooms, selectedType, completionStatus, orderBy, sortOrder]);
+  }, [page, pageSize, appliedSearchTerm, appliedPriceRange, appliedLocation, appliedBedrooms, appliedBathrooms, appliedType, appliedCompletionStatus, orderBy, sortOrder]);
 
   // Handle page size change
   const handlePageSizeChange = (newPageSize) => {
@@ -115,11 +202,17 @@ export default function Projects() {
     setSearchTerm("");
     setAppliedSearchTerm("");
     setPriceRange([0, 50000000]);
+    setAppliedPriceRange([0, 50000000]);
     setSelectedLocation("");
+    setAppliedLocation("");
     setSelectedBedrooms("");
+    setAppliedBedrooms("");
     setSelectedBathrooms("");
+    setAppliedBathrooms("");
     setSelectedType("");
+    setAppliedType("");
     setCompletionStatus("");
+    setAppliedCompletionStatus("");
     setPage(1);
   };
 
@@ -176,7 +269,7 @@ export default function Projects() {
                   <input
                     type="text"
                     placeholder="Search by title or location..."
-                    className="w-full bg-white/90 placeholder-brand backdrop-blur-sm text-brand rounded-tl-[2rem] rounded-br-[2rem] pl-12 pr-16 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200 shadow-inner transition-all duration-300"
+                    className="w-full bg-white/90 placeholder-brand backdrop-blur-sm text-brand rounded-[2rem] pl-12 pr-16 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border-2 border-brand shadow-inner transition-all duration-300"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
@@ -228,9 +321,9 @@ export default function Projects() {
               {/* Expandable Filters Section */}
               {showFilters && (
                 <div className="pt-6 px-2 mt-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mb-6">
                     {/* Price Range */}
-                    <div>
+                    <div className="md:col-span-2 lg:col-span-1">
                       <h3 className="text-sm font-semibold text-earth-700 mb-3">Price Range (AED)</h3>
                       <div className="flex gap-2">
                         <input
@@ -256,7 +349,7 @@ export default function Projects() {
                       <select
                         value={selectedLocation}
                         onChange={(e) => setSelectedLocation(e.target.value)}
-                        className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
+                        className="w-full  bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
                       >
                         <option value="">All Locations</option>
                         {locations.map(location => (
@@ -280,6 +373,52 @@ export default function Projects() {
                       </select>
                     </div>
 
+                    {/* Bathrooms Filter */}
+                    <div>
+                      <h3 className="text-sm font-semibold text-earth-700 mb-3">Bathrooms</h3>
+                      <select
+                        value={selectedBathrooms}
+                        onChange={(e) => setSelectedBathrooms(e.target.value)}
+                        className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
+                      >
+                        <option value="">Any Bathrooms</option>
+                        {bathroomOptions.map(baths => (
+                          <option key={baths} value={baths}>{baths} Bath{baths > 1 ? 's' : ''}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Property Type Filter */}
+                    <div>
+                      <h3 className="text-sm font-semibold text-earth-700 mb-3">Property Type</h3>
+                      <select
+                        value={selectedType}
+                        onChange={(e) => setSelectedType(e.target.value)}
+                        className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
+                      >
+                        <option value="">All Types</option>
+                        {typeOptions.map(type => (
+                          <option key={type} value={type}>{type}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    
+                    {/* Completion Status Filter */}
+                    <div>
+                      <h3 className="text-sm font-semibold text-earth-700 mb-3">Completion Status</h3>
+                      <select
+                        value={completionStatus}
+                        onChange={(e) => setCompletionStatus(e.target.value)}
+                        className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
+                      >
+                        <option value="">All Status</option>
+                        {completionStatusOptions.map(status => (
+                          <option key={status} value={status}>{status}</option>
+                        ))}
+                      </select>
+                    </div>
+
                     {/* Sort By */}
                     <div>
                       <h3 className="text-sm font-semibold text-earth-700 mb-3">Sort By</h3>
@@ -299,16 +438,26 @@ export default function Projects() {
                       </select>
                     </div>
                   </div>
+                </div>
+              )}
 
-                  {/* Reset Button */}
-                  <div className="flex justify-center">
-                    <button
-                      onClick={resetFilters}
-                      className="px-6 py-3 text-brand border border-earth-300 rounded-tl-lg rounded-br-lg hover:bg-earth-100 transition-colors duration-200"
-                    >
-                      Reset All Filters
-                    </button>
-                  </div>
+              {/* Apply Filters Button - Show when filters panel is open */}
+              {showFilters && (
+                <div className="flex justify-center gap-4 mt-6">
+                  <motion.button
+                    onClick={handleApplyFilters}
+                    className="px-8 py-3 bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white rounded-tl-lg rounded-br-lg hover:shadow-lg transition-all duration-300"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Apply Filters
+                  </motion.button>
+                  <button
+                    onClick={resetFilters}
+                    className="px-6 py-3 text-brand border border-earth-300 rounded-tl-lg rounded-br-lg hover:bg-earth-100 transition-colors duration-200"
+                  >
+                    Reset All Filters
+                  </button>
                 </div>
               )}
             </motion.div>

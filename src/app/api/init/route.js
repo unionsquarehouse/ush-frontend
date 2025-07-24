@@ -1,5 +1,5 @@
-import tokenManager from '@/lib/tokenManager';
 import { NextResponse } from 'next/server';
+import tokenManager from '../../../lib/tokenManager';
 
 export async function POST() {
   try {

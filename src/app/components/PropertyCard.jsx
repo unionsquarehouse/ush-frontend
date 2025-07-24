@@ -16,7 +16,7 @@ export default function PropertyCard({ project }) {
 
   const handleImageClick = () => {
     console.log("hi");
-    
+
     router.push(`/projects/${project.documentId}`);
   };
 
@@ -33,10 +33,7 @@ export default function PropertyCard({ project }) {
         {/* Front of card */}
         <div className="absolute inset-0 backface-hidden rounded-tl-[3rem] rounded-br-[3rem] overflow-hidden">
           <div className="relative h-full">
-            <div 
-              className="relative h-full w-full cursor-pointer"
-              
-            >
+            <div className="relative h-full w-full cursor-pointer">
               <Image
                 src={project.image}
                 alt={project.title}
@@ -53,16 +50,50 @@ export default function PropertyCard({ project }) {
             </div>
 
             <div className="absolute bottom-0 left-0 p-6 w-full">
-              <h3 className="text-xl text-white mb-1 cursor-pointer" onClick={handleImageClick}>
+              <h3
+                className="text-xl text-white mb-1 cursor-pointer"
+                onClick={handleImageClick}
+              >
                 {project.title}
               </h3>
               <p className="text-earth-100 text-lg flex items-center mb-3">
                 <FaMapMarkerAlt className="mr-1" /> {project.location}
               </p>
-              <div className="flex justify-between text-base text-earth-100">
-                <span>{project.beds} BR</span>
-                <span>{project.baths} Bath</span>
-                <span>{project.area} sq.ft</span>
+              <div className="flex items-center justify-between text-sm text-white mb-2">
+                <span className="flex items-center">
+                  <FaBed className="mr-1" />
+                  {project.beds} Bed{project.beds > 1 ? "s" : ""}
+                </span>
+                <span className="flex items-center">
+                  <FaBath className="mr-1" />
+                  {project.baths} Bath{project.baths > 1 ? "s" : ""}
+                </span>
+                <span className="flex items-center">
+                  <FaRuler className="mr-1" />
+                  {project.area} sqft
+                </span>
+              </div>
+
+              <div className="flex gap-4">
+                {/* Developer */}
+                {project.developer && (
+                  <div className="text-xs text-black mb-2">
+                    <span className="inline-block px-2 py-1 bg-gray-100 rounded-full">
+                      Developer: {project.developer}
+                    </span>
+                  </div>
+                )}
+
+                {/* Completion Status */}
+                {project.completionStatus && (
+                  <div className="text-xs text-black mb-3">
+                    <span className="inline-block px-2 py-1 bg-gray-100 rounded-full">
+                      {project.completionStatus
+                        .replace(/_/g, " ")
+                        .replace(/\b\w/g, (l) => l.toUpperCase())}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>

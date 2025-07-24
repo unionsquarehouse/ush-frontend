@@ -1,52 +1,41 @@
+import axios from 'axios';
 import tokenManager from '../../../../lib/tokenManager';
 import { NextResponse } from 'next/server';
 
-// Helper function to get location details
-async function getLocationDetails(locationId, token) {
+// Helper function to get location details from our locations endpoint
+async function getLocationDetails(locationId) {
   console.log('getLocationDetails called with locationId:', locationId);
-  
+
   if (!locationId) {
     console.log('No locationId provided, returning Dubai');
     return "Dubai";
   }
-  
+
   try {
-    console.log('Making location API call for ID:', locationId);
-    const locationRes = await fetch(
-      `https://atlas.propertyfinder.com/v1/locations?filter[id]=${locationId}`,
+    console.log('Making location API call to our endpoint for ID:', locationId);
+    const locationRes = await axios.get(
+      `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/pf/locations?id=${locationId}`,
       {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
+        timeout: 5000,
       }
     );
 
-    console.log('Location API response status:', locationRes.status);
-    
-    if (!locationRes.ok) {
-      console.log('Location API response not ok, returning Dubai');
-      return "Dubai";
+    console.log('Location endpoint response status:', locationRes.status);
+    console.log('Location endpoint response:', locationRes.data);
+
+    if (locationRes.data.success && locationRes.data.data) {
+      console.log('Location hierarchy:', locationRes.data.data.hierarchy);
+      return locationRes.data.data.hierarchy;
     }
-    
-    const locationData = await locationRes.json();
-    console.log(locationData,"--------");
-    
-    if (locationData.data && locationData.data[0] && locationData.data[0].tree) {
-      const tree = locationData.data[0].tree;
-      // Extract names from tree hierarchy and join with commas
-      const locationHierarchy = tree.map(item => item.name).join(', ');
-      console.log('Location hierarchy:', locationHierarchy);
-      return locationHierarchy;
-    }
-    
-    console.log('No tree data found, returning Dubai');
+
+    console.log('No location data found, returning Dubai');
     return "Dubai";
   } catch (error) {
-    console.error('Error fetching location details:', error);
+    console.error('Error calling location endpoint:', error.response?.data || error.message);
     return "Dubai";
   }
 }
+
 
 export async function GET(request) {
   try {
@@ -54,14 +43,13 @@ export async function GET(request) {
     const page = searchParams.get('page') || '1';
     const limit = parseInt(searchParams.get('limit') || '20');
 
-    // Get fresh token
     const token = await tokenManager.getToken();
 
     if (!token) {
       throw new Error('No valid token available');
     }
 
-    const res = await fetch(
+    const res = await axios.get(
       `https://atlas.propertyfinder.com/v1/listings?page=${page}&limit=${limit}`,
       {
         headers: {
@@ -71,33 +59,32 @@ export async function GET(request) {
       }
     );
 
-    if (!res.ok) {
-      const errorText = await res.text();
-      console.error('API Error:', res.status, errorText);
-      throw new Error(`Failed to fetch from external API: ${res.status}`);
-    }
+    const json = res.data;
 
-    const json = await res.json();
-    
-    // Process each item and get location details
     const formattedProjects = await Promise.all(
       json.results.map(async (item) => {
-        const locationDetails = await getLocationDetails(item.location?.id, token);
-        
+        const locationDetails = await getLocationDetails(item.location?.id);
+
         return {
           id: item.id,
           title: item.title.en,
           location: locationDetails,
+          locationId: item.location?.id,
           info: item.description?.en?.slice(0, 100) || "",
           price: item.price?.amounts?.sale || 0,
-          beds: item.bedrooms,
-          baths: item.bathrooms,
+          beds: parseInt(item.bedrooms) || 0,
+          baths: parseInt(item.bathrooms) || 0,
           area: item.size,
           color: "#e5d2b1",
           features: item.amenities || [],
           image: item.media?.images?.[0]?.original?.url || 
                  "https://via.placeholder.com/400x300?text=No+Image",
-          status: item.projectStatus || "Available",
+          status: item.projectStatus || item.status || "Available",
+          type: item.type || item.category || "Apartment",
+          category: item.category || "residential",
+          completionStatus: item.completionStatus || item.projectStatus || item.status || "Ready",
+          offeringType: item.offeringType,
+          developer: item?.developer  || "Not Specified",
         };
       })
     );
@@ -111,7 +98,7 @@ export async function GET(request) {
     });
 
   } catch (error) {
-    console.error("Error in projects API route:", error);
+    console.error("Error in projects API route:", error.response?.data || error.message);
     return NextResponse.json(
       { success: false, error: "Failed to fetch projects" },
       { status: 500 }

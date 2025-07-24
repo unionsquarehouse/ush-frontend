@@ -27,13 +27,11 @@ export async function GET(request) {
     const url = `https://atlas.propertyfinder.com/v1/locations?filter[id]=${locationId}`;
     console.log('Request URL:', url);
 
-    // Use axios with exact Postman configuration
     const response = await axios.get(url, {
       headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      timeout: 10000, // 10 second timeout
     });
 
     console.log('Location API response status:', response.status);
