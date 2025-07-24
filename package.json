@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
+    "axios": "^1.11.0",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.1",
     "country-flag-icons": "^1.5.7",

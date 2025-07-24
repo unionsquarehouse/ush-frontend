@@ -23,7 +23,7 @@ export default function PropertyCard({ project }) {
   return (
     <motion.div
       key={project.id}
-      className="perspective-1000 h-[450px] group"
+      className="- h-[50vh] group"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       // transition={{ delay: index * 0.1 }}
@@ -49,7 +49,7 @@ export default function PropertyCard({ project }) {
 
             {/* Price tag with clip path */}
             <div className="absolute top-6 right-0 clip-path-price bg-gradient-to-r from-[#866c4c] to-[#ac895e] shine-effect-absolute text-white py-2 px-6 font-display">
-              {project.price}
+              {project.price} AED
             </div>
 
             <div className="absolute bottom-0 left-0 p-6 w-full">
@@ -57,12 +57,12 @@ export default function PropertyCard({ project }) {
                 {project.title}
               </h3>
               <p className="text-earth-100 text-lg flex items-center mb-3">
-                <FaMapMarkerAlt className="mr-1" /> {project.loc}
+                <FaMapMarkerAlt className="mr-1" /> {project.location}
               </p>
               <div className="flex justify-between text-base text-earth-100">
-                <span>{project.beds}</span>
-                <span>{project.baths}</span>
-                <span>{project.area}</span>
+                <span>{project.beds} BR</span>
+                <span>{project.baths} Bath</span>
+                <span>{project.area} sq.ft</span>
               </div>
             </div>
           </div>

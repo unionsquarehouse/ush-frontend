@@ -1,8 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-    domains: ['localhost'], // 👈 allow images from localhost
-  },
+        remotePatterns: [
+            {
+                protocol: 'http',
+                hostname: 'localhost',
+            },
+            {
+                protocol: 'https',
+                hostname: 'static.shared.propertyfinder.ae',
+            },
+        ],
+    },
 };
 
 export default nextConfig;
+
+

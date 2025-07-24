@@ -47,8 +47,8 @@ export default function Navbar() {
     { label: "Projects", href: "/projects" },
     { label: "Communities", href: "/communities" },
     { label: "About", href: "/about" },
-    { label: "Listings", href: "/listings" },
     { label: "Agents", href: "/agents" },
+    { label: "Blogs", href: "/blogs" },
   ];
 
   return (

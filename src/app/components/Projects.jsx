@@ -11,41 +11,31 @@ export default function Projects() {
   const [activeProject, setActiveProject] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // ✅ Fetch projects from Strapi API
+  // ✅ Fetch projects from existing API route
   useEffect(() => {
     const fetchProjects = async () => {
-      const res = await fetch(
-        "http://localhost:1337/api/projects?populate[features]=true&populate[image]=true"
-      );
-      const json = await res.json();
-
-      const formattedProjects = json.data.map((item) => {
-        const attrs = item;
-
-        return {
-          id: attrs.id,
-          title: attrs.title,
-          location: attrs.loc, // Renamed to match PropertyCard props
-          info: attrs.info,
-          price: attrs.price,
-          beds: attrs.beds,
-          baths: attrs.baths,
-          area: attrs.area,
-          color: attrs.color,
-          features: attrs.features?.map((f) => f.feature) || [],
-          image: attrs?.image?.formats?.large?.url ?
-            "http://localhost:1337" + attrs?.image?.formats?.large?.url :
-            attrs?.image?.formats?.large?.url,
-          status: "Off-Plan" // Adding status for PropertyCard
-        };
-      });
-
-      setProjects(formattedProjects.slice(0, 3));
+      try {
+        setLoading(true);
+        const res = await fetch("/api/pf/projects?limit=3");
+        const json = await res.json();
+        console.log("Projects:", json);
+        if (json.success) {
+          setProjects(json.data);
+        } else {
+          console.error("API Error:", json.error);
+        }
+      } catch (err) {
+        console.error("Error fetching projects:", err);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchProjects();
   }, []);
+
 
   // Auto-rotate projects
   useEffect(() => {
@@ -90,57 +80,69 @@ export default function Projects() {
           <div className="h-0.5 w-24 bg-gradient-to-r from-[#876F4E] to-[#68543b] mx-auto mb-6"></div>
         </motion.div>
 
-        {/* Projects grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ staggerChildren: 0.1 }}
-        >
-          {projects.map((project, index) => (
+        {/* Loading State */}
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#ac895e] mx-auto mb-4"></div>
+              <p className="text-earth-600">Loading featured projects...</p>
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Projects grid */}
             <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="h-full"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ staggerChildren: 0.1 }}
             >
-              <PropertyCard project={project} />
+              {projects.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="h-full"
+                >
+                  <PropertyCard project={project} />
+                </motion.div>
+              ))}
             </motion.div>
-          ))}
-        </motion.div>
 
-        {/* Navigation dots */}
-        <div className="flex items-center justify-center mt-12 gap-3">
-          {projects.map((_, index) => (
-            <motion.button
-              key={index}
-              onClick={() => setActiveProject(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === activeProject
-                  ? "bg-gradient-to-r from-[#876F4E] to-[#68543b] scale-125"
-                  : "bg-gradient-to-r from-[#ad8f65] to-[#947753]"
-              }`}
-              aria-label={`Go to project ${index + 1}`}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.8 }}
-            />
-          ))}
-        </div>
+            {/* Navigation dots */}
+            <div className="flex items-center justify-center mt-12 gap-3">
+              {projects.map((_, index) => (
+                <motion.button
+                  key={index}
+                  onClick={() => setActiveProject(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === activeProject
+                      ? "bg-gradient-to-r from-[#876F4E] to-[#68543b] scale-125"
+                      : "bg-gradient-to-r from-[#ad8f65] to-[#947753]"
+                  }`}
+                  aria-label={`Go to project ${index + 1}`}
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.8 }}
+                />
+              ))}
+            </div>
 
-        <AnimatedButton
-          href="/projects"
-          isInView={isInView}
-          animationDelay={0.6}
-          containerClassName="mt-16 text-center"
-          color="yellow-600"
-          hoverColor="yellow-500"
-          gradientFrom="yellow-600"
-          gradientTo="yellow-500"
-          variant="solid"
-        >
-          View All Projects
-        </AnimatedButton>
+            <AnimatedButton
+              href="/projects"
+              isInView={isInView}
+              animationDelay={0.6}
+              containerClassName="mt-16 text-center"
+              color="yellow-600"
+              hoverColor="yellow-500"
+              gradientFrom="yellow-600"
+              gradientTo="yellow-500"
+              variant="solid"
+            >
+              View All Projects
+            </AnimatedButton>
+          </>
+        )}
       </motion.div>
     </section>
   );
