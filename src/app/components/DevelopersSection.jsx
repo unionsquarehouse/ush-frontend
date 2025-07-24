@@ -669,44 +669,7 @@ export default function DevelopersSection() {
         </div>
 
         {/* Navigation Controls */}
-        {/* <div className="flex items-center justify-center gap-6">
-          <Button
-            onClick={prevDeveloper}
-            variant="outline"
-            size="icon"
-            className="w-12 h-12 border-earth-300 text-earth-700 hover:bg-earth-100"
-            aria-label="Previous developer"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </Button>
-
-          <div className="flex gap-3">
-            {developers.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveDeveloper(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === activeDeveloper
-                    ? "bg-primary scale-125"
-                    : "bg-earth-300 hover:bg-earth-400"
-                }`}
-                aria-label={`Go to developer ${index + 1}`}
-              />
-            ))}
-          </div>
-
-          <Button
-            onClick={nextDeveloper}
-            variant="outline"
-            size="icon"
-            className="w-12 h-12 border-earth-300 text-earth-700 hover:bg-earth-100"
-            aria-label="Next developer"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </Button>
-        </div> */}
-
-        <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center mt-12 gap-6">
+        <div className="flex items-center justify-center gap-6">
           <motion.button
             onClick={prevDeveloper}
             className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#ac895e] hover:bg-[#876F4E] hover:text-white transition-colors"
@@ -744,6 +707,45 @@ export default function DevelopersSection() {
             <BsArrowRight size={20} />
           </motion.button>
         </div>
+
+        {/* <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center mt-12 gap-6">
+          <motion.button
+            onClick={prevDeveloper}
+            className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#ac895e] hover:bg-[#876F4E] hover:text-white transition-colors"
+            aria-label="Previous developer"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <BsArrowLeft size={20} />
+          </motion.button>
+
+          <div className="flex gap-3">
+            {developers.map((_, index) => (
+              <motion.button
+                key={index}
+                onClick={() => setActiveDeveloper(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === activeDeveloper
+                    ? "bg-gradient-to-r from-[#876F4E] to-[#68543b] scale-125"
+                    : "bg-gradient-to-r from-[#ad8f65] to-[#947753]"
+                }`}
+                aria-label={`Go to developer ${index + 1}`}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.8 }}
+              />
+            ))}
+          </div>
+
+          <motion.button
+            onClick={nextDeveloper}
+            className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#ac895e] hover:bg-[#876F4E] hover:text-white transition-colors"
+            aria-label="Next developer"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <BsArrowRight size={20} />
+          </motion.button>
+        </div> */}
       </div>
     </section>
   );
