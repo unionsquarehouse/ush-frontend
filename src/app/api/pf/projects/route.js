@@ -1,5 +1,5 @@
-import axios from 'axios';
 import tokenManager from '../../../../lib/tokenManager';
+import axios from 'axios';
 import { NextResponse } from 'next/server';
 
 // Helper function to get location details from our locations endpoint

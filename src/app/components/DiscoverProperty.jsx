@@ -27,7 +27,7 @@ const breakpointColumnsObj = {
 
 export default function DiscoverProperty() {
   return (
-    <div className="pb-32 bg-gray-100 min-h-screen ">
+    <div className="pt-10 pb-32 bg-gray-100 min-h-screen ">
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className="flex gap-4  w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto"

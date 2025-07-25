@@ -631,7 +631,7 @@ export default function DevelopersSection() {
 
           {/* Right Column - Hero Image */}
           <div className="relative">
-            <div className="relative rounded-tl-[3rem] rounded-br-[3rem] overflow-hidden aspect-square bg-earth-100">
+            <div className="relative rounded-tl-[3rem] rounded-br-[3rem] overflow-hidden h-[50vh] bg-earth-100">
               <Image
                 src={`/assets/${currentDeveloper.featured[0]
                   .toLowerCase()

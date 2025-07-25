@@ -273,9 +273,7 @@ export default function Projects() {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
-                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-brand">
-                    <FaSearch size={18} />
-                  </div>
+                  
                   <button
                     type="submit"
                     onClick={handleSearchIconClick}
@@ -349,7 +347,7 @@ export default function Projects() {
                       <select
                         value={selectedLocation}
                         onChange={(e) => setSelectedLocation(e.target.value)}
-                        className="w-full  bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
+                        className="w-full max-h-[16rem] overflow-y-scroll  bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
                       >
                         <option value="">All Locations</option>
                         {locations.map(location => (

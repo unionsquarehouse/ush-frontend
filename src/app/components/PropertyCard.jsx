@@ -17,7 +17,7 @@ export default function PropertyCard({ project }) {
   const handleImageClick = () => {
     console.log("hi");
 
-    router.push(`/projects/${project.documentId}`);
+    router.push(`/projects/${project.id}`);
   };
 
   return (
