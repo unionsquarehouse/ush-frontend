@@ -15,6 +15,8 @@ import {
 } from "react-icons/fa";
 import { PhoneIcon, MailIcon, CalendarIcon, MapPinIcon, CameraIcon, SparklesIcon, DiamondIcon } from "lucide-react";
 import ProjectPermit from "../../components/project/ProjectPermit";
+import ProjectMap from "../../components/project/ProjectMap";
+
 
 export default function PropertyFinderPage() {
   const params = useParams();
@@ -95,17 +97,25 @@ export default function PropertyFinderPage() {
   const description = data?.description?.en;
   const amenities = data?.amenities;
   const reference = data?.reference;
-  const location = data?.location;
+  const location = project?.location;
   const compliance = data?.compliance;
 
   const profile = agentProfile?.publicProfile || {};
-  console.log(profile,"profile");
-  const agentName = profile.name || `Agent #${data?.assignedTo?.id}`;
+  console.log(project,"project");
+  const agentId = typeof data?.assignedTo?.id === 'object' ? data?.assignedTo?.id?.id : data?.assignedTo?.id;
+  const agentName = profile.name || `Agent #${agentId || 'Unknown'}`;
   const agentPhoto = profile.imageVariants?.large?.default || null;
   const agentPosition = profile.position?.primary || "Luxury Property Consultant";
   const agentPhone = profile?.phone 
   const agentEmail = profile?.email 
   const agentLinkedIn = profile?.linkedinAddress
+
+  // Fix price rendering - extract the actual price value
+  const priceValue = price?.value || price?.amount || 'Price on request';
+  const currency = price?.currency || 'AED';
+
+  // Fix location rendering - extract location string
+  const locationString = location?.name || location?.address || location?.area || 'Location not specified';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-earth-50 to-earth-100">
@@ -235,15 +245,15 @@ export default function PropertyFinderPage() {
                   <h1 className="font-display text-4xl font-bold text-earth-900 mb-4 leading-tight">{title}</h1>
                   <p className="text-earth-600 flex items-center font-montserrat text-lg">
                     <MapPinIcon className="mr-2 w-5 h-5" />
-                    {location?.area?.name}, {location?.city?.name}
+                    {locationString}
                   </p>
                 </div>
                 <div className="text-right">
                   <div className="bg-gradient-to-br from-earth-50 to-earth-100 border border-earth-200 px-6 py-4 rounded-2xl shadow-lg">
                     <div className="text-3xl font-display font-bold text-earth-900 mb-1">
-                      AED {Number(price).toLocaleString()}
+                      {currency} {Number(priceValue).toLocaleString()}
                     </div>
-                    <div className="text-earth-600 font-montserrat">AED {Math.round(price / size).toLocaleString()} per sq ft</div>
+                    <div className="text-earth-600 font-montserrat">{currency} {Math.round(priceValue / size).toLocaleString()} per sq ft</div>
                   </div>
                 </div>
               </div>
@@ -410,18 +420,7 @@ export default function PropertyFinderPage() {
               transition={{ delay: 0.4 }}
               className="bg-white rounded-tl-[2rem] rounded-br-[2rem] p-8 shadow-xl border border-earth-200/30 hover-lift"
             >
-              <h3 className="font-display text-2xl font-semibold mb-6 text-earth-900 flex items-center">
-                <MapPinIcon className="mr-3 text-brand w-6 h-6" />
-                Prime Location & Surroundings
-              </h3>
-              <div className="h-80 bg-gradient-to-br from-earth-50 to-earth-100 border border-earth-200/50 rounded-2xl flex items-center justify-center relative overflow-hidden shadow-inner">
-                <div className="absolute inset-0 bg-gradient-to-br from-brand/5 to-brand-hover/5"></div>
-                <div className="text-center z-10">
-                  <MapPinIcon className="w-12 h-12 text-brand mx-auto mb-4" />
-                  <p className="text-earth-600 font-montserrat text-lg">Interactive Luxury Location Map</p>
-                  <p className="text-earth-500 font-montserrat text-sm mt-2">Premium neighborhood insights coming soon</p>
-                </div>
-              </div>
+              <ProjectMap location={location} />
             </motion.div>
 
             {/* DLD Permit */}
@@ -558,7 +557,7 @@ export default function PropertyFinderPage() {
                 <div>
                   <label className="block text-sm font-montserrat font-medium text-earth-700 mb-2">Property Investment</label>
                   <div className="bg-gradient-to-br from-earth-50 to-white border border-earth-200/50 rounded-xl px-4 py-3 shadow-sm">
-                    <span className="font-display font-semibold text-earth-900">AED {Number(price).toLocaleString()}</span>
+                    <span className="font-display font-semibold text-earth-900">{currency} {Number(priceValue).toLocaleString()}</span>
                   </div>
                 </div>
                 <div>

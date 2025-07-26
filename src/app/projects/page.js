@@ -8,6 +8,7 @@ import { IoMdPricetag } from "react-icons/io";
 import { HiLocationMarker } from "react-icons/hi";
 import PropertyCard from "../components/PropertyCard";
 import Pagination from "../components/ui/Pagination";
+import axios from "axios";
 
 export default function Projects() {
   const sectionRef = useRef(null);

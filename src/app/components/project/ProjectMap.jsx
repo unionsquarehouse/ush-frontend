@@ -2,7 +2,7 @@
 export default function ProjectMap({ location }) {
   const encodedAddress = encodeURIComponent(location);
 
-  return (
+  return (  
     <section className="bg-white p-6 rounded-2xl shadow-sm">
       <h2 className="text-2xl font-semibold mb-4">Location</h2>
       <p className="mb-4 text-gray-600">{location}</p>
