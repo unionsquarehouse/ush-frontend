@@ -55,7 +55,7 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 transition-all duration-500 z-50 ${
         scrolled || mobileMenuOpen || pathname !== "/"
-          ? "linear-gradient(135deg, #D2CEB9 0%, #E6E4D8 50%, #D2CEB9 100%)"
+          ? "bg-white"
           : "bg-transparent"
       }`}
     >
