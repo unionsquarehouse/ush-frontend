@@ -343,7 +343,7 @@ export default function BlogPage({ params }) {
           <Button
             onClick={() => router.push('/blogs')}
             variant="outline"
-            className="border-earth-200 text-white hover:bg-brand"
+            className="border-earth-200 text-brand hover:bg-brand hover:text-white"
           >
             <FaArrowLeft className="mr-2" />
             All Articles

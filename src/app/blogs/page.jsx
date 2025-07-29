@@ -361,6 +361,8 @@ export default function BlogsPage() {
                 className="h-full"
               >
                 <Card
+                  key={post.id}
+                  onClick={() => handleBlogClick(post.documentId)}
                   className="relative rounded-tl-[2rem] rounded-br-[2rem] overflow-hidden group cursor-pointer transition-all duration-500 border-0 backdrop-blur-md bg-white/10 hover:bg-white/20 hover:scale-105 h-full"
                   style={{
                     backdropFilter: 'blur(16px)',
