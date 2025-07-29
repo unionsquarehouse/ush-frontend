@@ -8,8 +8,10 @@ import { FaSearch, FaSliders, FaSlidersH } from "react-icons/fa";
 import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import Pagination from "../components/ui/Pagination";
+import { useRouter } from "next/navigation";
 
 export default function AgentsPage() {
+  const router = useRouter();
   const [agents, setAgents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hoveredAgent, setHoveredAgent] = useState(null);
@@ -51,10 +53,18 @@ export default function AgentsPage() {
   }, []);
 
   const filteredAgents = agents.filter((agent) => {
-    return (
-      agent.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (selectedSpecialty === "" || agent.position === selectedSpecialty)
-    );
+    const matchesSearch = agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         (agent.position && agent.position.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                         (agent.role && agent.role.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                         (agent.bio && agent.bio.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+    const matchesSpecialty = selectedSpecialty === "" || agent.position === selectedSpecialty;
+    
+    const matchesExperience = true; // Add experience logic when available
+    
+    const matchesRating = true; // Add rating logic when available
+    
+    return matchesSearch && matchesSpecialty && matchesExperience && matchesRating;
   });
 
   const paginatedAgents = filteredAgents.slice((page - 1) * pageSize, page * pageSize);
@@ -79,7 +89,15 @@ export default function AgentsPage() {
   const resetFilters = () => {
     setSearchTerm("");
     setSelectedSpecialty("");
+    setExperienceRange([0, 15]);
+    setMinRating(0);
     setPage(1);
+  };
+
+  const handleAgentClick = (agent) => {
+    // Use the agent's ID or publicProfileId for navigation
+    const agentId = agent.publicProfileId || agent.id;
+    router.push(`/agents/${agentId}`);
   };
 
   if (loading) {
@@ -97,7 +115,7 @@ export default function AgentsPage() {
 
   return (
     <section className="py-32 bg-gradient-to-b from-white via-earth-50 to-white min-h-screen">
-      <div className="container mx-auto px-6 md:px-0">
+      <div className="w-[75vw] mx-auto px-6 md:px-0">
         {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-6">
@@ -144,7 +162,7 @@ export default function AgentsPage() {
           {/* Expandable Filters Section */}
           {showFilters && (
             <div className="pt-6 px-2 mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                 {/* Specialty Filter */}
                 <div>
                   <h3 className="text-sm font-semibold text-earth-700 mb-3">Position</h3>
@@ -157,6 +175,47 @@ export default function AgentsPage() {
                     {specialties.map(specialty => (
                       <option key={specialty} value={specialty}>{specialty}</option>
                     ))}
+                  </select>
+                </div>
+
+                {/* Experience Range */}
+                <div>
+                  <h3 className="text-sm font-semibold text-earth-700 mb-3">Experience (Years)</h3>
+                  <div className="flex gap-2">
+                    <input
+                      type="number"
+                      placeholder="Min"
+                      min="0"
+                      max="50"
+                      value={experienceRange[0]}
+                      onChange={(e) => setExperienceRange([+e.target.value, experienceRange[1]])}
+                      className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-3 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
+                    />
+                    <input
+                      type="number"
+                      placeholder="Max"
+                      min="0"
+                      max="50"
+                      value={experienceRange[1]}
+                      onChange={(e) => setExperienceRange([experienceRange[0], +e.target.value])}
+                      className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-3 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
+                    />
+                  </div>
+                </div>
+
+                {/* Minimum Rating */}
+                <div>
+                  <h3 className="text-sm font-semibold text-earth-700 mb-3">Minimum Rating</h3>
+                  <select
+                    value={minRating}
+                    onChange={(e) => setMinRating(+e.target.value)}
+                    className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
+                  >
+                    <option value={0}>Any Rating</option>
+                    <option value={3}>3+ Stars</option>
+                    <option value={4}>4+ Stars</option>
+                    <option value={4.5}>4.5+ Stars</option>
+                    <option value={5}>5 Stars Only</option>
                   </select>
                 </div>
 
@@ -183,25 +242,33 @@ export default function AgentsPage() {
             >
               <CardContent className="p-0">
                 {/* Agent Photo */}
-                <div className="relative h-64 overflow-hidden">
+                <div 
+                  className="relative h-[30vh] overflow-hidden cursor-pointer"
+                  onClick={() => handleAgentClick(agent)}
+                >
                   <img
                     src={agent.photo}
                     alt={agent.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 rounded-full p-3">
+                      <span className="text-brand font-semibold text-sm">View Profile</span>
+                    </div>
+                  </div>
                   
                   {/* Status Badges */}
-                  <div className="absolute top-4 right-4 flex flex-col gap-2">
+                  <div className="absolute top-3 right-3 flex gap-1">
                     {agent.verification === 'verified' && (
-                      <div className="bg-green-600 text-white px-2 py-1 rounded-md text-xs font-semibold flex items-center gap-1">
-                        <span className="w-2 h-2 bg-white rounded-full"></span>
-                        Verified
+                      <div className="bg-green-600 text-white px-1.5 py-0.5 rounded text-xs font-semibold">
+                        ✓
                       </div>
                     )}
                     {agent.isSuperAgent && (
-                      <div className="bg-brand text-white px-2 py-1 rounded-md text-xs font-semibold">
-                        Elite Agent
+                      <div className="bg-brand text-white px-1.5 py-0.5 rounded text-xs font-semibold">
+                        ★
                       </div>
                     )}
                   </div>

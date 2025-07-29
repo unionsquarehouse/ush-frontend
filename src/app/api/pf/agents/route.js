@@ -32,6 +32,7 @@ export async function GET(request) {
       
       return {
         id: user.id,
+        publicProfileId: user.publicProfile?.id || user.id, // Add publicProfileId
         name: profile?.name || `${user.firstName} ${user.lastName}`,
         firstName: user.firstName,
         lastName: user.lastName,
