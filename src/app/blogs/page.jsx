@@ -7,95 +7,11 @@ import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import Pagination from "../components/ui/Pagination";
 import Image from "next/image";
-import { FaSliders } from "react-icons/fa6"
-const blogPosts = [
-  {
-    id: 1,
-    title: "Dubai Real Estate Market Trends 2024: What Investors Need to Know",
-    excerpt: "Discover the latest trends shaping Dubai's real estate landscape and how they impact investment opportunities in the region.",
-    content: "Full blog content here...",
-    author: "John Doe",
-    date: "2024-01-15",
-    category: "Market Analysis",
-    tags: ["Dubai", "Investment", "Market Trends", "2024"],
-    image: "/assets/blog/dubai-skyline.jpg",
-    readTime: "5 min read",
-    views: 1250,
-    featured: true,
-  },
-  {
-    id: 2,
-    title: "Off-Plan Properties: A Complete Guide for First-Time Buyers",
-    excerpt: "Everything you need to know about purchasing off-plan properties in Dubai, from benefits to potential risks.",
-    content: "Full blog content here...",
-    author: "Jane Smith",
-    date: "2024-01-12",
-    category: "Buying Guide",
-    tags: ["Off-Plan", "First-Time Buyers", "Guide"],
-    image: "/assets/blog/off-plan.jpg",
-    readTime: "8 min read",
-    views: 980,
-    featured: false,
-  },
-  {
-    id: 3,
-    title: "Luxury Waterfront Living: Top Communities in Dubai",
-    excerpt: "Explore Dubai's most prestigious waterfront communities and what makes them the ultimate luxury living destinations.",
-    content: "Full blog content here...",
-    author: "Ahmed Al-Mansouri",
-    date: "2024-01-10",
-    category: "Luxury Properties",
-    tags: ["Luxury", "Waterfront", "Communities"],
-    image: "/assets/blog/waterfront.jpg",
-    readTime: "6 min read",
-    views: 1450,
-    featured: true,
-  },
-  {
-    id: 4,
-    title: "Investment ROI: Comparing Dubai's Top Real Estate Areas",
-    excerpt: "A comprehensive analysis of return on investment across Dubai's most popular real estate investment areas.",
-    content: "Full blog content here...",
-    author: "Fatima Al-Rashid",
-    date: "2024-01-08",
-    category: "Investment",
-    tags: ["ROI", "Investment", "Analysis"],
-    image: "/assets/blog/investment.jpg",
-    readTime: "7 min read",
-    views: 890,
-    featured: false,
-  },
-  {
-    id: 5,
-    title: "Sustainable Living: Green Buildings in Dubai's Future",
-    excerpt: "How Dubai is leading the way in sustainable architecture and what it means for future property developments.",
-    content: "Full blog content here...",
-    author: "Omar Al-Khalili",
-    date: "2024-01-05",
-    category: "Sustainability",
-    tags: ["Sustainability", "Green Buildings", "Future"],
-    image: "/assets/blog/green-building.jpg",
-    readTime: "4 min read",
-    views: 720,
-    featured: false,
-  },
-  {
-    id: 6,
-    title: "Legal Guide: Property Ownership Laws for Expats in Dubai",
-    excerpt: "Understanding the legal framework for property ownership in Dubai as an expatriate investor.",
-    content: "Full blog content here...",
-    author: "Layla Al-Hashemi",
-    date: "2024-01-03",
-    category: "Legal",
-    tags: ["Legal", "Expats", "Ownership"],
-    image: "/assets/blog/legal.jpg",
-    readTime: "9 min read",
-    views: 1100,
-    featured: false,
-  },
-];
+import { FaSliders } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
 
 export default function BlogsPage() {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedAuthor, setSelectedAuthor] = useState("");
@@ -108,36 +24,84 @@ export default function BlogsPage() {
   const [categories, setCategories] = useState([]);
   const [authors, setAuthors] = useState([]);
 
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [totalBlogs, setTotalBlogs] = useState(0);
+  const [meta, setMeta] = useState(null);
+
+  const handleBlogClick = (documentId) => {
+    router.push(`/blogs/${documentId}`);
+  };
+
+  // Fetch blogs from Strapi API
   useEffect(() => {
-    const uniqueCategories = [...new Set(blogPosts.map(post => post.category))].sort();
-    const uniqueAuthors = [...new Set(blogPosts.map(post => post.author))].sort();
-    setCategories(uniqueCategories);
-    setAuthors(uniqueAuthors);
-  }, []);
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true);
+        
+        const params = new URLSearchParams({
+          page: page.toString(),
+          pageSize: pageSize.toString(),
+        });
 
-  const filteredPosts = blogPosts.filter((post) => {
-    return (
-      (post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-       post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-       post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))) &&
-      (selectedCategory === "" || post.category === selectedCategory) &&
-      (selectedAuthor === "" || post.author === selectedAuthor)
-    );
-  }).sort((a, b) => {
-    switch (sortBy) {
-      case "date":
-        return new Date(b.date) - new Date(a.date);
-      case "views":
-        return b.views - a.views;
-      case "title":
-        return a.title.localeCompare(b.title);
-      default:
-        return 0;
+        if (selectedCategory) params.set('category', selectedCategory);
+        if (selectedAuthor) params.set('author', selectedAuthor);
+        if (searchTerm) params.set('search', searchTerm);
+        
+        // Add sorting
+        let sortParam = 'createdAt:desc'; // default
+        switch (sortBy) {
+          case 'date':
+            sortParam = 'date:desc';
+            break;
+          case 'title':
+            sortParam = 'title:asc';
+            break;
+          case 'views':
+            sortParam = 'createdAt:desc'; // fallback since views not in Strapi
+            break;
+        }
+        params.set('sort', sortParam);
+
+        const response = await fetch(`/api/strapi/blogs?${params.toString()}`);
+        const result = await response.json();
+        
+        console.log('API Response:', result); 
+
+        if (result.success) {
+          setBlogPosts(result.data);
+          setMeta(result.meta);
+          setTotalBlogs(result.meta.pagination.total);
+        } else {
+          console.error('Failed to fetch blogs:', result.error);
+          console.error('Error details:', result.details);
+        }
+      } catch (error) {
+        console.error('Error fetching blogs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, [page, pageSize, selectedCategory, selectedAuthor, searchTerm, sortBy]);
+
+  // Extract unique categories and authors from fetched data
+  useEffect(() => {
+    if (blogPosts.length > 0) {
+      const uniqueCategories = [...new Set(blogPosts.map(post => post.category))];
+      const uniqueAuthors = [...new Set(blogPosts.map(post => post.author))];
+      setCategories(uniqueCategories);
+      setAuthors(uniqueAuthors);
     }
-  });
+  }, [blogPosts]);
 
-  const paginatedPosts = filteredPosts.slice((page - 1) * pageSize, page * pageSize);
+  // Filter featured posts from the fetched data
   const featuredPosts = blogPosts.filter(post => post.featured);
+
+  // Remove the static filtering since we're now filtering on the server
+  const filteredPosts = blogPosts;
+  const paginatedPosts = filteredPosts;
 
   const handlePageSizeChange = (newPageSize) => {
     setPageSize(newPageSize);
@@ -197,6 +161,7 @@ export default function BlogsPage() {
               {featuredPosts.slice(0, 2).map((post) => (
                 <Card
                   key={post.id}
+                  onClick={() => handleBlogClick(post.documentId)}
                   className="relative rounded-tl-[2rem] rounded-br-[2rem] overflow-hidden group cursor-pointer transition-all duration-500 border-0 backdrop-blur-md bg-white/10 hover:bg-white/20 hover:scale-105"
                   style={{
                     backdropFilter: 'blur(16px)',
@@ -219,10 +184,17 @@ export default function BlogsPage() {
 
                     {/* Image */}
                     <div className="relative h-64 overflow-hidden">
-                      <div className="w-full h-full bg-gradient-to-br from-earth-200 to-earth-300 flex items-center justify-center">
-                        <span className="text-earth-600 text-lg">Blog Image</span>
-                      </div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
+                      {post.image ? (
+                        <img 
+                          src={post.image} 
+                          alt={post.title}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-earth-200 to-earth-300 flex items-center justify-center">
+                          <span className="text-earth-600 text-lg">Blog Image</span>
+                        </div>
+                      )}
                     </div>
 
                     {/* Content */}
@@ -364,110 +336,129 @@ export default function BlogsPage() {
         {/* Results Summary */}
         <div className="mb-8 text-center">
           <p className="text-brand">
-            Showing {filteredPosts.length} of {blogPosts.length} articles
+            {loading ? 'Loading...' : `Showing ${filteredPosts.length} of ${totalBlogs} articles`}
           </p>
         </div>
 
         {/* Blog Posts Grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ staggerChildren: 0.1 }}
-        >
-          {paginatedPosts.map((post, index) => (
-            <motion.div
-              key={post.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="h-full"
-            >
-              <Card
-                className="relative rounded-tl-[2rem] rounded-br-[2rem] overflow-hidden group cursor-pointer transition-all duration-500 border-0 backdrop-blur-md bg-white/10 hover:bg-white/20 hover:scale-105 h-full"
-                style={{
-                  backdropFilter: 'blur(16px)',
-                  boxShadow: `
-                    0 8px 32px 0 rgba(31, 38, 135, 0.2),
-                    0 16px 48px -8px rgba(0, 0, 0, 0.15),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                  `
-                }}
+        {loading ? (
+          <div className="flex justify-center items-center min-h-[400px]">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-brand"></div>
+          </div>
+        ) : (
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ staggerChildren: 0.1 }}
+          >
+            {paginatedPosts.map((post, index) => (
+              <motion.div
+                key={post.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="h-full"
               >
-                {/* Glassmorphism overlays */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/10 to-transparent pointer-events-none"></div>
-                <div className="absolute inset-[1px] rounded-tl-[2rem] rounded-br-[2rem] bg-gradient-to-br from-white/20 to-white/5 pointer-events-none"></div>
-                
-                <CardContent className="p-0 h-full relative flex flex-col">
-                  {/* Image */}
-                  <div className="relative h-48 overflow-hidden">
-                    <div className="w-full h-full bg-gradient-to-br from-earth-200 to-earth-300 flex items-center justify-center">
-                      <span className="text-earth-600">Blog Image</span>
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6 space-y-4 flex-grow flex flex-col">
-                    <div className="flex items-center gap-4 text-sm text-earth-600">
-                      <span className="bg-brand/10 text-brand px-2 py-1 rounded-full">{post.category}</span>
-                      <div className="flex items-center gap-1">
-                        <FaCalendar size={12} />
-                        <span>{formatDate(post.date)}</span>
-                      </div>
-                    </div>
-
-                    <h3 className="text-lg font-bold text-earth-800 group-hover:text-brand transition-colors line-clamp-2">
-                      {post.title}
-                    </h3>
-
-                    <p className="text-earth-600 line-clamp-3 flex-grow">{post.excerpt}</p>
-
-                    <div className="flex items-center justify-between pt-4 border-t border-earth-200/50">
-                      <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 bg-earth-200 rounded-full flex items-center justify-center">
-                          <FaUser size={10} className="text-earth-600" />
+                <Card
+                  className="relative rounded-tl-[2rem] rounded-br-[2rem] overflow-hidden group cursor-pointer transition-all duration-500 border-0 backdrop-blur-md bg-white/10 hover:bg-white/20 hover:scale-105 h-full"
+                  style={{
+                    backdropFilter: 'blur(16px)',
+                    boxShadow: `
+                      0 8px 32px 0 rgba(31, 38, 135, 0.2),
+                      0 16px 48px -8px rgba(0, 0, 0, 0.15),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                    `
+                  }}
+                >
+                  {/* Glassmorphism overlays */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/10 to-transparent pointer-events-none"></div>
+                  <div className="absolute inset-[1px] rounded-tl-[2rem] rounded-br-[2rem] bg-gradient-to-br from-white/20 to-white/5 pointer-events-none"></div>
+                  
+                  <CardContent className="p-0 h-full relative flex flex-col">
+                    {/* Image */}
+                    <div className="relative h-48 overflow-hidden">
+                      {post.image ? (
+                        <img 
+                          src={post.image} 
+                          alt={post.title}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-earth-200 to-earth-300 flex items-center justify-center">
+                          <span className="text-earth-600">Blog Image</span>
                         </div>
-                        <span className="text-sm text-earth-600">{post.author}</span>
-                      </div>
-                      <div className="flex items-center gap-3 text-sm text-earth-600">
+                      )}
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6 space-y-4 flex-grow flex flex-col">
+                      <div className="flex items-center gap-4 text-sm text-earth-600">
+                        <span className="bg-brand/10 text-brand px-2 py-1 rounded-full">{post.category}</span>
                         <div className="flex items-center gap-1">
-                          <FaEye size={12} />
-                          <span>{post.views}</span>
+                          <FaCalendar size={12} />
+                          <span>{formatDate(post.date)}</span>
                         </div>
-                        <span>{post.readTime}</span>
                       </div>
-                    </div>
 
-                    <Button className="w-full bg-brand hover:bg-brand-hover text-white group/btn mt-auto">
-                      Read More
-                      <FaArrowRight className="ml-2 group-hover/btn:translate-x-1 transition-transform" size={14} />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </motion.div>
+                      <h3 className="text-lg font-bold text-earth-800 group-hover:text-brand transition-colors line-clamp-2">
+                        {post.title}
+                      </h3>
+
+                      <p className="text-earth-600 line-clamp-3 flex-grow">{post.excerpt}</p>
+
+                      <div className="flex items-center justify-between pt-4 border-t border-earth-200/50">
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 bg-earth-200 rounded-full flex items-center justify-center overflow-hidden">
+                            {post.authorImage ? (
+                              <img 
+                                src={post.authorImage} 
+                                alt={post.author}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <FaUser size={10} className="text-earth-600" />
+                            )}
+                          </div>
+                          <span className="text-sm text-earth-600">{post.author}</span>
+                        </div>
+                        <div className="flex items-center gap-3 text-sm text-earth-600">
+                          <span>{post.readTime}</span>
+                        </div>
+                      </div>
+
+                      <Button className="w-full bg-brand hover:bg-brand-hover text-white group/btn mt-auto">
+                        Read More
+                        <FaArrowRight className="ml-2 group-hover/btn:translate-x-1 transition-transform" size={14} />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
 
         {/* Pagination */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <Pagination
-            totalItems={filteredPosts.length}
-            itemsPerPage={pageSize}
-            currentPage={page}
-            onPageChange={setPage}
-            maxPageNumbers={5}
-            showItemCount={true}
-            showItemsPerPageSelect={true}
-            onItemsPerPageChange={handlePageSizeChange}
-            itemsPerPageOptions={[6, 12, 18, 24]}
-          />
-        </motion.div>
+        {!loading && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <Pagination
+              totalItems={totalBlogs}
+              itemsPerPage={pageSize}
+              currentPage={page}
+              onPageChange={setPage}
+              maxPageNumbers={5}
+              showItemCount={true}
+              showItemsPerPageSelect={true}
+              onItemsPerPageChange={handlePageSizeChange}
+              itemsPerPageOptions={[6, 12, 18, 24]}
+            />
+          </motion.div>
+        )}
       </div>
     </section>
   );

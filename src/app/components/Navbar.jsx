@@ -45,7 +45,7 @@ export default function Navbar() {
   const navLinks = [
     { label: "Home", href: "/" },
     { label: "Projects", href: "/projects" },
-    { label: "Communities", href: "/communities" },
+    // { label: "Communities", href: "/communities" },
     { label: "About", href: "/about" },
     { label: "Agents", href: "/agents" },
     { label: "Blogs", href: "/blogs" },
@@ -100,7 +100,7 @@ export default function Navbar() {
 
           {/* CTA Button with glass morphism */}
           <AnimatedButton
-            href="/contact-us"
+            href="/contact"
             animationDelay={0.6}
             containerClassName=" text-center"
             color="yellow-600"
