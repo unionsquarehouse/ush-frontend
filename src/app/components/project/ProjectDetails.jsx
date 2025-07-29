@@ -16,10 +16,10 @@ const PropertyDetails = ({
   setShowFullDescription,
 }) => {
   return (
-    <div className="bg-white rounded-lg p-6 shadow-xl border border-[#D2CEB9] hover:shadow-2xl transition-shadow duration-300 ">
+    <div className="bg-white rounded-tl-[2rem] rounded-br-[2rem] p-6 shadow-xl border border-[#D2CEB9] hover:shadow-2xl transition-shadow duration-300 ">
       {/* <div className="absolute inset-0 rounded-lg pointer-events-none border-effect"></div> */}
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-6 relative">
         <div>
           <h1 className="text-2xl font-semibold text-[#866c4c]">{title}</h1>
           <div className="flex items-center text-[#ac895e] mt-2">
@@ -27,7 +27,7 @@ const PropertyDetails = ({
             <span className="text-lg">{locationString}</span> 
           </div>
         </div>
-        <div className="mt-4 md:mt-0 flex items-center">
+        <div className="mt-4 md:mt-0 absolute right-0 flex items-center">
           <div className="inline-flex items-center bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white px-6 py-3  shadow-lg">
             <FaTag className="mr-2" />
             <span className="text-2xl font-semibold whitespace-nowrap">

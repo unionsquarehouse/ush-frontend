@@ -78,7 +78,7 @@ const ImageGallery = ({ galleryImages, setIsFullscreen, selectedImage, setSelect
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-lg p-6 shadow-xl border border-[#D2CEB9] hover:shadow-2xl transition-shadow duration-300"
+    className=""
       
     >
       {/* <div className="absolute inset-0 rounded-lg pointer-events-none border-effect"></div> */}

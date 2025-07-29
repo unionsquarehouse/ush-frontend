@@ -6,79 +6,53 @@ import {
   ChevronRight,
   Star,
   Award,
+  Shield,
+  Crown,
+  Mail,
+  MapPin,
 } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 
-const agents = [
-  {
-    id: 2,
-    name: "Ahmed Al-Mansouri",
-    photo:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
-    phone: "+971507654321",
-    whatsapp: "+971507654321",
-    specialty: "Commercial Real Estate",
-    experience: "12 Years",
-    sales: "400+ Properties",
-    rating: 4.8,
-    color: "from-blue-400 to-purple-500",
-  },
-  {
-    id: 3,
-    name: "Fatima Al-Rashid",
-    photo:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
-    phone: "+971509876543",
-    whatsapp: "+971509876543",
-    specialty: "Residential Villas",
-    experience: "6 Years",
-    sales: "180+ Properties",
-    rating: 4.9,
-    color: "from-green-400 to-teal-500",
-  },
-  {
-    id: 4,
-    name: "Omar Al-Khalili",
-    photo:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-    phone: "+971502468135",
-    whatsapp: "+971502468135",
-    specialty: "Investment Properties",
-    experience: "10 Years",
-    sales: "320+ Properties",
-    rating: 4.7,
-    color: "from-red-400 to-pink-500",
-  },
-  {
-    id: 5,
-    name: "Layla Al-Hashemi",
-    photo:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=face",
-    phone: "+971503691470",
-    whatsapp: "+971503691470",
-    specialty: "Waterfront Properties",
-    experience: "7 Years",
-    sales: "200+ Properties",
-    rating: 4.8,
-    color: "from-cyan-400 to-blue-500",
-  },
-];
-
 const AgentsSection = () => {
+  const [agents, setAgents] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [activeAgent, setActiveAgent] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const containerRef = useRef(null);
 
+  // Fetch agents from API
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    const fetchAgents = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch("/api/pf/agents?limit=8");
+        const json = await res.json();
+        
+        if (json.success && json.data.length > 0) {
+          setAgents(json.data);
+        } else {
+          console.error("Failed to fetch agents:", json.error);
+        }
+      } catch (err) {
+        console.error("Error fetching agents:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAgents();
+  }, []);
+
+  useEffect(() => {
+    if (!isAutoPlaying || agents.length === 0) return;
 
     const interval = setInterval(() => {
       setActiveAgent((prev) => (prev + 1) % agents.length);
-    }, 4000);
+    }, 5000);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+  }, [isAutoPlaying, agents.length]);
 
   const nextAgent = () => {
     setActiveAgent((prev) => (prev + 1) % agents.length);
@@ -96,267 +70,280 @@ const AgentsSection = () => {
     window.open(`https://wa.me/${whatsapp.replace("+", "")}`, "_blank");
   };
 
-  const getCardPosition = (index) => {
-    const diff = (index - activeAgent + agents.length) % agents.length;
-    if (diff === 0) return "center";
-    if (diff === 1 || diff === agents.length - 1) return "side";
-    return "hidden";
+  const handleEmail = (email) => {
+    window.open(`mailto:${email}`, "_self");
   };
 
-  return (
-    <section className=" flex flex-col justify-center items-center bg-black   relative  h-[120vh]">
-      {/* Animated background elements */}
-
-      <div className="container mx-auto px-4 relative z-10 ">
-        {/* Section Header */}
-        <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-12 h-0.5 bg-gradient-to-r from-transparent to-brand-hover"></div>
-            <Award className="text-brand-hover" size={40} />
-            <div className="w-12 h-0.5 bg-gradient-to-l from-transparent to-primary"></div>
+  if (loading) {
+    return (
+      <section className="relative min-h-screen bg-gradient-to-br from-earth-900 via-earth-800 to-earth-900 overflow-hidden py-20">
+        <div className="container mx-auto px-4 relative z-10 min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-brand mx-auto mb-4"></div>
+            <p className="text-white text-xl">Loading our elite agents...</p>
           </div>
-          <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            Elite Real Estate
-            <span className="block text-primary">Agents</span>
+        </div>
+      </section>
+    );
+  }
+
+  if (agents.length === 0) {
+    return (
+      <section className="relative min-h-screen bg-gradient-to-br from-earth-900 via-earth-800 to-earth-900 overflow-hidden py-20">
+        <div className="container mx-auto px-4 relative z-10 min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <p className="text-white text-xl">No agents available at the moment.</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const currentAgent = agents[activeAgent];
+
+  // Calculate which agents to show in thumbnails based on active agent
+  const getThumbnailAgents = () => {
+    const totalAgents = agents.length;
+    const thumbnailCount = 6;
+    
+    // Start from the current active agent
+    let startIndex = activeAgent;
+    
+    // If we don't have enough agents after the active one, wrap around
+    const thumbnailAgents = [];
+    for (let i = 0; i < thumbnailCount && i < totalAgents; i++) {
+      const index = (startIndex + i) % totalAgents;
+      thumbnailAgents.push({ ...agents[index], originalIndex: index });
+    }
+    
+    return thumbnailAgents;
+  };
+
+  const thumbnailAgents = getThumbnailAgents();
+
+  return (
+    <section className="relative min-h-screen bg-black overflow-hidden py-20">
+      {/* Background Elements with Earth Tones */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-earth-600/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-3/4 left-3/4 w-64 h-64 bg-brand-hover/10 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Section Header */}
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-4 mb-8">
+            <div className="w-20 h-0.5 bg-gradient-to-r from-transparent via-brand to-transparent"></div>
+            <Award className="text-brand" size={56} />
+            <div className="w-20 h-0.5 bg-gradient-to-l from-transparent via-brand to-transparent"></div>
+          </div>
+          <h2 className="text-6xl lg:text-7xl font-bold mb-8 text-white">
+            Meet Our
+            <span className="block bg-gradient-to-r from-brand to-brand-hover bg-clip-text text-transparent">
+              Elite Team
+            </span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Meet our exceptional team of certified real estate professionals
-            dedicated to making your property dreams a reality
+          <p className="text-xl text-earth-200 max-w-4xl mx-auto leading-relaxed">
+            Connect with Dubai's most trusted real estate professionals who deliver exceptional results
           </p>
         </div>
 
-        {/* Agents Showcase */}
-        <div
-          className="relative flex items-center justify-center"
-          ref={containerRef}
-          onMouseEnter={() => setIsAutoPlaying(false)}
-          onMouseLeave={() => setIsAutoPlaying(true)}
-        >
-          {/* Agent Cards */}
-          <div className="relative h-[50vh] w-full max-w-6xl">
-            {agents.map((agent, index) => {
-              const position = getCardPosition(index);
-              const isActive = index === activeAgent;
-
-              return (
+        {/* Main Content Layout */}
+        <div className="grid lg:grid-cols-3 gap-12 items-center max-w-7xl mx-auto">
+          
+          {/* Left Side - Agent Thumbnails */}
+          <div className="lg:col-span-1 order-2 lg:order-1">
+            <div className="grid grid-cols-4 lg:grid-cols-2 gap-4">
+              {thumbnailAgents.map((agent, index) => (
                 <div
-                  key={agent.id}
-                  className={`absolute transition-all duration-700 ease-in-out ${
-                    position === "hidden"
-                      ? "opacity-0 scale-50 pointer-events-none"
-                      : position === "center"
-                      ? "opacity-100 scale-100 z-20"
-                      : "opacity-60 scale-75 z-10"
+                  key={`${agent.id}-${agent.originalIndex}`}
+                  className={`relative cursor-pointer transition-all duration-500 ${
+                    agent.originalIndex === activeAgent 
+                      ? 'scale-110 ring-4 ring-brand ring-opacity-60' 
+                      : 'hover:scale-105 opacity-70 hover:opacity-100'
                   }`}
-                  style={{
-                    left:
-                      position === "center"
-                        ? "50%"
-                        : position === "side" &&
-                          (index - activeAgent + agents.length) %
-                            agents.length ===
-                            1
-                        ? "75%"
-                        : "25%",
-                    transform:
-                      position === "center"
-                        ? "translateX(-50%) translateZ(0)"
-                        : position === "side" &&
-                          (index - activeAgent + agents.length) %
-                            agents.length ===
-                            1
-                        ? "translateX(-25%) translateZ(-50px)"
-                        : "translateX(-75%) translateZ(-50px)",
-                    transformStyle: "preserve-3d",
-                  }}
+                  onClick={() => setActiveAgent(agent.originalIndex)}
                 >
-                  <Card
-                    className={`w-80 relative rounded-tl-[2rem] rounded-br-[2rem] overflow-hidden group cursor-pointer transition-all duration-500 border-0 ${
-                      isActive
-                        ? "backdrop-blur-xl bg-white/25 hover:bg-white/30"
-                        : "backdrop-blur-md bg-white/10 hover:bg-white/15"
-                    }`}
-                    style={{
-                      backdropFilter: "blur(16px)",
-                      background: isActive
-                        ? "rgba(255, 255, 255, 0.25)"
-                        : "rgba(255, 255, 255, 0.1)",
-                      boxShadow: isActive
-                        ? `
-                          0 8px 32px 0 rgba(31, 38, 135, 0.37),
-                          0 20px 60px -12px rgba(0, 0, 0, 0.25),
-                          0 35px 100px -20px rgba(0, 0, 0, 0.15),
-                          inset 0 1px 0 rgba(255, 255, 255, 0.3)
-                        `
-                        : `
-                          0 4px 16px 0 rgba(31, 38, 135, 0.2),
-                          0 8px 32px -8px rgba(0, 0, 0, 0.15),
-                          0 16px 48px -16px rgba(0, 0, 0, 0.1),
-                          inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                        `,
-                      transform: isActive
-                        ? "translateY(-8px) rotateX(2deg)"
-                        : "translateY(0) rotateX(0deg)",
-                    }}
-                  >
-                    {/* Multiple glassmorphism layers for depth */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/10 to-transparent pointer-events-none"></div>
-                    <div className="absolute inset-0 bg-gradient-to-tl from-white/20 via-transparent to-white/10 pointer-events-none"></div>
-
-                    {/* Inner glass effect with depth */}
-                    <div className="absolute inset-[1px] rounded-tl-[2rem] rounded-br-[2rem] bg-gradient-to-br from-white/20 to-white/5 pointer-events-none"></div>
-
-                    {/* Depth shadow behind card */}
-                    <div className="absolute -inset-2 bg-black/10 rounded-tl-[2rem] rounded-br-[2rem] blur-xl -z-10 opacity-60"></div>
-
-                    {/* Floating effect shadow */}
-                    <div
-                      className={`absolute -bottom-6 left-4 right-4 h-6 bg-black/20 rounded-full blur-lg -z-20 transition-all duration-500 ${
-                        isActive
-                          ? "opacity-40 scale-110"
-                          : "opacity-20 scale-100"
-                      }`}
-                    ></div>
-                    <CardContent className="p-0 h-full relative">
-                      {/* Background gradient */}
-                      <div
-                        className={`absolute inset-0 bg-gradient-to-br ${agent.color} opacity-10 group-hover:opacity-20 transition-opacity duration-500`}
-                      ></div>
-
-                      {/* Agent Photo */}
-                      <div className="relative h-[25vh] overflow-hidden">
-                        <img
-                          src={agent.photo}
-                          alt={agent.name}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
-
-                        {/* Rating Badge */}
-                        <div className="absolute top-4 right-4 bg-card/90 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1">
-                          <Star
-                            size={14}
-                            className="text-yellow-500 fill-yellow-500"
-                          />
-                          <span className="text-sm font-semibold">
-                            {agent.rating}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Agent Info */}
-                      <div className="p-6 space-y-4">
-                        <div>
-                          <h3 className="text-xl font-bold text-foreground">
-                            {agent.name}
-                          </h3>
-                          <p className="text-primary font-medium">
-                            {agent.specialty}
-                          </p>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-3 text-sm">
-                          <div className="bg-accent/50 rounded-lg p-2 text-center">
-                            <div className="font-semibold text-foreground">
-                              {agent.experience}
-                            </div>
-                            <div className="text-muted-foreground">
-                              Experience
-                            </div>
-                          </div>
-                          <div className="bg-accent/50 rounded-lg p-2 text-center">
-                            <div className="font-semibold text-foreground">
-                              {agent.sales}
-                            </div>
-                            <div className="text-muted-foreground">Sold</div>
-                          </div>
-                        </div>
-
-                        <div className="flex gap-2">
-                          <Button
-                            onClick={() => handleCall(agent.phone)}
-                            size="sm"
-                            variant="outline"
-                            className="flex-1 group/btn hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
-                          >
-                            <Phone
-                              size={16}
-                              className="mr-2 group-hover/btn:animate-bounce"
-                            />
-                            Call
-                          </Button>
-                          <Button
-                            onClick={() => handleWhatsApp(agent.whatsapp)}
-                            size="sm"
-                            className="flex-1 bg-green-600 hover:bg-green-700 text-white group/btn transition-colors duration-300"
-                          >
-                            <MessageCircle
-                              size={16}
-                              className="mr-2 group-hover/btn:animate-bounce"
-                            />
-                            WhatsApp
-                          </Button>
-                        </div>
-                      </div>
-
-                    </CardContent>
-                  </Card>
+                  <div className="aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-brand/20 to-earth-600/20 backdrop-blur-sm border border-earth-300/20">
+                    <img
+                      src={agent.photo}
+                      alt={agent.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  {agent.isSuperAgent && (
+                    <div className="absolute -top-2 -right-2 bg-yellow-400 rounded-full p-1">
+                      <Crown size={12} className="text-black" />
+                    </div>
+                  )}
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
 
-          <div className="absolute top-1/2 left-4 z-30 hidden lg:block">
-            <button
-              onClick={prevAgent}
-              className="w-12 h-12  rounded-tl-xl rounded-br-xl flex items-center justify-center border border-white text-white hover:bg-white hover:text-black transition-colors"
-              aria-label="Previous amenity"
+          {/* Center - Main Agent Card */}
+          <div className="lg:col-span-1 order-1 lg:order-2">
+            <div 
+              className="relative mx-auto max-w-md"
+              onMouseEnter={() => setIsAutoPlaying(false)}
+              onMouseLeave={() => setIsAutoPlaying(true)}
             >
-              <ChevronLeft className="text-xl" />
-            </button>
+              {/* Animated Border */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-brand via-brand-hover to-earth-600 rounded-3xl blur opacity-75 animate-pulse"></div>
+              
+              {/* Main Card */}
+              <div className="relative bg-white rounded-3xl overflow-hidden shadow-2xl">
+                {/* Agent Photo */}
+                <div className="relative h-78 overflow-hidden">
+                  <img
+                    src={currentAgent.photo}
+                    alt={currentAgent.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                  
+                  {/* Status Badges */}
+                  <div className="absolute top-4 left-4 flex gap-2">
+                    {currentAgent.verification === 'verified' && (
+                      <div className="bg-green-500 text-white px-3 py-1 rounded-full flex items-center gap-1 text-sm font-semibold">
+                        <Shield size={14} />
+                        Verified
+                      </div>
+                    )}
+                  </div>
+
+                  {currentAgent.isSuperAgent && (
+                    <div className="absolute top-4 right-4 bg-yellow-400 text-black px-3 py-1 rounded-full flex items-center gap-1 font-bold text-sm">
+                      <Crown size={14} />
+                      Super Agent
+                    </div>
+                  )}
+                </div>
+
+                {/* Agent Info */}
+                <div className="p-8">
+                  <div className="text-center mb-6">
+                    <h3 className="text-3xl font-bold text-gray-900 mb-2">
+                      {currentAgent.name}
+                    </h3>
+                    <p className="text-brand font-semibold text-lg mb-1">
+                      {currentAgent.position}
+                    </p>
+                    <p className="text-gray-600">
+                      {currentAgent.role}
+                    </p>
+                  </div>
+
+                  {/* Stats */}
+                  
+
+                  {/* Contact Buttons */}
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-2 gap-3">
+                      <Button
+                        onClick={() => handleCall(currentAgent.phone)}
+                        className="bg-gradient-to-r from-brand to-brand-hover hover:from-brand-hover hover:to-brand text-white rounded-xl py-3 transition-all duration-300 hover:scale-105"
+                      >
+                        <Phone size={16} className="mr-2" />
+                        Call
+                      </Button>
+                      <Button
+                        onClick={() => handleWhatsApp(currentAgent.whatsapp)}
+                        className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-xl py-3 transition-all duration-300 hover:scale-105"
+                      >
+                        <MessageCircle size={16} className="mr-2" />
+                        WhatsApp
+                      </Button>
+                    </div>
+                    <Button
+                      onClick={() => handleEmail(currentAgent.email)}
+                      variant="outline"
+                      className="w-full border-2 border-earth-300 hover:border-brand hover:bg-earth-50 rounded-xl py-3 transition-all duration-300"
+                    >
+                      <Mail size={16} className="mr-2" />
+                      Send Email
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="absolute top-1/2 right-4 z-30 hidden lg:block">
-            <button
-              onClick={nextAgent}
-              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-white text-white hover:bg-white hover:text-black transition-colors"
-              aria-label="Next amenity"
-            >
-              <ChevronRight className="text-xl" />
-            </button>
+          {/* Right Side - Navigation & Info */}
+          <div className="lg:col-span-1 order-3 space-y-8">
+            {/* Navigation Controls */}
+            <div className="flex justify-center lg:justify-start gap-4">
+              <Button
+                onClick={prevAgent}
+                variant="outline"
+                size="icon"
+                className="bg-earth-800/50 backdrop-blur-md border-earth-600/30 text-white hover:bg-brand/20 rounded-full w-14 h-14 transition-all duration-300 hover:scale-110"
+              >
+                <ChevronLeft size={24} />
+              </Button>
+              <Button
+                onClick={nextAgent}
+                variant="outline"
+                size="icon"
+                className="bg-earth-800/50 backdrop-blur-md border-earth-600/30 text-white hover:bg-brand/20 rounded-full w-14 h-14 transition-all duration-300 hover:scale-110"
+              >
+                <ChevronRight size={24} />
+              </Button>
+            </div>
+
+            {/* Agent Bio */}
+            {currentAgent.bio && (
+              <div className="bg-earth-800/30 backdrop-blur-md rounded-2xl p-6 border border-earth-600/30">
+                <h4 className="text-white font-semibold mb-3">About</h4>
+                <p className="text-earth-200 text-sm leading-relaxed">
+                  {currentAgent.bio.length > 150 
+                    ? `${currentAgent.bio.substring(0, 120)}...` 
+                    : currentAgent.bio
+                  }
+                </p>
+                {currentAgent.bio.length > 120 && (
+                  <button 
+                    className="text-brand hover:text-brand-hover text-sm mt-2 underline transition-colors"
+                    onClick={() => {/* Add modal or expand functionality */}}
+                  >
+                    Read More
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Quick Stats */}
+            <div className="bg-earth-800/30 backdrop-blur-md rounded-2xl p-6 border border-earth-600/30">
+              <h4 className="text-white font-semibold mb-4">Quick Info</h4>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 text-earth-200">
+                  <Mail size={16} />
+                  <span className="text-sm">{currentAgent.email}</span>
+                </div>
+                <div className="flex items-center gap-3 text-earth-200">
+                  <Phone size={16} />
+                  <span className="text-sm">{currentAgent.phone}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Dots Indicator */}
-        <div className="flex justify-center mt-8 gap-3">
+        {/* Progress Indicators */}
+        <div className="flex justify-center mt-16 gap-3">
           {agents.map((_, index) => (
             <button
               key={index}
               onClick={() => setActiveAgent(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              className={`transition-all duration-300 ${
                 index === activeAgent
-                  ? "bg-white scale-125 shadow-lg shadow-primary/50"
-                  : "bg-white hover:bg-white/50 hover:scale-110"
+                  ? "w-12 h-3 bg-gradient-to-r from-brand to-brand-hover rounded-full"
+                  : "w-3 h-3 bg-earth-400/30 hover:bg-earth-400/50 rounded-full hover:scale-125"
               }`}
             />
           ))}
         </div>
-
-        {/* Statistics */}
-        {/* <div className="mt-16 grid grid-cols-1 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-          {[
-            { label: "Active Agents", value: "20+", icon: "👥" },
-            { label: "Properties Sold", value: "1,200+", icon: "🏠" },
-            { label: "Happy Clients", value: "950+", icon: "😊" },
-            { label: "Years Experience", value: "15+", icon: "⭐" }
-          ].map((stat, index) => (
-            <div key={index} className="text-center p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-all duration-300 group">
-              <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-300">{stat.icon}</div>
-              <div className="text-2xl font-bold text-primary mb-1">{stat.value}</div>
-              <div className="text-sm text-muted-foreground">{stat.label}</div>
-            </div>
-          ))}
-        </div> */}
       </div>
     </section>
   );
