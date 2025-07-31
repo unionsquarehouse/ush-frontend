@@ -21,7 +21,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 @layer base {
@@ -38,36 +38,35 @@ body {
   }
 
   div {
-    font-family: var(--font-montserrat), "Montserrat", "Playfair Display", Arial,
-      Helvetica, sans-serif;
+    font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
   }
 
   h1 {
-    @apply text-5xl md:text-6xl;
+    @apply text-6xl md:text-9xl;
   }
 
   h2 {
-    @apply text-4xl md:text-5xl;
+    @apply text-4xl md:text-8xl;
   }
 
   h3 {
-    @apply text-3xl md:text-4xl;
+    @apply text-3xl md:text-7xl;
   }
 
   h4 {
-    @apply text-2xl md:text-3xl;
+    @apply text-2xl md:text-6xl;
   }
 
   h5 {
-    @apply text-xl md:text-2xl;
+    @apply text-xl md:text-5xl;
   }
 
   h6 {
-    @apply text-lg md:text-xl;
+    @apply text-lg md:text-4xl;
   }
 
   p {
-    @apply text-base md:text-lg;
+    @apply text-base md:text-2xl font-extralight text-brand;
   }
 }
 

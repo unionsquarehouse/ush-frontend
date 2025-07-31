@@ -23,7 +23,7 @@ export default function PropertyCard({ project }) {
   return (
     <motion.div
       key={project.id}
-      className="- h-[50vh] group"
+      className="perspective-1000 h-[50vh] group"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       // transition={{ delay: index * 0.1 }}
@@ -31,7 +31,7 @@ export default function PropertyCard({ project }) {
     >
       <div className="relative h-full w-full preserve-3d transition-all duration-500 group-hover:[transform:rotateY(10deg)]">
         {/* Front of card */}
-        <div className="absolute inset-0 backface-hidden rounded-tl-[3rem] rounded-br-[3rem] overflow-hidden">
+        <div className="absolute inset-0 backface-hidden overflow-hidden">
           <div className="relative h-full">
             <div className="relative h-full w-full cursor-pointer">
               <Image
@@ -42,24 +42,24 @@ export default function PropertyCard({ project }) {
               />
             </div>
 
-            <div className="absolute inset-0 bg-gradient-to-t from-earth-900/70 via-transparent to-transparent"></div>
+            <div className="absolute inset-0  bg-black opacity-30"></div>
 
             {/* Price tag with clip path */}
-            <div className="absolute top-6 right-0 clip-path-price bg-gradient-to-r from-[#866c4c] to-[#ac895e] shine-effect-absolute text-white py-2 px-6 font-display">
+            <div className="absolute top-6 right-0 clip-path-price bg-gradient-to-r from-[#9F3349]  via-[#a53047] to-[#e24d6b]  shine-effect-absolute text-white py-2 px-6 font-display">
               {project.price} AED
             </div>
 
             <div className="absolute bottom-0 left-0 p-6 w-full">
               <h3
-                className="text-xl text-white mb-1 cursor-pointer"
+                className="text-lg text-white mb-1 cursor-pointer"
                 onClick={handleImageClick}
               >
                 {project.title}
               </h3>
-              <p className="text-earth-100 text-lg flex items-center mb-3">
+              <p className="text-white text-lg flex items-center mb-3">
                 <FaMapMarkerAlt className="mr-1" /> {project.location}
               </p>
-              <div className="flex items-center justify-between text-sm text-white mb-2">
+              <div className="flex items-center justify-between text-base text-white mb-3">
                 <span className="flex items-center">
                   <FaBed className="mr-1" />
                   {project.beds} Bed{project.beds > 1 ? "s" : ""}
@@ -77,8 +77,8 @@ export default function PropertyCard({ project }) {
               <div className="flex gap-4">
                 {/* Developer */}
                 {project.developer && (
-                  <div className="text-xs text-black mb-2">
-                    <span className="inline-block px-2 py-1 bg-gray-100 rounded-full">
+                  <div className="text-base text-white mb-2">
+                    <span className="inline-block px-3 py-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-lg shadow-lg">
                       Developer: {project.developer}
                     </span>
                   </div>
@@ -86,8 +86,8 @@ export default function PropertyCard({ project }) {
 
                 {/* Completion Status */}
                 {project.completionStatus && (
-                  <div className="text-xs text-black mb-3">
-                    <span className="inline-block px-2 py-1 bg-gray-100 rounded-full">
+                  <div className="text-base text-white mb-3">
+                    <span className="inline-block px-3 py-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-lg shadow-lg">
                       {project.completionStatus
                         .replace(/_/g, " ")
                         .replace(/\b\w/g, (l) => l.toUpperCase())}
@@ -100,7 +100,7 @@ export default function PropertyCard({ project }) {
         </div>
 
         {/* Shadow effect */}
-        <div className="absolute -bottom-10 left-5 right-5 h-[20px] bg-black/20 blur-xl rounded-full transform-gpu transition-all duration-500 group-hover:scale-110"></div>
+        <div className="absolute -bottom-10 left-5 right-5 h-[20px] bg-black/20 blur-xl transform-gpu transition-all duration-500 group-hover:scale-110"></div>
       </div>
     </motion.div>
   );

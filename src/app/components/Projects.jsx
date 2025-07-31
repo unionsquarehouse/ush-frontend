@@ -73,7 +73,7 @@ export default function Projects() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl mb-4 text-black flex items-center justify-center">
+          <h2 className=" mb-4 text-black flex items-center justify-center">
             <span className="text-[#ac895e] shine-effect mr-2">Featured</span>{" "}
             Off‑Plan Projects
           </h2>
@@ -116,7 +116,7 @@ export default function Projects() {
                 <motion.button
                   key={index}
                   onClick={() => setActiveProject(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  className={`w-3 h-3  transition-all duration-300 ${
                     index === activeProject
                       ? "bg-gradient-to-r from-[#876F4E] to-[#68543b] scale-125"
                       : "bg-gradient-to-r from-[#ad8f65] to-[#947753]"
@@ -138,6 +138,7 @@ export default function Projects() {
               gradientFrom="yellow-600"
               gradientTo="yellow-500"
               variant="solid"
+              className="text-white"
             >
               View All Projects
             </AnimatedButton>

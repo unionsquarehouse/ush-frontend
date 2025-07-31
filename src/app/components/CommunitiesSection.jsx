@@ -95,768 +95,326 @@ const communities = [
 ];
 
 export default function CommunitiesSection() {
-  const [activeCommunity, setActiveCommunity] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [hoveredCard, setHoveredCard] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const containerRef = useRef(null);
-  const [isHovering, setIsHovering] = useState(false);
-  const [showVirtualTour, setShowVirtualTour] = useState(false);
-  const [showContactModal, setShowContactModal] = useState(false);
-  const [selectedFeature, setSelectedFeature] = useState(null);
-  const [showImageZoom, setShowImageZoom] = useState(false);
+  const carouselRef = useRef(null);
 
-  const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+  const categories = [
+    { id: 'all', name: 'All Communities', icon: '🏙️' },
+    { id: 'luxury', name: 'Ultra Luxury', icon: '💎' },
+    { id: 'waterfront', name: 'Waterfront', icon: '🌊' },
+    { id: 'golf', name: 'Golf Communities', icon: '⛳' },
+    { id: 'family', name: 'Family Living', icon: '👨‍👩‍👧‍👦' }
+  ];
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-
-  const nextCommunity = () => {
-    setActiveCommunity((prev) => (prev + 1) % communities.length);
-    // Reset all modals when changing communities
-    setShowVirtualTour(false);
-    setShowContactModal(false);
-    setSelectedFeature(null);
-    setShowImageZoom(false);
-  };
-
-  const prevCommunity = () => {
-    setActiveCommunity(
-      (prev) => (prev - 1 + communities.length) % communities.length
-    );
-    // Reset all modals when changing communities
-    setShowVirtualTour(false);
-    setShowContactModal(false);
-    setSelectedFeature(null);
-    setShowImageZoom(false);
-  };
-
-  // Auto-rotate carousel unless user is interacting
+  // Auto-scroll carousel
   useEffect(() => {
-    if (
-      isHovering ||
-      showVirtualTour ||
-      showContactModal ||
-      selectedFeature ||
-      showImageZoom
-    )
-      return;
+    if (!isAutoPlaying) return;
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % communities.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [isAutoPlaying]);
 
-    const timer = setTimeout(() => {
-      nextCommunity();
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [
-    activeCommunity,
-    isHovering,
-    showVirtualTour,
-    showContactModal,
-    selectedFeature,
-    showImageZoom,
-  ]);
-
-  const handleContactAgent = () => {
-    setShowContactModal(true);
-  };
-
-  const handleVirtualTour = () => {
-    setShowVirtualTour(true);
-  };
-
-  const handleFeatureClick = (feature, idx) => {
-    setSelectedFeature({ feature, idx });
-  };
-
-  const handleImageZoom = () => {
-    setShowImageZoom(true);
-  };
+  const filteredCommunities = selectedCategory === 'all' 
+    ? communities 
+    : communities.filter(c => c.category === selectedCategory);
 
   return (
-    <section
+    <section 
       ref={containerRef}
-      className="pb-32 relative overflow-hidden bg-earth-50 text-earth-700"
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+      className="py-20 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden"
+      onMouseEnter={() => setIsAutoPlaying(false)}
+      onMouseLeave={() => setIsAutoPlaying(true)}
     >
-      <motion.div
-        style={{ opacity }}
-        className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto relative z-10 text-black"
-      >
-        {/* Section header */}
+      {/* Animated Background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid-pattern.svg')] opacity-5"></div>
+        <motion.div 
+          animate={{ 
+            background: [
+              'radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%)',
+              'radial-gradient(circle at 80% 20%, rgba(255, 183, 77, 0.3) 0%, transparent 50%)',
+              'radial-gradient(circle at 40% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%)'
+            ]
+          }}
+          transition={{ duration: 8, repeat: Infinity, repeatType: "reverse" }}
+          className="absolute inset-0"
+        />
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        {/* Hero Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 1 }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl  mb-4 flex items-center justify-center">
-            <span className="text-[#ac895e] shine-effect mr-2">Explore</span>{" "}
-            Dubai Communities
+          <motion.div
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="inline-block mb-6"
+          >
+            <div className="relative">
+              <div className="w-20 h-20 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-3xl shadow-2xl">
+                🏙️
+              </div>
+              <div className="absolute -inset-2 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full blur opacity-30 animate-pulse"></div>
+            </div>
+          </motion.div>
+
+          <h2 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-yellow-200 to-orange-300 bg-clip-text text-transparent">
+            Dubai's Finest
           </h2>
-          <div className="h-0.5 w-24 bg-gradient-to-r from-[#876F4E] to-[#68543b] mx-auto mb-6"></div>
-          {/* <p className="text-xl max-w-2xl mx-auto">
-            Discover Dubai's most prestigious neighborhoods and find your
-            perfect home
-          </p> */}
+          <h3 className="text-3xl md:text-4xl font-light text-slate-300 mb-8">
+            Exclusive Communities
+          </h3>
+          
+          <motion.p 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed"
+          >
+            Discover where luxury meets lifestyle in Dubai's most prestigious neighborhoods
+          </motion.p>
         </motion.div>
 
-        {/* Community showcase with fixed container */}
-        <div className="relative pb-24">
-          {/* Current community display */}
-          <div className="overflow-hidden">
-            <div
-              className="transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(-${activeCommunity * 100}%)` }}
+        {/* Category Filter */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="flex flex-wrap justify-center gap-4 mb-16"
+        >
+          {categories.map((category) => (
+            <motion.button
+              key={category.id}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setSelectedCategory(category.id)}
+              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                selectedCategory === category.id
+                  ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-slate-900 shadow-lg shadow-yellow-500/25'
+                  : 'bg-slate-800/50 text-slate-300 border border-slate-700 hover:bg-slate-700/50 hover:border-slate-600'
+              }`}
             >
-              <div className="flex">
-                {communities.map((community, index) => (
-                  <div key={community.id} className="w-full flex-shrink-0 px-4">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                      {/* Left column - Image and quick stats */}
-                      <div className="lg:col-span-5 flex flex-col items-center lg:items-start space-y-6">
-                        {/* Community image container with interactive elements */}
-                        <div className="relative w-full h-80 rounded-tl-[3rem] rounded-br-[3rem] overflow-hidden shadow-xl border border-earth-700 group ">
-                          <Image
-                            src={community.image}
-                            alt={community.name}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-earth-900/70 via-earth-900/30 to-transparent"></div>
+              <span className="mr-2">{category.icon}</span>
+              {category.name}
+            </motion.button>
+          ))}
+        </motion.div>
 
-                          {/* Interactive hotspots */}
-                          <div className="absolute inset-0">
-                            {/* Virtual Tour Button */}
-                            <motion.button
-                              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] backdrop-blur-md border border-earth-500/40 flex items-center justify-center shadow-lg hover:bg-earth-500/70 transition-all duration-300"
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.9 }}
-                              onClick={handleVirtualTour}
-                              aria-label="View virtual tour"
-                            >
-                              <BsZoomIn className="text-white" />
-                            </motion.button>
-
-                            {/* Map Location Button */}
-                            <motion.button
-                              className="absolute top-4 left-4 w-10 h-10 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] backdrop-blur-md border border-earth-500/40 flex items-center justify-center shadow-lg hover:bg-earth-500/70 transition-all duration-300"
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.9 }}
-                              onClick={() => router.push(community.mapLink)}
-                              aria-label="View on map"
-                            >
-                              <BsGeoAlt className="text-white" />
-                            </motion.button>
-
-                            {/* Contact Agent Button */}
-                            <motion.button
-                              className="absolute bottom-20 right-4 w-10 h-10 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] backdrop-blur-md border border-earth-500/40 flex items-center justify-center shadow-lg hover:bg-earth-500/70 transition-all duration-300"
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.9 }}
-                              onClick={handleContactAgent}
-                              aria-label="Contact agent"
-                            >
-                              <FaPhone className="text-white" />
-                            </motion.button>
-                          </div>
-
-                          {/* Community name overlay */}
-                          <div className="absolute bottom-0 left-0 p-6 w-full">
-                            <div className="flex items-center gap-2 mb-2">
-                              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] backdrop-blur-sm flex items-center justify-center">
-                                <FaMapMarkerAlt className="text-white" />
-                              </div>
-                              <h3 className="text-2xl font-bold text-white">
-                                {community.name}
-                              </h3>
-                            </div>
-
-                            <div className="flex gap-4 mt-3">
-                              <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] flex items-center justify-center">
-                                  <FaHome className="text-white text-sm" />
-                                </div>
-                                <div>
-                                  <p className="text-base text-white/70">
-                                    Properties
-                                  </p>
-                                  <p className="text-white font-medium">
-                                    {community.properties}
-                                  </p>
-                                </div>
-                              </div>
-
-                              <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] flex items-center justify-center">
-                                  <FaBuilding className="text-white text-sm" />
-                                </div>
-                                <div>
-                                  <p className="text-base text-white/70">
-                                    Price Range
-                                  </p>
-                                  <p className="text-white font-medium">
-                                    {community.priceRange}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Full image view button */}
-                          <button
-                            className="absolute inset-0 w-full h-full cursor-zoom-in opacity-0"
-                            onClick={handleImageZoom}
-                            aria-label="Zoom image"
-                          />
-                        </div>
-
-                        {/* Community features */}
-                        <div className="w-full  backdrop-blur-sm  p-6 ">
-                          <div className="absolute inset-0 p-[2px] rounded-tl-[3rem] rounded-br-[3rem] z-0 bg-gradient-to-br from-gray-300 via-gray-400 to-gray-300 opacity-40"></div>
-                          <h3 className="text-2xl font-bold mb-5 flex items-center ">
-                            <span className="w-4 h-0.5 bg-black mr-2"></span>
-                            Key Features
-                          </h3>
-
-                          <div className="space-y-4">
-                            {community.features.map((feature, idx) => (
-                              <motion.div
-                                key={idx}
-                                className="flex items-center group cursor-pointer "
-                                whileHover={{ x: 5 }}
-                                transition={{ type: "spring", stiffness: 300 }}
-                                onClick={() => handleFeatureClick(feature, idx)}
-                              >
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e]  text-white flex items-center justify-center mr-3 group-hover:bg-earth-700 transition-colors duration-300">
-                                  {idx === 0 && (
-                                    <FaSwimmingPool className=" group-hover:text-white transition-colors duration-300" />
-                                  )}
-                                  {idx === 1 && (
-                                    <FaTree className=" group-hover:text-white transition-colors duration-300" />
-                                  )}
-                                  {idx === 2 && (
-                                    <FaBuilding className="0 group-hover:text-white transition-colors duration-300" />
-                                  )}
-                                </div>
-                                <div className="flex-1">
-                                  <p className="text-black font-medium group-hover:text-earth-700 transition-colors duration-300">
-                                    {feature}
-                                  </p>
-                                </div>
-                                <FaInfoCircle className="text-black group-hover:text-earth-700 transition-colors duration-300" />
-                              </motion.div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Right column - Content */}
-                      <div className="lg:col-span-7 ">
-                        <div className="backdrop-blur-sm  p-6 sm:p-8 shadow-lg h-full ">
-                          <div className="absolute inset-0 p-[2px] rounded-tl-[3rem] rounded-br-[3rem] z-0 bg-gradient-to-br from-gray-300 via-gray-400 to-gray-300 opacity-40"></div>
-                          <h3 className="text-2xl font-bold  mb-5 flex items-center text-black">
-                            <span className="w-4 h-0.5 bg-black mr-2"></span>
-                            {community.name}
-                          </h3>
-                          <div className="flex items-center mb-4">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] flex items-center justify-center mr-3 text-xl">
-                              <FaMapMarkerAlt className="text-white" />
-                            </div>
-                            <span className="text-black font-medium text-2xl">
-                              Premium Community
-                            </span>
-                          </div>
-
-                          <p className="text-black mb-6 text-xl ">
-                            {community.description}
-                          </p>
-
-                          <div className="mb-6">
-                            <h4 className="text-xl font-bold mb-5 flex items-center text-black">
-                              <span className="w-4 h-0.5 bg-black mr-2"></span>
-                              Location Highlights
-                            </h4>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                              {[
-                                {
-                                  number: "01",
-                                  title: "Strategic Location",
-                                  description:
-                                    community.name === "Palm Jumeirah"
-                                      ? "Iconic man-made island with stunning sea views"
-                                      : community.name === "Downtown Dubai"
-                                      ? "Heart of the city near Burj Khalifa"
-                                      : community.name === "Dubai Marina"
-                                      ? "Waterfront community with yacht harbor"
-                                      : community.name === "Arabian Ranches"
-                                      ? "Serene desert-themed community"
-                                      : "Prestigious area with golf course views",
-                                },
-                                {
-                                  number: "02",
-                                  title: "Connectivity",
-                                  description:
-                                    community.name === "Palm Jumeirah"
-                                      ? "30 min to Dubai Airport, 15 min to Dubai Marina"
-                                      : community.name === "Downtown Dubai"
-                                      ? "15 min to Dubai Airport, central location"
-                                      : community.name === "Dubai Marina"
-                                      ? "35 min to Dubai Airport, near JBR Beach"
-                                      : community.name === "Arabian Ranches"
-                                      ? "25 min to Downtown, near Dubai Autodrome"
-                                      : "20 min to Downtown, near Al Khail Road",
-                                },
-                                {
-                                  number: "03",
-                                  title: "Lifestyle",
-                                  description:
-                                    community.name === "Palm Jumeirah"
-                                      ? "Luxury beachfront living with 5-star hotels"
-                                      : community.name === "Downtown Dubai"
-                                      ? "Urban lifestyle with shopping and dining"
-                                      : community.name === "Dubai Marina"
-                                      ? "Vibrant waterfront lifestyle with cafes"
-                                      : community.name === "Arabian Ranches"
-                                      ? "Family-friendly with equestrian center"
-                                      : "Modern luxury with parks and retail",
-                                },
-                                {
-                                  number: "04",
-                                  title: "Investment Value",
-                                  description:
-                                    community.name === "Palm Jumeirah"
-                                      ? "Premium ROI with consistent appreciation"
-                                      : community.name === "Downtown Dubai"
-                                      ? "High rental yields and capital growth"
-                                      : community.name === "Dubai Marina"
-                                      ? "Strong rental demand from professionals"
-                                      : community.name === "Arabian Ranches"
-                                      ? "Stable long-term investment with families"
-                                      : "Emerging area with growth potential",
-                                },
-                              ].map((highlight, idx) => (
-                                <motion.div
-                                  key={idx}
-                                  className="flex items-center group cursor-pointer"
-                                  whileHover={{ x: 5 }}
-                                  transition={{
-                                    type: "spring",
-                                    stiffness: 300,
-                                  }}
-                                >
-                                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] flex items-center justify-center mr-3 group-hover:bg-earth-700 transition-colors duration-300">
-                                    <span className="text-white text-xl font-bold group-hover:text-white transition-colors duration-300">
-                                      {highlight.number}
-                                    </span>
-                                  </div>
-                                  <div className="flex-1">
-                                    <h5 className="font-bold text-black mb-1 group-hover:text-earth-700 transition-colors duration-300">
-                                      {highlight.title}
-                                    </h5>
-                                    <p className="text-base text-black group-hover:text-earth-500 transition-colors duration-300">
-                                      {highlight.description}
-                                    </p>
-                                  </div>
-                                </motion.div>
-                              ))}
-                            </div>
-                          </div>
-
-                          <div className="flex flex-wrap gap-3 mt-16">
-                            <motion.div
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                            >
-                              <AnimatedButton
-                                href={`/communities/${community.name
-                                  .toLowerCase()
-                                  .replace(/\s+/g, "-")}`}
-                                animationDelay={0.6}
-                                containerClassName=" text-center"
-                                color="yellow-600"
-                                hoverColor="yellow-500"
-                                gradientFrom="yellow-600"
-                                gradientTo="yellow-500"
-                                variant="solid"
-                              >
-                                View Properties
-                              </AnimatedButton>
-                            </motion.div>
-
-                            <motion.div
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                            >
-                              <AnimatedButton
-                                href={`/communities`}
-                                animationDelay={0.6}
-                                containerClassName=" text-center"
-                                variant="glass"
-                              >
-                                All Communities
-                              </AnimatedButton>
-                            </motion.div>
-                          </div>
-                        </div>
-                      </div>
+        {/* Main Carousel */}
+        <div className="relative">
+          {/* Featured Community Showcase */}
+          <motion.div
+            key={activeIndex}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="relative mb-12"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Image Side */}
+              <div className="relative">
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  className="relative h-96 lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl"
+                >
+                  <Image
+                    src={filteredCommunities[activeIndex]?.image}
+                    alt={filteredCommunities[activeIndex]?.name}
+                    fill
+                    className="object-cover"
+                  />
+                  
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                  
+                  {/* Floating Stats */}
+                  <div className="absolute top-6 left-6 space-y-3">
+                    <div className="bg-black/30 backdrop-blur-md text-white px-4 py-2 rounded-full text-sm">
+                      💰 {filteredCommunities[activeIndex]?.priceRange}
+                    </div>
+                    <div className="bg-black/30 backdrop-blur-md text-white px-4 py-2 rounded-full text-sm">
+                      🏠 {filteredCommunities[activeIndex]?.properties} Properties
                     </div>
                   </div>
-                ))}
+
+                  {/* Virtual Tour Button */}
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="absolute bottom-6 right-6 w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-slate-900 text-2xl shadow-lg"
+                  >
+                    👁️
+                  </motion.button>
+                </motion.div>
+
+                {/* Decorative Elements */}
+                <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-full blur-xl"></div>
+                <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-r from-blue-400/20 to-purple-500/20 rounded-full blur-xl"></div>
+              </div>
+
+              {/* Content Side */}
+              <div className="space-y-8">
+                <motion.div
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                  <div className="inline-block px-4 py-2 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-full text-yellow-400 text-sm font-medium mb-4">
+                    ⭐ Featured Community
+                  </div>
+                  
+                  <h3 className="text-5xl font-bold text-white mb-6">
+                    {filteredCommunities[activeIndex]?.name}
+                  </h3>
+                  
+                  <p className="text-xl text-slate-300 leading-relaxed mb-8">
+                    {filteredCommunities[activeIndex]?.description}
+                  </p>
+
+                  {/* Features Grid */}
+                  <div className="grid grid-cols-2 gap-4 mb-8">
+                    {filteredCommunities[activeIndex]?.features.map((feature, idx) => (
+                      <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 + idx * 0.1 }}
+                        className="flex items-center space-x-3 p-3 bg-slate-800/50 rounded-xl border border-slate-700"
+                      >
+                        <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-slate-900 text-sm">
+                          ✓
+                        </div>
+                        <span className="text-slate-300">{feature}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-4">
+                    <motion.button
+                      whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(255, 183, 77, 0.3)" }}
+                      whileTap={{ scale: 0.95 }}
+                      className="px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-slate-900 font-bold rounded-xl shadow-lg"
+                    >
+                      Explore Properties
+                    </motion.button>
+                    
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="px-8 py-4 border border-slate-600 text-slate-300 rounded-xl hover:bg-slate-800/50 transition-all duration-300"
+                    >
+                      Schedule Visit
+                    </motion.button>
+                  </div>
+                </motion.div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Navigation controls */}
-          <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center mt-12 gap-6">
+          {/* Carousel Navigation */}
+          <div className="flex justify-center items-center space-x-6 mb-12">
             <motion.button
-              onClick={prevCommunity}
-              className="w-12 h-12  rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#ac895e] hover:bg-[#876F4E] hover:text-white transition-colors"
-              aria-label="Previous community"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
+              onClick={() => setActiveIndex((prev) => (prev - 1 + filteredCommunities.length) % filteredCommunities.length)}
+              className="w-12 h-12 bg-slate-800 border border-slate-600 rounded-full flex items-center justify-center text-slate-300 hover:bg-slate-700 transition-all duration-300"
             >
-              <BsArrowLeft size={20} />
+              ←
             </motion.button>
 
-            <div className="flex gap-3">
-              {communities.map((_, index) => (
+            {/* Dots */}
+            <div className="flex space-x-3">
+              {filteredCommunities.map((_, index) => (
                 <motion.button
                   key={index}
-                  onClick={() => setActiveCommunity(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === activeCommunity
-                      ? "bg-gradient-to-r from-[#876F4E] to-[#68543b] scale-125"
-                      : "bg-gradient-to-r from-[#ad8f65] to-[#947753]"
-                  }`}
-                  aria-label={`Go to community ${index + 1}`}
                   whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.8 }}
+                  onClick={() => setActiveIndex(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === activeIndex
+                      ? 'bg-gradient-to-r from-yellow-400 to-orange-500 scale-125'
+                      : 'bg-slate-600 hover:bg-slate-500'
+                  }`}
                 />
               ))}
             </div>
 
             <motion.button
-              onClick={nextCommunity}
-              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#ac895e] hover:bg-[#876F4E] hover:text-white transition-colors"
-              aria-label="Next community"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
+              onClick={() => setActiveIndex((prev) => (prev + 1) % filteredCommunities.length)}
+              className="w-12 h-12 bg-slate-800 border border-slate-600 rounded-full flex items-center justify-center text-slate-300 hover:bg-slate-700 transition-all duration-300"
             >
-              <BsArrowRight size={20} />
+              →
             </motion.button>
           </div>
-        </div>
-      </motion.div>
 
-      {/* Virtual Tour Modal */}
-      <AnimatePresence>
-        {showVirtualTour && (
+          {/* Community Grid Preview */}
           <motion.div
-            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
           >
-            <motion.div
-              className="bg-earth-800 rounded-xl overflow-hidden w-full max-w-4xl relative"
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-            >
-              <div className="p-4 flex justify-between items-center border-b border-earth-700">
-                <h3 className="text-xl font-medium text-white">
-                  Virtual Tour - {communities[activeCommunity].name}
-                </h3>
-                <button
-                  onClick={() => setShowVirtualTour(false)}
-                  className="w-8 h-8 rounded-full bg-earth-700 flex items-center justify-center hover:bg-earth-600"
-                >
-                  <span className="sr-only">Close</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-white"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div className="aspect-video w-full bg-black">
-                <iframe
-                  src={communities[activeCommunity].virtualTour}
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  title={`Virtual tour of ${communities[activeCommunity].name}`}
-                ></iframe>
-              </div>
-              <div className="p-6">
-                <p className="text-earth-500 mb-4">
-                  Explore {communities[activeCommunity].name} in immersive 360°
-                  view. Navigate through the community to experience the
-                  lifestyle and amenities.
-                </p>
-                <div className="flex justify-end">
-                  <button
-                    onClick={() => setShowVirtualTour(false)}
-                    className="px-4 py-2 bg-earth-700 text-white rounded-lg hover:bg-earth-600 transition-colors"
-                  >
-                    Close Tour
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Contact Agent Modal */}
-      <AnimatePresence>
-        {showContactModal && (
-          <motion.div
-            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="bg-earth-800 rounded-xl overflow-hidden w-full max-w-md relative"
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-            >
-              <div className="p-4 flex justify-between items-center border-b border-earth-700">
-                <h3 className="text-xl font-medium text-white">
-                  Contact Specialist - {communities[activeCommunity].name}
-                </h3>
-                <button
-                  onClick={() => setShowContactModal(false)}
-                  className="w-8 h-8 rounded-full bg-earth-700 flex items-center justify-center hover:bg-earth-600"
-                >
-                  <span className="sr-only">Close</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-white"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div className="p-6">
-                <div className="flex items-center mb-6">
-                  <div className="w-16 h-16 rounded-full bg-earth-700 flex items-center justify-center mr-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-8 w-8 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="text-white font-medium">
-                      Community Specialist
-                    </h4>
-                    <p className="text-earth-300 text-sm">
-                      Available 24/7 for inquiries
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-4 mb-6">
-                  <a
-                    href={`tel:${communities[activeCommunity].contactAgent}`}
-                    className="flex items-center p-3 bg-earth-700 rounded-lg hover:bg-earth-600 transition-colors"
-                  >
-                    <FaPhone className="text-earth-300 mr-3" />
-                    <span className="text-white">Call Now</span>
-                  </a>
-
-                  <a
-                    href={`https://wa.me/${communities[
-                      activeCommunity
-                    ].contactAgent.replace(/\+/g, "")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center p-3 bg-earth-700 rounded-lg hover:bg-earth-600 transition-colors"
-                  >
-                    <FaWhatsapp className="text-earth-300 mr-3" />
-                    <span className="text-white">WhatsApp</span>
-                  </a>
-
-                  <a
-                    href={`mailto:info@ushre.com?subject=Inquiry about ${communities[activeCommunity].name}`}
-                    className="flex items-center p-3 bg-earth-700 rounded-lg hover:bg-earth-600 transition-colors"
-                  >
-                    <FaEnvelope className="text-earth-300 mr-3" />
-                    <span className="text-white">Email</span>
-                  </a>
-                </div>
-
-                <div className="text-center text-earth-400 text-sm">
-                  <p>Our specialist will get back to you within 30 minutes</p>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Feature Detail Modal */}
-      <AnimatePresence>
-        {selectedFeature && (
-          <motion.div
-            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="bg-earth-800 rounded-xl overflow-hidden w-full max-w-md relative"
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-            >
-              <div className="p-4 flex justify-between items-center border-b border-earth-700">
-                <h3 className="text-xl font-medium text-white">
-                  {selectedFeature.feature} -{" "}
-                  {communities[activeCommunity].name}
-                </h3>
-                <button
-                  onClick={() => setSelectedFeature(null)}
-                  className="w-8 h-8 rounded-full bg-earth-700 flex items-center justify-center hover:bg-earth-600"
-                >
-                  <span className="sr-only">Close</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-white"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div className="p-6">
-                <div className="mb-4">
-                  <div className="w-16 h-16 rounded-full bg-earth-700 flex items-center justify-center mx-auto mb-4">
-                    {selectedFeature.idx === 0 && (
-                      <FaSwimmingPool className="text-white text-2xl" />
-                    )}
-                    {selectedFeature.idx === 1 && (
-                      <FaTree className="text-white text-2xl" />
-                    )}
-                    {selectedFeature.idx === 2 && (
-                      <FaBuilding className="text-white text-2xl" />
-                    )}
-                  </div>
-
-                  <p className="text-earth-500 mb-4">
-                    {selectedFeature.feature === "Beachfront" &&
-                      "Private beach access with pristine white sand and crystal-clear waters. Enjoy water sports, sunbathing, and breathtaking sunsets right at your doorstep."}
-                    {selectedFeature.feature === "Luxury Hotels" &&
-                      "World-class 5-star hotels offering premium dining, spa services, and exclusive beach clubs accessible to residents."}
-                    {selectedFeature.feature === "Fine Dining" &&
-                      "Michelin-star restaurants and gourmet dining options featuring international cuisines prepared by renowned chefs."}
-                    {/* Add more feature descriptions as needed */}
-                  </p>
-                </div>
-
-                <div className="flex justify-between">
-                  <button
-                    onClick={() => setSelectedFeature(null)}
-                    className="px-4 py-2 border border-earth-600 text-earth-300 rounded-lg hover:bg-earth-700 transition-colors"
-                  >
-                    Close
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setSelectedFeature(null);
-                      handleContactAgent();
-                    }}
-                    className="px-4 py-2 bg-earth-600 text-white rounded-lg hover:bg-earth-500 transition-colors"
-                  >
-                    Inquire About This Feature
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Image Zoom Modal */}
-      <AnimatePresence>
-        {showImageZoom && (
-          <motion.div
-            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowImageZoom(false)}
-          >
-            <motion.div
-              className="relative w-full max-w-5xl aspect-[16/9] cursor-zoom-out"
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-            >
-              <Image
-                src={communities[activeCommunity].image}
-                alt={communities[activeCommunity].name}
-                fill
-                className="object-contain"
-              />
-
-              <button
-                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-earth-800/80 flex items-center justify-center"
-                onClick={() => setShowImageZoom(false)}
+            {filteredCommunities.slice(0, 3).map((community, index) => (
+              <motion.div
+                key={community.id}
+                whileHover={{ y: -10, scale: 1.02 }}
+                onHoverStart={() => setHoveredCard(index)}
+                onHoverEnd={() => setHoveredCard(null)}
+                className="relative group cursor-pointer"
               >
-                <span className="sr-only">Close</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-white"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-            </motion.div>
+                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl overflow-hidden hover:border-slate-600 transition-all duration-300">
+                  <div className="relative h-48 overflow-hidden">
+                    <Image
+                      src={community.image}
+                      alt={community.name}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    
+                    {/* Hover Overlay */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: hoveredCard === index ? 1 : 0 }}
+                      className="absolute inset-0 bg-gradient-to-t from-yellow-500/20 to-transparent"
+                    />
+                  </div>
+                  
+                  <div className="p-6">
+                    <h4 className="text-xl font-bold text-white mb-2">{community.name}</h4>
+                    <p className="text-slate-400 text-sm mb-4 line-clamp-2">{community.description}</p>
+                    
+                    <div className="flex justify-between items-center">
+                      <span className="text-yellow-400 font-semibold">{community.priceRange}</span>
+                      <span className="text-slate-500 text-sm">{community.properties} units</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Glow Effect */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: hoveredCard === index ? 1 : 0 }}
+                  className="absolute -inset-1 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-2xl blur-xl -z-10"
+                />
+              </motion.div>
+            ))}
           </motion.div>
-        )}
-      </AnimatePresence>
+        </div>
+      </div>
     </section>
   );
 }

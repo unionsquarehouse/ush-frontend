@@ -140,17 +140,17 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-white mb-6 mr-2 ">
+            <h1 className="text-5xl md:text-6xl lg:text-8xl  text-white mb-6 mr-2 ">
               
               <span className="inline-block min-h-[1.2em] min-w-[7ch] relative">
-              <span className="bg-gradient-to-r from-[#9F3349]  via-[#a53047] to-[#e24d6b] bg-clip-text text-transparent drop-shadow-[#9F3349]">
+              <span className="bg-gradient-to-r from-[#927653] via-[#c9a06e] to-[#c99f6d] bg-clip-text text-transparent drop-shadow-[#9F3349]">
                   {text}
                 </span>
-                <span className="animate-pulse text-[#9F3349] drop-shadow-[#9F3349]">|</span>
+                <span className="animate-pulse text-[#ac895e] drop-shadow-[#9F3349]">|</span>
               </span> <br/>
               Dubai Properties
             </h1>
-            <p className="text-xl text-white max-w-2xl mx-auto ">
+            <p className=" text-white max-w-2xl mx-auto ">
               Curated collection of the most prestigious properties in Dubai's most coveted locations.
             </p>
           </motion.div>
@@ -162,18 +162,18 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="max-w-3xl mx-auto"
           >
-            <div className="backdrop-blur-md bg-earth-800/30 border border-earth-700/50 rounded-lg overflow-hidden">
+            <div className="backdrop-blur-md bg-earth-800/30 border border-earth-700/50  overflow-hidden">
               <form onSubmit={handleSearch} className="flex flex-col md:flex-row">
                 {/* Main search input */}
                 <div className="flex-1 relative">
-                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white">
+                  <div className="absolute text-xl left-4 top-1/2 transform -translate-y-1/2 text-white">
                     <FaSearch />
                   </div>
                   <input 
                     type="text" 
                     name="keyword"
                     placeholder="Search properties..." 
-                    className="w-full bg-transparent border-0 h-14 pl-12 pr-4 text-white placeholder-white focus:outline-none"
+                    className="w-full text-xl bg-transparent border-0 h-14 pl-12 pr-4 text-white placeholder-white focus:outline-none "
                     value={searchForm.keyword}
                     onChange={handleInputChange}
                   />
@@ -185,7 +185,7 @@ export default function Hero() {
                     name="location"
                     value={searchForm.location}
                     onChange={handleInputChange}
-                    className="w-full bg-transparent border-0 h-14 pl-4 pr-8 text-white appearance-none focus:outline-none"
+                    className="w-full text-xl bg-transparent border-0 h-14 pl-4 pr-8 text-white appearance-none focus:outline-none"
                   >
                     <option value="" className="bg-earth-800">Location</option>
                     {locations.map(location => (
@@ -201,7 +201,7 @@ export default function Hero() {
                 <button
                   type="submit"
                   disabled={isSearching}
-                  className="h-14 px-8 bg-[#9F3349] text-white font-medium transition-colors hover:bg-earth-500 flex items-center justify-center"
+                  className="h-14 text-xl px-8 bg-[#9F3349] text-white font-medium transition-colors hover:bg-earth-500 flex items-center justify-center"
                 >
                   {isSearching ? (
                     <span className="flex items-center">
@@ -221,7 +221,7 @@ export default function Hero() {
           
           {/* Property types */}
           <motion.div
-            className="flex justify-center mt-8 space-x-6 flex-wrap"
+            className="flex justify-center text-xl mt-8 space-x-6 flex-wrap"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -239,7 +239,7 @@ export default function Hero() {
               href="/listings"
               className="px-4 py-2 text-white hover:text-white transition-colors flex items-center"
             >
-              View All <FaArrowRight className="ml-2 text-xs" />
+              View All <FaArrowRight className="ml-2 text-xl" />
             </Link>
           </motion.div>
         </motion.div>

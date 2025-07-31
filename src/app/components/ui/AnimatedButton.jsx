@@ -29,7 +29,7 @@ export default function AnimatedButton({
     if (variant === 'solid') {
       // Hardcoded classes for specific colors
       if (color === 'yellow-600') {
-        return 'bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white hover:bg-yellow-500';
+        return 'bg-gradient-to-r from-[#9F3349]  via-[#a53047] to-[#e24d6b] ';
       } else if (color === 'earth-600') {
         return 'bg-earth-600 text-white hover:bg-earth-500';
       } else {
@@ -41,18 +41,18 @@ export default function AnimatedButton({
       return 'btn-glass-earth';
     }
     
-    return 'bg-yellow-600 text-white hover:bg-yellow-500'; // Default fallback
+    return 'bg-gradient-to-r from-[#e24d6b]  via-[#a53047] to-[#9F3349] '; // Default fallback
   };
   
   // Get gradient classes
   const getGradientClasses = () => {
     if (gradientFrom === 'yellow-600' && gradientTo === 'yellow-500') {
-      return ' from-[#876F4E] to-[#68543b]';
+      return ' bg-gradient-to-r from-[#9F3349]  via-[#a53047] to-[#e24d6b] ';
     } else if (gradientFrom === 'earth-600' && gradientTo === 'earth-500') {
-      return 'from-earth-600 to-earth-500';
+      return 'bg-gradient-to-r from-[#9F3349]  via-[#a53047] to-[#e24d6b] ';
     }
     
-    return 'from-yellow-600 to-yellow-800'; // Default fallback
+    return 'bg-gradient-to-r from-[#9F3349]  via-[#a53047] to-[#e24d6b] '; // Default fallback
   };
   
   return (
@@ -64,7 +64,7 @@ export default function AnimatedButton({
     >
       <Link 
         href={href} 
-        className={`inline-flex items-center ${sizeClasses[size]} ${getButtonClasses()} rounded-tl-[2rem] rounded-br-[2rem] transition-all duration-300 group relative overflow-hidden ${className}`}
+        className={`inline-flex items-center ${sizeClasses[size]} ${getButtonClasses()}  transition-all duration-300 group relative overflow-hidden ${className}`}
       >
         {/* Button content */}
         <span className="relative z-10">{children}</span>
