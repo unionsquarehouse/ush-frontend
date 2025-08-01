@@ -12,7 +12,8 @@ const dubaiAreas = [
     roi: "6.5%",
     population: "16,000",
     avgPrice: "AED 2.1M",
-    description: "The vibrant heart of Dubai, home to Burj Khalifa and Dubai Mall.",
+    description:
+      "The vibrant heart of Dubai, home to Burj Khalifa and Dubai Mall.",
     growth: "8.2%",
     category: "Premium",
   },
@@ -264,8 +265,8 @@ const DubaiMapContent = () => {
       <div className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-full mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl mb-4 text-black flex items-center justify-center font-sans">
-            <span className="text-[#ac895e] shine-effect mr-2">Dubai</span>{" "}
+          <h2 className=" mb-4 text-black flex items-center justify-center ">
+            <span className="text-brand shine-effect mr-2">Dubai</span>{" "}
             Investment Map
           </h2>
           <div className="h-0.5 w-24 bg-gradient-to-r from-[#876F4E] to-[#68543b] mx-auto mb-6"></div>
@@ -332,7 +333,7 @@ const DubaiMapContent = () => {
                       {area.description}
                     </p>
                     <div className="flex justify-between mt-2">
-                      <span className="text-[#ac895e] font-bold text-sm">
+                      <span className="text-brand font-bold text-sm">
                         ROI: {area.roi}
                       </span>
                       <span className="text-earth-600 text-sm">
@@ -359,7 +360,7 @@ const DubaiMapContent = () => {
                   <span className="text-earth-600 font-medium text-sm font-sans">
                     ROI
                   </span>
-                  <p className="text-[#ac895e] text-lg font-bold font-sans">
+                  <p className="text-brand text-lg font-bold font-sans">
                     {selectedArea.roi}
                   </p>
                 </div>
@@ -416,5 +417,3 @@ const DubaiMapContent = () => {
 };
 
 export default DubaiMapContent;
-
-

@@ -36,7 +36,6 @@ export default function Projects() {
     fetchProjects();
   }, []);
 
-
   // Auto-rotate projects
   useEffect(() => {
     if (isHovering || projects.length === 0) return;
@@ -56,7 +55,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="pb-32 relative overflow-hidden bg-earth-50 text-earth-700"
+      className="pb-40 relative overflow-hidden bg-earth-50 text-earth-700"
       ref={sectionRef}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
@@ -74,7 +73,7 @@ export default function Projects() {
           className="text-center mb-16"
         >
           <h2 className=" mb-4 text-black flex items-center justify-center">
-            <span className="text-[#ac895e] shine-effect mr-2">Featured</span>{" "}
+            <span className="text-brand shine-effect mr-2">Featured</span>{" "}
             Off‑Plan Projects
           </h2>
           <div className="h-0.5 w-24 bg-gradient-to-r from-[#876F4E] to-[#68543b] mx-auto mb-6"></div>

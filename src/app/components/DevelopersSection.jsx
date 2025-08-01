@@ -126,7 +126,7 @@
 //           className="text-center mb-16"
 //         >
 //           <h2 className="text-5xl  mb-4 text-black flex items-center justify-center">
-//             <span className="text-[#ac895e] shine-effect mr-2">Visionary</span>{" "}
+//             <span className="text-brand shine-effect mr-2">Visionary</span>{" "}
 //             Developers
 //           </h2>
 //           <div className="h-0.5 w-24  bg-gradient-to-r from-[#876F4E] to-[#68543b] mx-auto mb-6"></div>
@@ -331,7 +331,7 @@
 //           <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center mt-12 gap-6">
 //             <motion.button
 //               onClick={prevDeveloper}
-//               className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#ac895e] hover:bg-[#876F4E] hover:text-white transition-colors"
+//               className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
 //               aria-label="Previous developer"
 //               whileHover={{ scale: 1.1 }}
 //               whileTap={{ scale: 0.9 }}
@@ -358,7 +358,7 @@
 
 //             <motion.button
 //               onClick={nextDeveloper}
-//               className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#ac895e] hover:bg-[#876F4E] hover:text-white transition-colors"
+//               className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
 //               aria-label="Next developer"
 //               whileHover={{ scale: 1.1 }}
 //               whileTap={{ scale: 0.9 }}
@@ -473,7 +473,7 @@ export default function DevelopersSection() {
 
   return (
     <section
-      className="pb-32 bg-earth-50"
+      className="pb-40 bg-earth-50"
       onMouseEnter={() => setIsAutoPlay(false)}
       onMouseLeave={() => setIsAutoPlay(true)}
     >
@@ -481,17 +481,17 @@ export default function DevelopersSection() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 mb-4">
-            <Building2 className="h-6 w-6 text-[#ac895e]" />
-            <span className="text-sm font-semibold text-[#ac895e] uppercase tracking-wider">
+            <Building2 className="h-6 w-6 text-brand" />
+            <span className="font-semibold text-brand uppercase tracking-wider">
               Elite Developers
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl flex justify-center items-center mb-4 text-black">
-            <span className="text-[#ac895e] shine-effect mr-2">Visionary</span>{" "}
+          <h2 className=" flex justify-center items-center mb-4 text-black">
+            <span className="text-brand shine-effect mr-2">Visionary</span>{" "}
             Developers
           </h2>
           <div className="h-0.5 w-24 bg-gradient-to-r from-[#876F4E] to-[#68543b] mx-auto mb-6"></div>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className=" max-w-2xl mx-auto">
             The masterminds behind Dubai's architectural marvels
           </p>
         </div>
@@ -502,7 +502,7 @@ export default function DevelopersSection() {
           <div className="space-y-8">
             {/* Developer Header */}
             <div className="flex items-start gap-6">
-              <div className="w-20 h-20 bg-white rounded-tl-[2rem] rounded-br-[2rem] shadow-lg flex items-center justify-center border border-earth-200">
+              <div className="w-32 h-32 bg-white shadow-lg flex items-center justify-center border border-earth-200">
                 <img
                   src={currentDeveloper.logo}
                   alt={`${currentDeveloper.name} logo`}
@@ -511,30 +511,30 @@ export default function DevelopersSection() {
               </div>
 
               <div className="flex-1 text-black">
-                <h3 className="text-3xl font-bold  mb-2">
+                <h3 className="text-5xl mb-2">
                   {currentDeveloper.name}
                 </h3>
-                <div className="flex items-center gap-3 mb-3">
+                <div className="flex items-center gap-3 mb-3 ">
                   <div className="flex">
                     {Array.from({ length: 5 }, (_, i) => (
                       <Star
                         key={i}
-                        className={`w-4 h-4 ${
+                        className={`w-6 h-6 ${
                           i < Math.floor(currentDeveloper.rating)
-                            ? "fill-[#ac895e] text-[#ac895e]"
+                            ? "fill-brand text-brand"
                             : "text-gray-600"
                         }`}
                       />
                     ))}
                   </div>
-                  <span className="text-sm font-medium text-gray-600">
+                  <span className="text-xl ">
                     {currentDeveloper.rating}/5.0
                   </span>
                   <Badge
                     variant="secondary"
-                    className="text-white bg-[#9F3349]"
+                    className="text-white text-xl bg-[#9F3349]"
                   >
-                    <Award className="w-3 h-3 mr-1" />
+                    <Award className="w-5 h-5 mr-1" />
                     Premium
                   </Badge>
                 </div>
@@ -542,26 +542,26 @@ export default function DevelopersSection() {
             </div>
 
             {/* Description */}
-            <p className="text-lg text-gray-500 leading-relaxed">
+            <p className=" leading-relaxed">
               {currentDeveloper.description}
             </p>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-base">
               <Card className="bg-white border-earth-200">
                 <CardContent className="p-4 text-center">
-                  <Calendar className="w-5 h-5 text-[#ac895e] mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-black">
+                  <Calendar className="w-7 h-7 text-brand mx-auto mb-2" />
+                  <div className="font-bold text-3xl text-black">
                     {currentDeveloper.established}
                   </div>
-                  <div className="text-sm text-gray-600">Founded</div>
+                  <div className=" text-gray-600">Founded</div>
                 </CardContent>
               </Card>
 
               <Card className="bg-white border-earth-200">
                 <CardContent className="p-4 text-center">
-                  <Building2 className="w-5 h-5 text-[#ac895e] mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-black">
+                  <Building2 className="w-7 h-7 text-brand mx-auto mb-2" />
+                  <div className="font-bold text-3xl text-black">
                     {currentDeveloper.projects}
                   </div>
                   <div className="text-sm text-gray-600">Projects</div>
@@ -570,8 +570,8 @@ export default function DevelopersSection() {
 
               <Card className="bg-white border-earth-200">
                 <CardContent className="p-4 text-center">
-                  <Users className="w-5 h-5 text-[#ac895e] mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-black">
+                  <Users className="w-7 h-7 text-brand mx-auto mb-2" />
+                  <div className="font-bold text-3xl text-black">
                     {currentDeveloper.stats.employees}
                   </div>
                   <div className="text-sm text-gray-600">Employees</div>
@@ -580,8 +580,8 @@ export default function DevelopersSection() {
 
               <Card className="bg-white border-earth-200">
                 <CardContent className="p-4 text-center">
-                  <Award className="w-5 h-5 text-[#ac895e] mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-black">
+                  <Award className="w-7 h-7 text-brand mx-auto mb-2" />
+                  <div className="font-bold text-3xl text-black">
                     {currentDeveloper.stats.awards}
                   </div>
                   <div className="text-sm text-gray-600">Awards</div>
@@ -631,7 +631,7 @@ export default function DevelopersSection() {
 
           {/* Right Column - Hero Image */}
           <div className="relative">
-            <div className="relative rounded-tl-[3rem] rounded-br-[3rem] overflow-hidden h-[50vh] bg-earth-100">
+            <div className="relative overflow-hidden h-[50vh] bg-earth-100">
               <Image
                 src={`/assets/${currentDeveloper.featured[0]
                   .toLowerCase()
@@ -644,13 +644,13 @@ export default function DevelopersSection() {
 
               {/* Floating Badge */}
               <div className="absolute top-6 right-6 bg-premium text-premium-foreground px-4 py-2 rounded-lg flex items-center gap-2">
-                <Award className="w-4 h-4" />
-                <span className="font-medium">Premium Developer</span>
+                <Award className="w-7 h-7" />
+                <span className="text-xl">Premium Developer</span>
               </div>
 
               {/* Bottom Info */}
               <div className="absolute bottom-6 left-6 right-6">
-                <h4 className="text-2xl font-bold text-white mb-2">
+                <h4 className="text-2xl  text-white mb-2">
                   Flagship Development
                 </h4>
                 <p className="text-white/90 mb-4 text-lg">
@@ -658,10 +658,10 @@ export default function DevelopersSection() {
                 </p>
                 <Button
                   variant="outline"
-                  className="border-white  bg-white text-black"
+                  className="border-white text-base bg-white text-black"
                 >
                   Explore Property
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  <ArrowRight className="w-7 h-7 ml-2" />
                 </Button>
               </div>
             </div>
@@ -672,7 +672,7 @@ export default function DevelopersSection() {
         <div className="flex items-center justify-center gap-6">
           <motion.button
             onClick={prevDeveloper}
-            className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#ac895e] hover:bg-[#876F4E] hover:text-white transition-colors"
+            className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
             aria-label="Previous developer"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -699,7 +699,7 @@ export default function DevelopersSection() {
 
           <motion.button
             onClick={nextDeveloper}
-            className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#ac895e] hover:bg-[#876F4E] hover:text-white transition-colors"
+            className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
             aria-label="Next developer"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -711,7 +711,7 @@ export default function DevelopersSection() {
         {/* <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center mt-12 gap-6">
           <motion.button
             onClick={prevDeveloper}
-            className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#ac895e] hover:bg-[#876F4E] hover:text-white transition-colors"
+            className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
             aria-label="Previous developer"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -738,7 +738,7 @@ export default function DevelopersSection() {
 
           <motion.button
             onClick={nextDeveloper}
-            className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#ac895e] hover:bg-[#876F4E] hover:text-white transition-colors"
+            className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
             aria-label="Next developer"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}

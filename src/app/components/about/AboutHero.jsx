@@ -10,8 +10,18 @@ export default function AboutHero() {
       <div className="absolute inset-0 opacity-5">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="black" strokeWidth="1" />
+            <pattern
+              id="grid"
+              width="40"
+              height="40"
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d="M 40 0 L 0 0 0 40"
+                fill="none"
+                stroke="black"
+                strokeWidth="1"
+              />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
@@ -29,21 +39,25 @@ export default function AboutHero() {
           >
             <div className="mb-6">
               <span className="w-24 h-0.5 bg-gradient-to-r from-[#876F4E] to-[#68543b] block mb-4"></span>
-              <h1 className="text-5xl lg:text-6xl font-bold text-[#ac895e] shine-effect mb-6">
+              <h1 className="text-5xl lg:text-6xl font-bold text-brand shine-effect mb-6">
                 About <span className="text-black">Union Square House</span>
               </h1>
             </div>
-            
+
             <p className="text-xl text-earth-700 leading-relaxed mb-8">
-              The investor-friendly city of Dubai has over <strong>473 freehold projects</strong> (off-plan / ready). 
-              Each different from the other, while new ones come up. Which one would you choose to invest in? 
-              Well, that's where <strong>Union Square House</strong> comes in.
+              The investor-friendly city of Dubai has over{" "}
+              <strong>473 freehold projects</strong> (off-plan / ready). Each
+              different from the other, while new ones come up. Which one would
+              you choose to invest in? Well, that's where{" "}
+              <strong>Union Square House</strong> comes in.
             </p>
 
             <p className="text-lg text-earth-600 leading-relaxed">
-              A real estate advisory firm committed to helping investors and residents make the right decision 
-              when it comes to buying a property in Dubai. Over the years, we have helped thousands of property 
-              buyers swiftly navigate through to the right investment opportunity, time and again.
+              A real estate advisory firm committed to helping investors and
+              residents make the right decision when it comes to buying a
+              property in Dubai. Over the years, we have helped thousands of
+              property buyers swiftly navigate through to the right investment
+              opportunity, time and again.
             </p>
           </motion.div>
 

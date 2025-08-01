@@ -1,7 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaTarget, FaLightbulb, FaHeart, FaClock, FaRoute, FaHandshake } from "react-icons/fa";
+import {
+  FaTarget,
+  FaLightbulb,
+  FaHeart,
+  FaClock,
+  FaRoute,
+  FaHandshake,
+} from "react-icons/fa";
 import { FiTarget } from "react-icons/fi";
 import { useState } from "react";
 
@@ -13,38 +20,38 @@ export default function OurMission() {
       icon: FiTarget,
       title: "Aim not to be the largest, but the finest",
       description: "Quality over quantity in everything we do",
-      gradient: "from-brand to-brand-hover"
+      gradient: "from-brand to-brand-hover",
     },
     {
       icon: FaLightbulb,
       title: "Empower the client with all the information needed",
       description: "Providing comprehensive data for informed decisions",
-      gradient: "from-brand to-brand-hover"
+      gradient: "from-brand to-brand-hover",
     },
     {
       icon: FaHeart,
       title: "Honesty is key",
       description: "Transparent and ethical practices in all dealings",
-      gradient: "from-brand to-brand-hover"
+      gradient: "from-brand to-brand-hover",
     },
     {
       icon: FaClock,
       title: "Aim not for the quick gain, but the long goal",
       description: "Building lasting relationships and sustainable success",
-      gradient: "from-brand to-brand-hover"
+      gradient: "from-brand to-brand-hover",
     },
     {
       icon: FaRoute,
       title: "Go the extra mile to find exactly what you need",
       description: "Dedicated service tailored to your specific requirements",
-      gradient: "from-brand to-brand-hover"
+      gradient: "from-brand to-brand-hover",
     },
     {
-    icon: FaHandshake,
-    title: "Clients come first, always",
-    description: "Putting your priorities at the heart of our mission",
-    gradient: "from-brand to-brand-hover"
-  }
+      icon: FaHandshake,
+      title: "Clients come first, always",
+      description: "Putting your priorities at the heart of our mission",
+      gradient: "from-brand to-brand-hover",
+    },
   ];
 
   return (
@@ -65,22 +72,25 @@ export default function OurMission() {
         >
           <div className="inline-flex items-center gap-4 mb-6">
             <div className="h-px w-16 bg-gradient-to-r from-transparent to-brand"></div>
-            <span className="text-brand font-medium tracking-wider uppercase text-sm">Our Mission</span>
+            <span className="text-brand font-medium tracking-wider uppercase text-sm">
+              Our Mission
+            </span>
             <div className="h-px w-16 bg-gradient-to-l from-transparent to-brand"></div>
           </div>
-          
+
           <h2 className="text-5xl lg:text-6xl font-bold mb-8 flex justify-center items-center gap-2">
-            <span className="text-[#ac895e] shine-effect">Our</span>{" "}
+            <span className="text-brand shine-effect">Our</span>{" "}
             <span className="text-black relative group">
               Mission
               <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-brand to-brand-hover rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
             </span>
           </h2>
-          
+
           <p className="text-xl text-earth-600 max-w-4xl mx-auto leading-relaxed">
-            For the thankful smiles that we receive after each successful deal, our endeavor is to see many more 
-            of them in the years to come. Which is why, every member of the Union Square House team is aligned 
-            to the company's mission and set of policies.
+            For the thankful smiles that we receive after each successful deal,
+            our endeavor is to see many more of them in the years to come. Which
+            is why, every member of the Union Square House team is aligned to
+            the company's mission and set of policies.
           </p>
         </motion.div>
 
@@ -97,11 +107,11 @@ export default function OurMission() {
                 key={index}
                 initial={{ opacity: 0, scale: 0.8, y: 50 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ 
-                  duration: 0.6, 
+                transition={{
+                  duration: 0.6,
                   delay: index * 0.15,
                   type: "spring",
-                  stiffness: 100
+                  stiffness: 100,
                 }}
                 viewport={{ once: true }}
                 onHoverStart={() => setHoveredIndex(index)}
@@ -112,12 +122,14 @@ export default function OurMission() {
                 <motion.div
                   whileHover={{ y: -10, rotateY: 5 }}
                   className={`relative overflow-hidden rounded-tl-[2rem] rounded-br-[2rem] p-8 h-full transition-all duration-500 ${
-                    hoveredIndex === index ? 'bg-earth-50' : 'bg-white'
+                    hoveredIndex === index ? "bg-earth-50" : "bg-white"
                   } border-2 ${
-                    hoveredIndex === index ? 'border-brand/30' : 'border-earth-100'
+                    hoveredIndex === index
+                      ? "border-brand/30"
+                      : "border-earth-100"
                   } shadow-lg hover:shadow-2xl hover:shadow-earth-200/50`}
                   style={{
-                    transformStyle: 'preserve-3d'
+                    transformStyle: "preserve-3d",
                   }}
                 >
                   {/* Floating icon */}
@@ -127,23 +139,27 @@ export default function OurMission() {
                     className={`w-16 h-16 rounded-tl-[1.5rem] rounded-br-[1.5rem] bg-gradient-to-r ${point.gradient} flex items-center justify-center mb-6 shadow-lg relative z-10`}
                   >
                     <point.icon className="text-white text-2xl" />
-                    
+
                     {/* Glow effect */}
-                    <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${point.gradient} blur-xl opacity-30 scale-150`}></div>
+                    <div
+                      className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${point.gradient} blur-xl opacity-30 scale-150`}
+                    ></div>
                   </motion.div>
 
                   {/* Content */}
                   <h3 className="text-xl font-bold text-earth-800 mb-4 leading-tight group-hover:text-earth-900 transition-colors">
                     {point.title}
                   </h3>
-                  
+
                   <p className="text-earth-600 leading-relaxed group-hover:text-earth-700 transition-colors">
                     {point.description}
                   </p>
 
                   {/* Decorative corner */}
                   <div className="absolute top-0 right-0 w-20 h-20 opacity-10">
-                    <div className={`w-full h-full bg-gradient-to-br ${point.gradient} transform rotate-45 translate-x-10 -translate-y-10 rounded-lg`}></div>
+                    <div
+                      className={`w-full h-full bg-gradient-to-br ${point.gradient} transform rotate-45 translate-x-10 -translate-y-10 rounded-lg`}
+                    ></div>
                   </div>
 
                   {/* Hover overlay */}
@@ -176,7 +192,8 @@ export default function OurMission() {
         >
           <div className="inline-block relative">
             <p className="text-lg text-earth-600 italic relative z-10 shine-effect">
-              "The credo that helps us achieve our best everyday is quite simple."
+              "The credo that helps us achieve our best everyday is quite
+              simple."
             </p>
             <div className="absolute -bottom-1 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand/50 to-transparent"></div>
           </div>
@@ -185,7 +202,3 @@ export default function OurMission() {
     </section>
   );
 }
-
-
-
-

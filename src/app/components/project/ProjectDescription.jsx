@@ -23,7 +23,7 @@ export default function ProjectDescription({ description }) {
           <span className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-[#ac895e] block"></span>
         </div>
         <h2 className="text-4xl font-light text-earth-900 tracking-wide mb-4">
-          Property <span className="text-[#ac895e]">Overview</span>
+          Property <span className="text-brand">Overview</span>
         </h2>
         <p className="text-earth-600 max-w-2xl mx-auto text-lg">
           Discover what makes this property exceptional
@@ -46,7 +46,7 @@ export default function ProjectDescription({ description }) {
                 {description}
               </p>
             </div>
-            
+
             {/* Decorative Elements */}
             <div className="mt-8 pt-8 border-t border-earth-100">
               <div className="flex items-center justify-center space-x-4">

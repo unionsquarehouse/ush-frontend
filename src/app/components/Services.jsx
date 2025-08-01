@@ -102,7 +102,7 @@ export default function Services() {
 
   return (
     <section
-      className="bg-gradient-to-b pb-10 from-white to-gray-50 text-black overflow-hidden"
+      className="bg-gradient-to-b pt-40 pb-10 from-white to-gray-50 text-black overflow-hidden"
       id="amenities"
       ref={containerRef}
       onMouseEnter={handleMouseEnter}
@@ -117,10 +117,8 @@ export default function Services() {
           transition={{ duration: 0.6 }}
           className="text-center "
         >
-          <h2 className="text-4xl 2xl:text-5xl font-light mb-4 flex items-center justify-center">
-            <span className="text-[#ac895e] shine-effect mr-2">
-              Our Premium
-            </span>{" "}
+          <h2 className="mb-4 flex items-center justify-center">
+            <span className="text-brand shine-effect mr-2">Our Premium</span>{" "}
             Services
           </h2>
           <div className="h-0.5 w-24  bg-gradient-to-r from-[#876F4E] to-[#68543b] mx-auto mb-6"></div>
@@ -135,7 +133,7 @@ export default function Services() {
           <div className="absolute top-1/2 left-4 z-30 hidden lg:block">
             <button
               onClick={goToPrev}
-              className="w-12 h-12  rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#ac895e] hover:bg-[#876F4E] hover:text-white transition-colors"
+              className="w-12 h-12  rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
               aria-label="Previous amenity"
             >
               <FaChevronLeft className="text-xl" />
@@ -145,7 +143,7 @@ export default function Services() {
           <div className="absolute top-1/2 right-4 z-30 hidden lg:block">
             <button
               onClick={goToNext}
-              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-[#ac895e] hover:bg-[#876F4E] hover:text-white transition-colors"
+              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
               aria-label="Next amenity"
             >
               <FaChevronRight className="text-xl" />
@@ -216,14 +214,14 @@ export default function Services() {
                           <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] flex items-center justify-center text-white text-xl sm:text-2xl md:text-3xl mr-3 sm:mr-4 md:mr-5 shadow-md">
                             {amenity.icon}
                           </div>
-                          <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light">
+                          <h3 className="md:text-2xl lg:text-4xl font-light">
                             {amenity.title}
                           </h3>
                         </div>
 
                         {/* Middle Section with Description */}
                         <div className="flex-grow">
-                          <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed">
+                          <p className="text-gray-600 text-sm sm:text-base md:text-xl leading-relaxed">
                             {amenity.description}
                           </p>
                         </div>
@@ -233,7 +231,7 @@ export default function Services() {
                           {[1, 2, 3, 4].map((_, i) => (
                             <div key={i} className="flex items-center">
                               <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-brand mr-2 sm:mr-3"></div>
-                              <span className="text-gray-500 text-xs sm:text-sm">
+                              <span className="text-gray-500 text-xs sm:text-base">
                                 {i === 0
                                   ? "Premium Experience"
                                   : i === 1

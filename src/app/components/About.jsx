@@ -19,7 +19,7 @@ import { BsArrowRight } from "react-icons/bs";
 
 export default function About() {
   return (
-    <section className="relative py-32 overflow-hidden">
+    <section className="relative py-40 overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -53,7 +53,7 @@ export default function About() {
           >
             <div className="mb-6">
               <span className="w-24 h-0.5 bg-gradient-to-r from-[#876F4E] to-[#68543b] block mb-4"></span>
-              <h2 className="text-[#ac895e] shine-effect mr-2">
+              <h2 className="text-brand shine-effect mr-2">
                 About <span className="text-black">Union Square House</span>
               </h2>
             </div>

@@ -3,7 +3,7 @@
 
 // const AgentCard = ({ agentProfile, title, reference }) => {
 //     console.log(agentProfile,"-=-=-=-=-=-=-=-=-=-");
-    
+
 //   return (
 //   agentProfile && ( <motion.div
 //       initial={{ opacity: 0, x: 20 }}
@@ -19,10 +19,10 @@
 //             <FaCrown className="text-white text-sm" />
 //           </div>
 //         </div>
-        
+
 //         <h3 className="font-display text-xl font-semibold text-earth-900 mb-2">{agentProfile.name}</h3>
 //         <p className="text-earth-600 font-montserrat mb-4">{agentProfile.position?.primary}</p>
-        
+
 //         <div className="flex items-center justify-center mb-4">
 //           <div className="flex text-yellow-400 mr-3">
 //             {[...Array(5)].map((_, i) => (
@@ -37,11 +37,11 @@
 //         <a href={`tel:${agentProfile.phone || agentProfile.phoneSecondary}`} className="w-full bg-gradient-to-r from-brand to-brand-hover text-white py-4 rounded-xl font-montserrat font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center">
 //           Call {agentProfile.phone || agentProfile.phoneSecondary}
 //         </a>
-        
+
 //         <a href={`mailto:${agentProfile.email || 'info@ushre.com'}?subject=Inquiry about ${title}&body=Hi, I'm interested in this property: ${title} (Ref: ${reference})`} className="w-full bg-white border-2 border-brand/30 text-brand py-4 rounded-xl font-montserrat font-semibold hover:border-brand/50 hover:shadow-lg transition-all duration-300 flex items-center justify-center">
 //           Send Email
 //         </a>
-        
+
 //         <a href={`https://wa.me/${agentProfile.phone || agentProfile.phoneSecondary}?text=Hi, I'm interested in ${title} (Ref: ${reference}). Could you provide more details?`} target="_blank" rel="noopener noreferrer" className="w-full bg-white border-2 border-green-300 text-green-700 py-4 rounded-xl font-montserrat font-semibold hover:border-green-400 hover:shadow-lg transition-all duration-300 flex items-center justify-center">
 //           WhatsApp
 //         </a>
@@ -52,11 +52,14 @@
 
 // export default AgentCard;
 
-
-
-
 import { motion } from "framer-motion";
-import { FaStar, FaCrown, FaPhone, FaEnvelope, FaWhatsapp } from "react-icons/fa";
+import {
+  FaStar,
+  FaCrown,
+  FaPhone,
+  FaEnvelope,
+  FaWhatsapp,
+} from "react-icons/fa";
 
 const AgentCard = ({ agentProfile, title, reference }) => {
   return (
@@ -80,8 +83,12 @@ const AgentCard = ({ agentProfile, title, reference }) => {
             </div>
           </div>
 
-          <h3 className="font-display text-2xl font-semibold text-[#866c4c] mb-1">{agentProfile.name}</h3>
-          <p className="text-[#ac895e] font-montserrat mb-2">{agentProfile.position?.primary}</p>
+          <h3 className="font-display text-2xl font-semibold text-[#866c4c] mb-1">
+            {agentProfile.name}
+          </h3>
+          <p className="text-brand font-montserrat mb-2">
+            {agentProfile.position?.primary}
+          </p>
 
           <div className="flex items-center justify-center mb-4">
             <div className="flex text-yellow-400 mr-3">
@@ -89,7 +96,9 @@ const AgentCard = ({ agentProfile, title, reference }) => {
                 <FaStar key={i} className="text-sm" />
               ))}
             </div>
-            <span className="text-[#ac895e] font-montserrat text-sm">5.0 (24 reviews)</span>
+            <span className="text-brand font-montserrat text-sm">
+              5.0 (24 reviews)
+            </span>
           </div>
         </div>
 
@@ -103,7 +112,9 @@ const AgentCard = ({ agentProfile, title, reference }) => {
           </a>
 
           <a
-            href={`mailto:${agentProfile.email || 'info@ushre.com'}?subject=Inquiry about ${title}&body=Hi, I'm interested in this property: ${title} (Ref: ${reference})`}
+            href={`mailto:${
+              agentProfile.email || "info@ushre.com"
+            }?subject=Inquiry about ${title}&body=Hi, I'm interested in this property: ${title} (Ref: ${reference})`}
             className="w-full bg-white border-2 border-[#D2CEB9] text-[#866c4c] py-3 rounded-xl font-montserrat font-semibold hover:border-[#ac895e] hover:shadow-lg transition-all duration-300 flex items-center justify-center"
           >
             <FaEnvelope className="mr-2" />
@@ -111,7 +122,9 @@ const AgentCard = ({ agentProfile, title, reference }) => {
           </a>
 
           <a
-            href={`https://wa.me/${agentProfile.phone || agentProfile.phoneSecondary}?text=Hi, I'm interested in ${title} (Ref: ${reference}). Could you provide more details?`}
+            href={`https://wa.me/${
+              agentProfile.phone || agentProfile.phoneSecondary
+            }?text=Hi, I'm interested in ${title} (Ref: ${reference}). Could you provide more details?`}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full bg-white border-2 border-green-300 text-green-700 py-3 rounded-xl font-montserrat font-semibold hover:border-green-400 hover:shadow-lg transition-all duration-300 flex items-center justify-center"

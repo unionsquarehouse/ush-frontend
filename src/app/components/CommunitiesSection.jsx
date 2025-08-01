@@ -22,6 +22,11 @@ import {
   FaEnvelope,
   FaWhatsapp,
   FaMapMarkerAlt,
+  FaCity,
+  FaGem,
+  FaWater,
+  FaGolfBall,
+  FaUsers,
 } from "react-icons/fa";
 import {
   BsArrowRight,
@@ -98,16 +103,16 @@ export default function CommunitiesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [hoveredCard, setHoveredCard] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const containerRef = useRef(null);
   const carouselRef = useRef(null);
 
   const categories = [
-    { id: 'all', name: 'All Communities', icon: '🏙️' },
-    { id: 'luxury', name: 'Ultra Luxury', icon: '💎' },
-    { id: 'waterfront', name: 'Waterfront', icon: '🌊' },
-    { id: 'golf', name: 'Golf Communities', icon: '⛳' },
-    { id: 'family', name: 'Family Living', icon: '👨‍👩‍👧‍👦' }
+    { id: "all", name: "All Communities", icon: <FaCity /> },
+    { id: "luxury", name: "Ultra Luxury", icon: <FaGem /> },
+    { id: "waterfront", name: "Waterfront", icon: <FaWater /> },
+    { id: "golf", name: "Golf Communities", icon: <FaGolfBall /> },
+    { id: "family", name: "Family Living", icon: <FaUsers /> },
   ];
 
   // Auto-scroll carousel
@@ -119,34 +124,35 @@ export default function CommunitiesSection() {
     return () => clearInterval(timer);
   }, [isAutoPlaying]);
 
-  const filteredCommunities = selectedCategory === 'all' 
-    ? communities 
-    : communities.filter(c => c.category === selectedCategory);
+  const filteredCommunities =
+    selectedCategory === "all"
+      ? communities
+      : communities.filter((c) => c.category === selectedCategory);
 
   return (
-    <section 
+    <section
       ref={containerRef}
-      className="py-20 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden"
+      className="py-32 bg-black relative overflow-hidden"
       onMouseEnter={() => setIsAutoPlaying(false)}
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
       {/* Animated Background */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid-pattern.svg')] opacity-5"></div>
-        <motion.div 
-          animate={{ 
+        <motion.div
+          animate={{
             background: [
-              'radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%)',
-              'radial-gradient(circle at 80% 20%, rgba(255, 183, 77, 0.3) 0%, transparent 50%)',
-              'radial-gradient(circle at 40% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%)'
-            ]
+              "radial-gradient(circle at 20% 50%, rgba(194, 178, 128, 0.3) 0%, transparent 50%)",
+              "radial-gradient(circle at 80% 20%, rgba(134, 108, 76, 0.3) 0%, transparent 50%)",
+              "radial-gradient(circle at 40% 80%, rgba(172, 137, 94, 0.3) 0%, transparent 50%)",
+            ],
           }}
           transition={{ duration: 8, repeat: Infinity, repeatType: "reverse" }}
           className="absolute inset-0"
         />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="w-[75vw] mx-auto relative z-10">
         {/* Hero Header */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -155,34 +161,17 @@ export default function CommunitiesSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <motion.div
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-block mb-6"
-          >
-            <div className="relative">
-              <div className="w-20 h-20 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-3xl shadow-2xl">
-                🏙️
-              </div>
-              <div className="absolute -inset-2 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full blur opacity-30 animate-pulse"></div>
-            </div>
-          </motion.div>
+          <h2 className=" text-brand mb-6">Dubai's Finest</h2>
+          <h3 className="f text-earth-300 mb-8">Exclusive Communities</h3>
 
-          <h2 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-yellow-200 to-orange-300 bg-clip-text text-transparent">
-            Dubai's Finest
-          </h2>
-          <h3 className="text-3xl md:text-4xl font-light text-slate-300 mb-8">
-            Exclusive Communities
-          </h3>
-          
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed"
+            className="text-xl text-earth-400 max-w-3xl mx-auto leading-relaxed"
           >
-            Discover where luxury meets lifestyle in Dubai's most prestigious neighborhoods
+            Discover where luxury meets lifestyle in Dubai's most prestigious
+            neighborhoods
           </motion.p>
         </motion.div>
 
@@ -199,14 +188,14 @@ export default function CommunitiesSection() {
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedCategory(category.id)}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 flex items-center z${
                 selectedCategory === category.id
-                  ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-slate-900 shadow-lg shadow-yellow-500/25'
-                  : 'bg-slate-800/50 text-slate-300 border border-slate-700 hover:bg-slate-700/50 hover:border-slate-600'
+                  ? "bg-brand text-white shadow-lg shadow-brand/25"
+                  : "bg-earth-800/50 text-earth-300 border border-earth-700 hover:bg-earth-700/50 hover:border-earth-600"
               }`}
             >
-              <span className="mr-2">{category.icon}</span>
-              {category.name}
+              <div className="mr-2">{category.icon}</div>
+              <div>{category.name}</div>
             </motion.button>
           ))}
         </motion.div>
@@ -234,17 +223,19 @@ export default function CommunitiesSection() {
                     fill
                     className="object-cover"
                   />
-                  
+
                   {/* Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                  
+
                   {/* Floating Stats */}
                   <div className="absolute top-6 left-6 space-y-3">
-                    <div className="bg-black/30 backdrop-blur-md text-white px-4 py-2 rounded-full text-sm">
-                      💰 {filteredCommunities[activeIndex]?.priceRange}
+                    <div className="bg-brand/80 backdrop-blur-md text-white px-4 py-2 rounded-full text-sm flex items-center gap-2">
+                      <FaGem className="text-brand" />
+                      {filteredCommunities[activeIndex]?.priceRange}
                     </div>
-                    <div className="bg-black/30 backdrop-blur-md text-white px-4 py-2 rounded-full text-sm">
-                      🏠 {filteredCommunities[activeIndex]?.properties} Properties
+                    <div className="bg-brand2/80 backdrop-blur-md text-white px-4 py-2 rounded-full text-sm flex items-center gap-2">
+                      <FaHome className="text-blue-300" />
+                      {filteredCommunities[activeIndex]?.properties} Properties
                     </div>
                   </div>
 
@@ -252,9 +243,9 @@ export default function CommunitiesSection() {
                   <motion.button
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    className="absolute bottom-6 right-6 w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-slate-900 text-2xl shadow-lg"
+                    className="absolute bottom-6 right-6 w-16 h-16 bg-gradient-to-r from-brand to-brand-hover rounded-full flex items-center justify-center text-white text-2xl shadow-lg"
                   >
-                    👁️
+                    <FaInfoCircle />
                   </motion.button>
                 </motion.div>
 
@@ -270,50 +261,56 @@ export default function CommunitiesSection() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
                 >
-                  <div className="inline-block px-4 py-2 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-full text-yellow-400 text-sm font-medium mb-4">
-                    ⭐ Featured Community
+                  <div className=" px-4 py-2 bg-gradient-to-r from-brand/20 to-brand-hover/20 rounded-full text-brand text-sm font-medium mb-4 flex items-center gap-2">
+                    <FaGem className="text-brand" />
+                    Featured Community
                   </div>
-                  
+
                   <h3 className="text-5xl font-bold text-white mb-6">
                     {filteredCommunities[activeIndex]?.name}
                   </h3>
-                  
+
                   <p className="text-xl text-slate-300 leading-relaxed mb-8">
                     {filteredCommunities[activeIndex]?.description}
                   </p>
 
                   {/* Features Grid */}
                   <div className="grid grid-cols-2 gap-4 mb-8">
-                    {filteredCommunities[activeIndex]?.features.map((feature, idx) => (
-                      <motion.div
-                        key={idx}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 + idx * 0.1 }}
-                        className="flex items-center space-x-3 p-3 bg-slate-800/50 rounded-xl border border-slate-700"
-                      >
-                        <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-slate-900 text-sm">
-                          ✓
-                        </div>
-                        <span className="text-slate-300">{feature}</span>
-                      </motion.div>
-                    ))}
+                    {filteredCommunities[activeIndex]?.features.map(
+                      (feature, idx) => (
+                        <motion.div
+                          key={idx}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.3 + idx * 0.1 }}
+                          className="flex items-center space-x-3 p-3 bg-slate-800/50 rounded-xl border border-slate-700"
+                        >
+                          <div className="w-8 h-8 bg-gradient-to-r from-brand to-brand-hover rounded-full flex items-center justify-center text-white text-sm">
+                            <FaChevronRight />
+                          </div>
+                          <span className="text-slate-300">{feature}</span>
+                        </motion.div>
+                      )
+                    )}
                   </div>
 
                   {/* Action Buttons */}
                   <div className="flex gap-4">
                     <motion.button
-                      whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(255, 183, 77, 0.3)" }}
+                      whileHover={{
+                        scale: 1.05,
+                        boxShadow: "0 20px 40px rgba(194, 178, 128, 0.3)",
+                      }}
                       whileTap={{ scale: 0.95 }}
-                      className="px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-slate-900 font-bold rounded-xl shadow-lg"
+                      className="px-8 py-4 bg-gradient-to-r from-brand to-brand-hover text-white font-bold rounded-xl shadow-lg"
                     >
                       Explore Properties
                     </motion.button>
-                    
+
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="px-8 py-4 border border-slate-600 text-slate-300 rounded-xl hover:bg-slate-800/50 transition-all duration-300"
+                      className="px-8 py-4 border border-earth-600 text-earth-300 rounded-xl hover:bg-earth-800/50 transition-all duration-300"
                     >
                       Schedule Visit
                     </motion.button>
@@ -328,7 +325,13 @@ export default function CommunitiesSection() {
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={() => setActiveIndex((prev) => (prev - 1 + filteredCommunities.length) % filteredCommunities.length)}
+              onClick={() =>
+                setActiveIndex(
+                  (prev) =>
+                    (prev - 1 + filteredCommunities.length) %
+                    filteredCommunities.length
+                )
+              }
               className="w-12 h-12 bg-slate-800 border border-slate-600 rounded-full flex items-center justify-center text-slate-300 hover:bg-slate-700 transition-all duration-300"
             >
               ←
@@ -343,8 +346,8 @@ export default function CommunitiesSection() {
                   onClick={() => setActiveIndex(index)}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     index === activeIndex
-                      ? 'bg-gradient-to-r from-yellow-400 to-orange-500 scale-125'
-                      : 'bg-slate-600 hover:bg-slate-500'
+                      ? "bg-gradient-to-r from-brand to-brand2 scale-125"
+                      : "bg-slate-600 hover:bg-slate-500"
                   }`}
                 />
               ))}
@@ -353,7 +356,11 @@ export default function CommunitiesSection() {
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={() => setActiveIndex((prev) => (prev + 1) % filteredCommunities.length)}
+              onClick={() =>
+                setActiveIndex(
+                  (prev) => (prev + 1) % filteredCommunities.length
+                )
+              }
               className="w-12 h-12 bg-slate-800 border border-slate-600 rounded-full flex items-center justify-center text-slate-300 hover:bg-slate-700 transition-all duration-300"
             >
               →
@@ -384,7 +391,7 @@ export default function CommunitiesSection() {
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    
+
                     {/* Hover Overlay */}
                     <motion.div
                       initial={{ opacity: 0 }}
@@ -392,14 +399,22 @@ export default function CommunitiesSection() {
                       className="absolute inset-0 bg-gradient-to-t from-yellow-500/20 to-transparent"
                     />
                   </div>
-                  
+
                   <div className="p-6">
-                    <h4 className="text-xl font-bold text-white mb-2">{community.name}</h4>
-                    <p className="text-slate-400 text-sm mb-4 line-clamp-2">{community.description}</p>
-                    
+                    <h4 className="text-xl font-bold text-white mb-2">
+                      {community.name}
+                    </h4>
+                    <p className="text-slate-400 text-sm mb-4 line-clamp-2">
+                      {community.description}
+                    </p>
+
                     <div className="flex justify-between items-center">
-                      <span className="text-yellow-400 font-semibold">{community.priceRange}</span>
-                      <span className="text-slate-500 text-sm">{community.properties} units</span>
+                      <span className="text-brand font-semibold">
+                        {community.priceRange}
+                      </span>
+                      <span className="text-slate-500 text-sm">
+                        {community.properties} units
+                      </span>
                     </div>
                   </div>
                 </div>

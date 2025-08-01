@@ -51,39 +51,71 @@ export default function Projects() {
     const fetchFilterOptions = async () => {
       try {
         // Fetch all projects to get filter options
-        const res = await axios.get('/api/pf/projects');
+        const res = await axios.get("/api/pf/projects");
         const json = await res.json();
-        
+
         if (json.success) {
           // Extract unique filter options from ALL data
-          const uniqueLocations = [...new Set(json.data.map(p => ({ id: p.locationId, name: p.location })).filter(l => l.id && l.name))];
-          const uniqueBedrooms = [...new Set(json.data.map(p => p.beds).filter(bed => bed && bed > 0))].sort((a, b) => a - b);
-          const uniqueBathrooms = [...new Set(json.data.map(p => p.baths).filter(bath => bath && bath > 0))].sort((a, b) => a - b);
-          const uniqueTypes = [...new Set(json.data.map(p => p.type).filter(Boolean))].sort();
-          const uniqueCompletionStatus = [...new Set(json.data.map(p => p.completionStatus).filter(Boolean))].sort();
+          const uniqueLocations = [
+            ...new Set(
+              json.data
+                .map((p) => ({ id: p.locationId, name: p.location }))
+                .filter((l) => l.id && l.name)
+            ),
+          ];
+          const uniqueBedrooms = [
+            ...new Set(
+              json.data.map((p) => p.beds).filter((bed) => bed && bed > 0)
+            ),
+          ].sort((a, b) => a - b);
+          const uniqueBathrooms = [
+            ...new Set(
+              json.data.map((p) => p.baths).filter((bath) => bath && bath > 0)
+            ),
+          ].sort((a, b) => a - b);
+          const uniqueTypes = [
+            ...new Set(json.data.map((p) => p.type).filter(Boolean)),
+          ].sort();
+          const uniqueCompletionStatus = [
+            ...new Set(
+              json.data.map((p) => p.completionStatus).filter(Boolean)
+            ),
+          ].sort();
 
-          console.log('Filter options extracted:', {
+          console.log("Filter options extracted:", {
             locations: uniqueLocations.length,
             bedrooms: uniqueBedrooms,
             bathrooms: uniqueBathrooms,
             types: uniqueTypes,
             developers: uniqueDevelopers,
-            completionStatus: uniqueCompletionStatus
+            completionStatus: uniqueCompletionStatus,
           });
 
           setLocations(uniqueLocations);
-          setBedroomOptions(uniqueBedrooms.length > 0 ? uniqueBedrooms : [1, 2, 3, 4, 5]);
-          setBathroomOptions(uniqueBathrooms.length > 0 ? uniqueBathrooms : [1, 2, 3, 4, 5]);
-          setTypeOptions(uniqueTypes.length > 0 ? uniqueTypes : ['Apartment', 'Villa', 'Townhouse', 'Penthouse']);
-          setCompletionStatusOptions(uniqueCompletionStatus.length > 0 ? uniqueCompletionStatus : ['Ready', 'Off Plan', 'Under Construction']);
+          setBedroomOptions(
+            uniqueBedrooms.length > 0 ? uniqueBedrooms : [1, 2, 3, 4, 5]
+          );
+          setBathroomOptions(
+            uniqueBathrooms.length > 0 ? uniqueBathrooms : [1, 2, 3, 4, 5]
+          );
+          setTypeOptions(
+            uniqueTypes.length > 0
+              ? uniqueTypes
+              : ["Apartment", "Villa", "Townhouse", "Penthouse"]
+          );
+          setCompletionStatusOptions(
+            uniqueCompletionStatus.length > 0
+              ? uniqueCompletionStatus
+              : ["Ready", "Off Plan", "Under Construction"]
+          );
         }
       } catch (err) {
         console.error("Error fetching filter options:", err);
         // Set fallback options if API fails
         setBedroomOptions([1, 2, 3, 4, 5]);
         setBathroomOptions([1, 2, 3, 4, 5]);
-        setTypeOptions(['Apartment', 'Villa', 'Townhouse', 'Penthouse']);
-        setCompletionStatusOptions(['Ready', 'Off Plan', 'Under Construction']);
+        setTypeOptions(["Apartment", "Villa", "Townhouse", "Penthouse"]);
+        setCompletionStatusOptions(["Ready", "Off Plan", "Under Construction"]);
       }
     };
 
@@ -119,21 +151,24 @@ export default function Projects() {
     const fetchProjects = async () => {
       try {
         setLoading(true);
-        
-        // Determine which endpoint to use based on APPLIED filters
-        const hasFilters = appliedSearchTerm || 
-                          appliedPriceRange[0] > 0 || 
-                          appliedPriceRange[1] < 50000000 || 
-                          appliedLocation || 
-                          appliedBedrooms || 
-                          appliedBathrooms || 
-                          appliedType || 
-                          appliedCompletionStatus ||
-                          orderBy !== 'publishedAt' ||
-                          sortOrder !== 'desc';
 
-        const endpoint = hasFilters ? '/api/pf/projects/search' : '/api/pf/projects';
-        
+        // Determine which endpoint to use based on APPLIED filters
+        const hasFilters =
+          appliedSearchTerm ||
+          appliedPriceRange[0] > 0 ||
+          appliedPriceRange[1] < 50000000 ||
+          appliedLocation ||
+          appliedBedrooms ||
+          appliedBathrooms ||
+          appliedType ||
+          appliedCompletionStatus ||
+          orderBy !== "publishedAt" ||
+          sortOrder !== "desc";
+
+        const endpoint = hasFilters
+          ? "/api/pf/projects/search"
+          : "/api/pf/projects";
+
         // Build query parameters using APPLIED filters
         const params = new URLSearchParams({
           page: page.toString(),
@@ -141,35 +176,48 @@ export default function Projects() {
         });
 
         if (hasFilters) {
-          params.append('orderBy', orderBy);
-          params.append('sort', sortOrder);
-          
-          if (appliedSearchTerm) params.append('search', appliedSearchTerm);
-          if (appliedPriceRange[0] > 0) params.append('priceFrom', appliedPriceRange[0].toString());
-          if (appliedPriceRange[1] < 50000000) params.append('priceTo', appliedPriceRange[1].toString());
-          if (appliedLocation) params.append('locationId', appliedLocation);
-          if (appliedBedrooms) params.append('bedrooms', appliedBedrooms);
-          if (appliedBathrooms) params.append('bathrooms', appliedBathrooms);
-          if (appliedType) params.append('type', appliedType);
-          if (appliedCompletionStatus) params.append('completionStatus', appliedCompletionStatus);
+          params.append("orderBy", orderBy);
+          params.append("sort", sortOrder);
+
+          if (appliedSearchTerm) params.append("search", appliedSearchTerm);
+          if (appliedPriceRange[0] > 0)
+            params.append("priceFrom", appliedPriceRange[0].toString());
+          if (appliedPriceRange[1] < 50000000)
+            params.append("priceTo", appliedPriceRange[1].toString());
+          if (appliedLocation) params.append("locationId", appliedLocation);
+          if (appliedBedrooms) params.append("bedrooms", appliedBedrooms);
+          if (appliedBathrooms) params.append("bathrooms", appliedBathrooms);
+          if (appliedType) params.append("type", appliedType);
+          if (appliedCompletionStatus)
+            params.append("completionStatus", appliedCompletionStatus);
         }
 
-        console.log('Using endpoint:', endpoint);
-        console.log('With params:', params.toString());
+        console.log("Using endpoint:", endpoint);
+        console.log("With params:", params.toString());
 
         const res = await fetch(`${endpoint}?${params.toString()}`);
         const json = await res.json();
-        
+
         console.log("Projects API response:", json);
-        
+
         if (json.success) {
           setProjects(json.data);
           setTotalProjects(json.total);
-          
+
           // Extract unique filter options from current data
-          const uniqueLocations = [...new Set(json.data.map(p => ({ id: p.locationId, name: p.location })).filter(l => l.id))];
-          const uniqueBedrooms = [...new Set(json.data.map(p => p.beds).filter(Boolean))].sort();
-          const uniqueBathrooms = [...new Set(json.data.map(p => p.baths).filter(Boolean))].sort();
+          const uniqueLocations = [
+            ...new Set(
+              json.data
+                .map((p) => ({ id: p.locationId, name: p.location }))
+                .filter((l) => l.id)
+            ),
+          ];
+          const uniqueBedrooms = [
+            ...new Set(json.data.map((p) => p.beds).filter(Boolean)),
+          ].sort();
+          const uniqueBathrooms = [
+            ...new Set(json.data.map((p) => p.baths).filter(Boolean)),
+          ].sort();
 
           setLocations(uniqueLocations);
           setBedroomOptions(uniqueBedrooms);
@@ -185,7 +233,19 @@ export default function Projects() {
     };
 
     fetchProjects();
-  }, [page, pageSize, appliedSearchTerm, appliedPriceRange, appliedLocation, appliedBedrooms, appliedBathrooms, appliedType, appliedCompletionStatus, orderBy, sortOrder]);
+  }, [
+    page,
+    pageSize,
+    appliedSearchTerm,
+    appliedPriceRange,
+    appliedLocation,
+    appliedBedrooms,
+    appliedBathrooms,
+    appliedType,
+    appliedCompletionStatus,
+    orderBy,
+    sortOrder,
+  ]);
 
   // Handle page size change
   const handlePageSizeChange = (newPageSize) => {
@@ -231,9 +291,7 @@ export default function Projects() {
       className="py-32 relative overflow-hidden bg-earth-50"
       ref={sectionRef}
     >
-      <motion.div
-        className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto relative z-10"
-      >
+      <motion.div className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -242,7 +300,7 @@ export default function Projects() {
           className="text-center mb-12"
         >
           <h2 className="text-5xl mb-4 text-black flex items-center justify-center">
-            <span className="text-[#ac895e] shine-effect mr-2">All</span> Projects
+            <span className="text-brand shine-effect mr-2">All</span> Projects
           </h2>
           <div className="h-0.5 w-24 bg-gradient-to-r from-[#876F4E] to-[#68543b] mx-auto mb-6"></div>
         </motion.div>
@@ -274,7 +332,7 @@ export default function Projects() {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
-                  
+
                   <button
                     type="submit"
                     onClick={handleSearchIconClick}
@@ -323,108 +381,135 @@ export default function Projects() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mb-6">
                     {/* Price Range */}
                     <div className="md:col-span-2 lg:col-span-1">
-                      <h3 className="text-sm font-semibold text-earth-700 mb-3">Price Range (AED)</h3>
+                      <h3 className="text-sm font-semibold text-earth-700 mb-3">
+                        Price Range (AED)
+                      </h3>
                       <div className="flex gap-2">
                         <input
                           type="number"
                           placeholder="Min"
                           className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-3 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
                           value={priceRange[0]}
-                          onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
+                          onChange={(e) =>
+                            setPriceRange([+e.target.value, priceRange[1]])
+                          }
                         />
                         <input
                           type="number"
                           placeholder="Max"
                           className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-3 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
                           value={priceRange[1]}
-                          onChange={(e) => setPriceRange([priceRange[0], +e.target.value])}
+                          onChange={(e) =>
+                            setPriceRange([priceRange[0], +e.target.value])
+                          }
                         />
                       </div>
                     </div>
 
                     {/* Location Filter */}
                     <div>
-                      <h3 className="text-sm font-semibold text-earth-700 mb-3">Location</h3>
+                      <h3 className="text-sm font-semibold text-earth-700 mb-3">
+                        Location
+                      </h3>
                       <select
                         value={selectedLocation}
                         onChange={(e) => setSelectedLocation(e.target.value)}
                         className="w-full max-h-[16rem] overflow-y-scroll  bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
                       >
                         <option value="">All Locations</option>
-                        {locations.map(location => (
-                          <option key={location.id} value={location.id}>{location.name}</option>
+                        {locations.map((location) => (
+                          <option key={location.id} value={location.id}>
+                            {location.name}
+                          </option>
                         ))}
                       </select>
                     </div>
 
                     {/* Bedrooms Filter */}
                     <div>
-                      <h3 className="text-sm font-semibold text-earth-700 mb-3">Bedrooms</h3>
+                      <h3 className="text-sm font-semibold text-earth-700 mb-3">
+                        Bedrooms
+                      </h3>
                       <select
                         value={selectedBedrooms}
                         onChange={(e) => setSelectedBedrooms(e.target.value)}
                         className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
                       >
                         <option value="">Any Bedrooms</option>
-                        {bedroomOptions.map(beds => (
-                          <option key={beds} value={beds}>{beds} Bed{beds > 1 ? 's' : ''}</option>
+                        {bedroomOptions.map((beds) => (
+                          <option key={beds} value={beds}>
+                            {beds} Bed{beds > 1 ? "s" : ""}
+                          </option>
                         ))}
                       </select>
                     </div>
 
                     {/* Bathrooms Filter */}
                     <div>
-                      <h3 className="text-sm font-semibold text-earth-700 mb-3">Bathrooms</h3>
+                      <h3 className="text-sm font-semibold text-earth-700 mb-3">
+                        Bathrooms
+                      </h3>
                       <select
                         value={selectedBathrooms}
                         onChange={(e) => setSelectedBathrooms(e.target.value)}
                         className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
                       >
                         <option value="">Any Bathrooms</option>
-                        {bathroomOptions.map(baths => (
-                          <option key={baths} value={baths}>{baths} Bath{baths > 1 ? 's' : ''}</option>
+                        {bathroomOptions.map((baths) => (
+                          <option key={baths} value={baths}>
+                            {baths} Bath{baths > 1 ? "s" : ""}
+                          </option>
                         ))}
                       </select>
                     </div>
 
                     {/* Property Type Filter */}
                     <div>
-                      <h3 className="text-sm font-semibold text-earth-700 mb-3">Property Type</h3>
+                      <h3 className="text-sm font-semibold text-earth-700 mb-3">
+                        Property Type
+                      </h3>
                       <select
                         value={selectedType}
                         onChange={(e) => setSelectedType(e.target.value)}
                         className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
                       >
                         <option value="">All Types</option>
-                        {typeOptions.map(type => (
-                          <option key={type} value={type}>{type}</option>
+                        {typeOptions.map((type) => (
+                          <option key={type} value={type}>
+                            {type}
+                          </option>
                         ))}
                       </select>
                     </div>
 
-                    
                     {/* Completion Status Filter */}
                     <div>
-                      <h3 className="text-sm font-semibold text-earth-700 mb-3">Completion Status</h3>
+                      <h3 className="text-sm font-semibold text-earth-700 mb-3">
+                        Completion Status
+                      </h3>
                       <select
                         value={completionStatus}
                         onChange={(e) => setCompletionStatus(e.target.value)}
                         className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
                       >
                         <option value="">All Status</option>
-                        {completionStatusOptions.map(status => (
-                          <option key={status} value={status}>{status}</option>
+                        {completionStatusOptions.map((status) => (
+                          <option key={status} value={status}>
+                            {status}
+                          </option>
                         ))}
                       </select>
                     </div>
 
                     {/* Sort By */}
                     <div>
-                      <h3 className="text-sm font-semibold text-earth-700 mb-3">Sort By</h3>
+                      <h3 className="text-sm font-semibold text-earth-700 mb-3">
+                        Sort By
+                      </h3>
                       <select
                         value={`${orderBy}-${sortOrder}`}
                         onChange={(e) => {
-                          const [order, sort] = e.target.value.split('-');
+                          const [order, sort] = e.target.value.split("-");
                           setOrderBy(order);
                           setSortOrder(sort);
                         }}
@@ -482,7 +567,9 @@ export default function Projects() {
                 ))
               ) : (
                 <div className="col-span-3 py-20 text-center">
-                  <p className="text-brand text-lg mb-4">No projects found matching your criteria.</p>
+                  <p className="text-brand text-lg mb-4">
+                    No projects found matching your criteria.
+                  </p>
                   <motion.button
                     onClick={resetFilters}
                     className="px-6 py-3 bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white rounded-tl-lg rounded-br-lg hover:shadow-lg transition-all duration-300"

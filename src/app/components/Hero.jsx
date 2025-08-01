@@ -143,10 +143,10 @@ export default function Hero() {
             <h1 className="text-5xl md:text-6xl lg:text-8xl  text-white mb-6 mr-2 ">
               
               <span className="inline-block min-h-[1.2em] min-w-[7ch] relative">
-              <span className="bg-gradient-to-r from-[#927653] via-[#c9a06e] to-[#c99f6d] bg-clip-text text-transparent drop-shadow-[#9F3349]">
+              <span className="bg-gradient-to-r from-[#9F3349]  via-[#a53047] to-[#e24d6b] bg-clip-text text-transparent drop-shadow-[#9F3349]">
                   {text}
                 </span>
-                <span className="animate-pulse text-[#ac895e] drop-shadow-[#9F3349]">|</span>
+                <span className="animate-pulse text-[#e24d6b] drop-shadow-[#9F3349]">|</span>
               </span> <br/>
               Dubai Properties
             </h1>

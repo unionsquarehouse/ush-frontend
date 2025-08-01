@@ -1,5 +1,3 @@
-
-
 import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaTag, FaBed, FaBath, FaRuler } from "react-icons/fa";
 
@@ -22,9 +20,9 @@ const PropertyDetails = ({
       <div className="flex flex-col md:flex-row justify-between items-center mb-6 relative">
         <div>
           <h1 className="text-2xl font-semibold text-[#866c4c]">{title}</h1>
-          <div className="flex items-center text-[#ac895e] mt-2">
+          <div className="flex items-center text-brand mt-2">
             <FaMapMarkerAlt className="mr-2" />
-            <span className="text-lg">{locationString}</span> 
+            <span className="text-lg">{locationString}</span>
           </div>
         </div>
         <div className="mt-4 md:mt-0 absolute right-0 flex items-center">
@@ -80,7 +78,6 @@ const InfoCard = ({ icon, label, value }) => {
     </motion.div>
   );
 };
-
 
 const truncateDescription = (text, maxLength = 200) => {
   if (!text) return "";

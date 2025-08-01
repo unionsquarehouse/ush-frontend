@@ -2,13 +2,13 @@
 
 import { useState, useEffect, use } from "react";
 import { motion } from "framer-motion";
-import { FaCalendar, FaUser, FaEye, FaClock, FaShare, FaArrowLeft, FaArrowRight, FaTag } from "react-icons/fa";
+import { FaCalendar, FaUser, FaEye, FaClock, FaShare, FaArrowLeft, FaArrowRight, FaTag, FaHeart, FaRegHeart, FaTwitter, FaLinkedin, FaWhatsapp, FaLink } from "react-icons/fa";
 import { Card, CardContent } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function BlogPage({ params }) {
+export default function BlogPost({ params }) {
   const router = useRouter();
   const { id } = use(params); // Unwrap the params Promise
   const [blog, setBlog] = useState(null);
@@ -36,49 +36,93 @@ export default function BlogPage({ params }) {
   };
 
   const shareOptions = [
-    { name: 'Twitter', icon: '🐦', action: () => window.open(`https://twitter.com/intent/tweet?url=${window.location.href}&text=${blog?.title}`) },
-    { name: 'LinkedIn', icon: '💼', action: () => window.open(`https://linkedin.com/sharing/share-offsite/?url=${window.location.href}`) },
-    { name: 'WhatsApp', icon: '💬', action: () => window.open(`https://wa.me/?text=${blog?.title} ${window.location.href}`) },
-    { name: 'Copy Link', icon: '🔗', action: () => { navigator.clipboard.writeText(window.location.href); alert('Link copied!'); } }
+    { name: 'Twitter', icon: <FaTwitter />, action: () => window.open(`https://twitter.com/intent/tweet?url=${window.location.href}&text=${blog?.title}`) },
+    { name: 'LinkedIn', icon: <FaLinkedin />, action: () => window.open(`https://linkedin.com/sharing/share-offsite/?url=${window.location.href}`) },
+    { name: 'WhatsApp', icon: <FaWhatsapp />, action: () => window.open(`https://wa.me/?text=${blog?.title} ${window.location.href}`) },
+    { name: 'Copy Link', icon: <FaLink />, action: () => { navigator.clipboard.writeText(window.location.href); alert('Link copied!'); } }
   ];
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/strapi/blogs/${id}`);
-        const result = await response.json();
+        const response = await fetch('/api/perch/blogs');
+        const blogs = await response.json();
         
-        if (result.success) {
-          setBlog(result.data);
-          // Fetch related posts based on category
-          fetchRelatedPosts(result.data.category);
+        // Find blog by ID
+        const foundBlog = blogs.find(blog => blog._id === params.id);
+        
+        if (foundBlog) {
+          // Better image handling with multiple fallbacks
+          let imageUrl = `https://ush.imgix.net/${foundBlog.image._default}`;
+          
+
+          const transformedBlog = {
+            id: foundBlog._id,
+            title: foundBlog.title,
+            content: foundBlog.desc?.processed || foundBlog.desc?.raw || '',
+            excerpt: foundBlog.excerpt?.processed || foundBlog.excerpt?.raw || '',
+            date: foundBlog.dateTime,
+            author: foundBlog.itemUpdatedBy || 'Admin',
+            image: imageUrl,
+            imageAlt: foundBlog.image_alt || foundBlog.title,
+            metaTitle: foundBlog.meta_title || foundBlog.title,
+            metaDesc: foundBlog.meta_desc?.processed || foundBlog.meta_desc?.raw || '',
+            slug: foundBlog.slug,
+            status: foundBlog.status,
+            categories: foundBlog.categories || [],
+            collectionID: foundBlog.collectionID,
+            itemUpdatedBy: foundBlog.itemUpdatedBy,
+            itemUpdated: foundBlog.itemUpdated
+          };
+          setBlog(transformedBlog);
         } else {
-          console.error('Failed to fetch blog:', result.error);
+          setError('Blog post not found');
         }
-      } catch (error) {
-        console.error('Error fetching blog:', error);
+      } catch (err) {
+        console.error('Error fetching blog:', err);
+        setError('Failed to load blog post');
       } finally {
         setLoading(false);
       }
     };
 
     fetchBlog();
-  }, [id]);
+  }, [params.id]);
 
   const fetchRelatedPosts = async (category) => {
     try {
-      const response = await fetch(`/api/strapi/blogs?category=${category}&pageSize=3`);
+      const response = await fetch('/api/perch/blogs');
       const result = await response.json();
       
-      if (result.success) {
-        // Filter out current blog and take first 3
-        const filtered = result.data.filter(post => post.documentId !== id).slice(0, 3);
-        setRelatedPosts(filtered);
+      if (Array.isArray(result)) {
+        const transformedBlogs = result
+          .filter(blog => blog.itemID.toString() !== id)
+          .map(blog => {
+            let parsedData = {};
+            try {
+              parsedData = JSON.parse(blog.itemJSON);
+            } catch (e) {
+              parsedData = {};
+            }
+            
+            return {
+              id: blog.itemID,
+              documentId: blog.itemID,
+              title: parsedData.title || `Blog ${blog.itemID}`,
+              category: parsedData.category || 'General',
+              readTime: parsedData.readTime || '5 min read',
+              image: parsedData.image || null
+            };
+          })
+          .filter(post => post.category === category)
+          .slice(0, 3);
+          
+        setRelatedPosts(transformedBlogs);
       }
     } catch (error) {
       console.error('Error fetching related posts:', error);
-      setRelatedPosts([]); // Set empty array on error
+      setRelatedPosts([]);
     }
   };
 
@@ -129,7 +173,7 @@ export default function BlogPage({ params }) {
             isBookmarked ? 'bg-brand text-white' : 'bg-white/80 text-earth-600 hover:bg-brand hover:text-white'
           }`}
         >
-          <span className="text-lg">{isBookmarked ? '❤️' : '🤍'}</span>
+          {isBookmarked ? <FaHeart size={16} /> : <FaRegHeart size={16} />}
         </motion.button>
 
         {/* Share Button */}
@@ -202,13 +246,13 @@ export default function BlogPage({ params }) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="bg-white rounded-tl-[2rem] rounded-br-[2rem] shadow-xl overflow-hidden relative"
+                className="bg-white shadow-xl overflow-hidden relative"
               >
                 {/* Glassmorphism overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/10 to-transparent pointer-events-none z-10"></div>
                 
                 {/* Enhanced Hero Image */}
-                <div className="relative h-96 overflow-hidden group">
+                <div className="relative overflow-hidden group">
                   {blog.image ? (
                     <img 
                       src={blog.image} 
@@ -222,7 +266,7 @@ export default function BlogPage({ params }) {
                         transition={{ duration: 2, repeat: Infinity }}
                         className="text-earth-600 text-xl font-medium"
                       >
-                        ✨ Article Image ✨
+                        ✨ {blog.title} ✨
                       </motion.span>
                     </div>
                   )}
@@ -230,38 +274,16 @@ export default function BlogPage({ params }) {
                   {/* Enhanced gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
                   
-                  {/* Floating Category Badge */}
-                  <motion.div 
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="absolute top-6 left-6"
-                  >
-                    <span className="bg-gradient-to-r from-brand to-earth-600 text-white px-6 py-3 rounded-full text-sm font-semibold shadow-lg backdrop-blur-sm">
-                      📰 {blog.category}
-                    </span>
-                  </motion.div>
+                 
 
-                  {/* Enhanced Share Button */}
-                  <motion.div 
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
-                    className="absolute top-6 right-6"
-                  >
-                    <Button
-                      onClick={() => setShowShareMenu(!showShareMenu)}
-                      size="sm"
-                      className="bg-white/20 backdrop-blur-md text-white border-white/30 hover:bg-white/30 shadow-lg hover:shadow-xl transition-all duration-300"
-                    >
-                      <FaShare size={14} className="mr-2" />
-                      Share
-                    </Button>
-                  </motion.div>
-
-                  {/* Reading time indicator */}
-                  <div className="absolute bottom-6 left-6 bg-black/50 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm">
-                    ⏱️ {blog.readTime} read
+                  {/* Reading time and date indicator */}
+                  <div className="absolute bottom-6 left-6 flex gap-3">
+                    <div className="bg-black/50 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm">
+                      ⏱️ {blog.readTime}
+                    </div>
+                    <div className="bg-black/50 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm">
+                      📅 {new Date(blog.date).toLocaleDateString()}
+                    </div>
                   </div>
                 </div>
 
@@ -298,7 +320,7 @@ export default function BlogPage({ params }) {
                   </p>
 
                   {/* Author Info */}
-                  <div className="flex items-center gap-4 p-6 bg-earth-50 rounded-xl mb-8">
+                  <div className="flex items-center gap-4 p-6 bg-gradient-to-r from-earth-50 to-earth-100 rounded-xl mb-8 border border-earth-200">
                     <div className="w-16 h-16 bg-earth-200 rounded-full flex items-center justify-center overflow-hidden">
                       {blog.authorImage ? (
                         <img src={blog.authorImage} alt={blog.author} className="w-full h-full object-cover" />
@@ -306,39 +328,78 @@ export default function BlogPage({ params }) {
                         <FaUser className="text-earth-600" size={20} />
                       )}
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-earth-800">{blog.author}</h3>
-                      <p className="text-earth-600 text-sm">{blog.authorBio}</p>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-earth-800 text-lg">{blog.author}</h3>
+                      <p className="text-earth-600 text-sm mb-2">{blog.authorBio}</p>
+                      <div className="flex items-center gap-4 text-xs text-earth-500">
+                        <span>Published {new Date(blog.date).toLocaleDateString()}</span>
+                        <span>•</span>
+                        <span>{blog.views} views</span>
+                        <span>•</span>
+                        <span>{blog.readTime}</span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Article Content */}
+                  {/* Article Content - Display content as HTML */}
                   <div 
-                    className="text-black"
+                    className="prose prose-sm"
                     dangerouslySetInnerHTML={{ __html: blog.content }}
                   />
 
                   {/* Tags */}
-                  <div className="mt-12 pt-8 border-t border-earth-200">
-                    <div className="flex items-center gap-2 mb-4">
-                      <FaTag className="text-brand" />
-                      <span className="font-semibold text-earth-800">Tags:</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {blog.tags && blog.tags.length > 0 ? (
-                        blog.tags.map((tag, index) => (
+                  {blog.tags && blog.tags.length > 0 && (
+                    <div className="mt-8 pt-8 border-t border-earth-200">
+                      <div className="flex items-center gap-2 mb-4">
+                        <FaTag className="text-brand" />
+                        <span className="font-semibold text-earth-800">Tags:</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {blog.tags.map((tag, index) => (
                           <span
                             key={index}
                             className="bg-brand/10 text-brand px-3 py-1 rounded-full text-sm hover:bg-brand/20 transition-colors cursor-pointer"
                           >
                             {tag}
                           </span>
-                        ))
-                      ) : (
-                        <span className="text-earth-600 text-sm">No tags available</span>
-                      )}
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Social Share Section */}
+                  <div className="mt-12 pt-8 border-t border-earth-200">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <span className="font-semibold text-earth-800">Share this article:</span>
+                        <div className="flex gap-3">
+                          {shareOptions.map((option, index) => (
+                            <button
+                              key={option.name}
+                              onClick={option.action}
+                              className="w-10 h-10 rounded-full bg-earth-100 hover:bg-brand hover:text-white transition-all duration-300 flex items-center justify-center text-earth-600"
+                              title={option.name}
+                            >
+                              <span className="text-sm">{option.icon}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <button
+                        onClick={handleBookmark}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
+                          isBookmarked 
+                            ? 'bg-brand text-white' 
+                            : 'bg-earth-100 text-earth-600 hover:bg-brand hover:text-white'
+                        }`}
+                      >
+                        <span>{isBookmarked ? <FaHeart /> : <FaRegHeart />}</span>
+                        <span className="text-sm">{isBookmarked ? 'Saved' : 'Save'}</span>
+                      </button>
                     </div>
                   </div>
+
+                 
                 </div>
               </motion.article>
             </div>
@@ -468,4 +529,5 @@ export default function BlogPage({ params }) {
       </section>
     </>
   );
+
 }

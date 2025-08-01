@@ -66,7 +66,7 @@ body {
   }
 
   p {
-    @apply text-base md:text-2xl font-extralight text-brand;
+    @apply text-base md:text-2xl font-extralight text-slate-900;
   }
 }
 

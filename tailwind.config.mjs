@@ -28,7 +28,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        brand: "#866c4c",
+       brand:"#c2b280",
+        brand2: "#866c4c",
         "brand-hover": "#ac895e",
         earth: {
           50: "#f5f5f0",
