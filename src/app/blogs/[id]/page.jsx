@@ -46,8 +46,9 @@ export default function BlogPost({ params }) {
     const fetchBlog = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/perch/blogs');
-        const blogs = await response.json();
+        const response = await fetch("/api/db/blogs");
+        const res = await response.json();
+        const blogs= res.blogs;
         
         // Find blog by ID
         const foundBlog = blogs.find(blog => blog._id === params.id);
@@ -341,11 +342,7 @@ export default function BlogPost({ params }) {
                     </div>
                   </div>
 
-                  {/* Article Content - Display content as HTML */}
-                  <div 
-                    className="prose prose-sm"
-                    dangerouslySetInnerHTML={{ __html: blog.content }}
-                  />
+                
 
                   {/* Tags */}
                   {blog.tags && blog.tags.length > 0 && (

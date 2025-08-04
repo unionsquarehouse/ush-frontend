@@ -299,7 +299,7 @@ export default function Projects() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-5xl mb-4 text-black flex items-center justify-center">
+          <h2 className="mb-4 text-black flex items-center justify-center">
             <span className="text-brand shine-effect mr-2">All</span> Projects
           </h2>
           <div className="h-0.5 w-24 bg-gradient-to-r from-[#876F4E] to-[#68543b] mx-auto mb-6"></div>
@@ -346,7 +346,7 @@ export default function Projects() {
                 {/* Filter Toggle Button */}
                 <motion.button
                   onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white rounded-tl-[2rem] rounded-br-[2rem] px-6 py-3 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                  className="flex items-center rounded-full justify-center gap-2 bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white px-6 py-3 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >

@@ -22,7 +22,7 @@ export default function Home() {
       <Services />
       {/* <Amenities/> */}
       <DevelopersSection />
-      <DiscoverProperty/>
+      {/* <DiscoverProperty/> */}
       <DubaiMap/>
       {/* <Contact /> */}
     </>

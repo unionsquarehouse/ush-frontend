@@ -39,12 +39,12 @@ export default function AboutHero() {
           >
             <div className="mb-6">
               <span className="w-24 h-0.5 bg-gradient-to-r from-[#876F4E] to-[#68543b] block mb-4"></span>
-              <h1 className="text-5xl lg:text-6xl font-bold text-brand shine-effect mb-6">
+              <h2 className=" text-brand shine-effect mb-6">
                 About <span className="text-black">Union Square House</span>
-              </h1>
+              </h2>
             </div>
 
-            <p className="text-xl text-earth-700 leading-relaxed mb-8">
+            <p className=" text-earth-700 leading-relaxed mb-8">
               The investor-friendly city of Dubai has over{" "}
               <strong>473 freehold projects</strong> (off-plan / ready). Each
               different from the other, while new ones come up. Which one would
@@ -52,7 +52,7 @@ export default function AboutHero() {
               <strong>Union Square House</strong> comes in.
             </p>
 
-            <p className="text-lg text-earth-600 leading-relaxed">
+            <p className=" text-earth-600 leading-relaxed">
               A real estate advisory firm committed to helping investors and
               residents make the right decision when it comes to buying a
               property in Dubai. Over the years, we have helped thousands of
@@ -69,7 +69,7 @@ export default function AboutHero() {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="relative h-[500px] rounded-tl-[3rem] rounded-br-[3rem] overflow-hidden shadow-2xl">
+            <div className="relative h-[500px] overflow-hidden shadow-2xl">
               <Image
                 src="/assets/ush-office.webp"
                 alt="Union Square House Office"

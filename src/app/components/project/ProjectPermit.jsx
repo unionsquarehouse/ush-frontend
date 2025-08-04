@@ -140,6 +140,9 @@ export default function ProjectPermit({ compliance }) {
     }
   };
 
+  console.log( data,"-=-=-=-=-=-=-=-=-=-==-");
+  if( !data?.validationURL ) return
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}

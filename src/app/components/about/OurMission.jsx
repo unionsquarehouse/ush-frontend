@@ -78,7 +78,7 @@ export default function OurMission() {
             <div className="h-px w-16 bg-gradient-to-l from-transparent to-brand"></div>
           </div>
 
-          <h2 className="text-5xl lg:text-6xl font-bold mb-8 flex justify-center items-center gap-2">
+          <h2 className="font-bold mb-8 flex justify-center items-center gap-2">
             <span className="text-brand shine-effect">Our</span>{" "}
             <span className="text-black relative group">
               Mission
@@ -86,7 +86,7 @@ export default function OurMission() {
             </span>
           </h2>
 
-          <p className="text-xl text-earth-600 max-w-4xl mx-auto leading-relaxed">
+          <p className=" text-earth-600 max-w-4xl mx-auto leading-relaxed">
             For the thankful smiles that we receive after each successful deal,
             our endeavor is to see many more of them in the years to come. Which
             is why, every member of the Union Square House team is aligned to
@@ -121,7 +121,7 @@ export default function OurMission() {
                 {/* Card */}
                 <motion.div
                   whileHover={{ y: -10, rotateY: 5 }}
-                  className={`relative overflow-hidden rounded-tl-[2rem] rounded-br-[2rem] p-8 h-full transition-all duration-500 ${
+                  className={`relative overflow-hidden p-8 h-full transition-all duration-500 ${
                     hoveredIndex === index ? "bg-earth-50" : "bg-white"
                   } border-2 ${
                     hoveredIndex === index
@@ -147,11 +147,11 @@ export default function OurMission() {
                   </motion.div>
 
                   {/* Content */}
-                  <h3 className="text-xl font-bold text-earth-800 mb-4 leading-tight group-hover:text-earth-900 transition-colors">
+                  <h3 className="text-2xl font-bold text-earth-800 mb-4 leading-tight group-hover:text-earth-900 transition-colors">
                     {point.title}
                   </h3>
 
-                  <p className="text-earth-600 leading-relaxed group-hover:text-earth-700 transition-colors">
+                  <p className="text-xl text-earth-600 leading-relaxed group-hover:text-earth-700 transition-colors">
                     {point.description}
                   </p>
 

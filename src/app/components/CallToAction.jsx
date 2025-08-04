@@ -105,10 +105,10 @@ export default function CallToAction() {
                   transition={{ duration: 0.6 }}
                   className="inline-block"
                 >
-                  <span className="text-brand text-sm tracking-[0.3em] uppercase font-light">
+                  <span className="text-brand text-lg tracking-[0.3em] uppercase font-light">
                     Limited Time Opportunity
                   </span>
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mt-3 mb-6 text-gray-900">
+                  <h2 className="font-light mt-3 mb-6 text-gray-900">
                     Secure Your{" "}
                     <span className="font-medium text-brand">Legacy</span>
                   </h2>
@@ -126,7 +126,7 @@ export default function CallToAction() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
-                  className="text-gray-600 max-w-2xl mx-auto mt-6 text-lg"
+                  className="text-gray-600 max-w-2xl mx-auto mt-6 text-xl"
                 >
                   Experience the pinnacle of Dubai's architectural innovation.
                   Arthouse Residences offers a rare investment opportunity with
@@ -143,15 +143,15 @@ export default function CallToAction() {
               >
                 {/* Feature 1 */}
                 <div className="relative group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/60 to-white/20 backdrop-blur-sm rounded-tl-[2rem] rounded-br-[2rem] border border-white/30 group-hover:border-[#0F2134]/30 transition-colors duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/60 to-white/20 backdrop-blur-sm border border-white/30 group-hover:border-[#0F2134]/30 transition-colors duration-300"></div>
                   <div className="relative z-10 p-6 text-center">
                     <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-br from-brand/10 to-brand/5 flex items-center justify-center">
-                      <RiVipCrownLine className="text-2xl text-brand" />
+                      <RiVipCrownLine className="text-4xl text-brand" />
                     </div>
-                    <h3 className="text-xl font-medium text-gray-900 mb-2">
+                    <h3 className="text-3xl  text-gray-900 mb-2">
                       Premium Location
                     </h3>
-                    <p className="text-gray-600 text-sm">
+                    <p className="text-gray-600 text-xl">
                       Prime positioning in Meydan with exceptional connectivity
                       to Dubai's landmarks
                     </p>
@@ -160,15 +160,15 @@ export default function CallToAction() {
 
                 {/* Feature 2 */}
                 <div className="relative group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/60 to-white/20 backdrop-blur-sm rounded-tl-[2rem] rounded-br-[2rem] border border-white/30 group-hover:border-[#0F2134]/30 transition-colors duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/60 to-white/20 backdrop-blur-sm  border border-white/30 group-hover:border-[#0F2134]/30 transition-colors duration-300"></div>
                   <div className="relative z-10 p-6 text-center">
                     <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-br from-brand/10 to-brand/5 flex items-center justify-center">
-                      <FaRegGem className="text-2xl text-brand" />
+                      <FaRegGem className="text-4xl text-brand" />
                     </div>
-                    <h3 className="text-xl font-medium text-gray-900 mb-2">
+                    <h3 className="text-3xl font-medium text-gray-900 mb-2">
                       Exclusive Design
                     </h3>
-                    <p className="text-gray-600 text-sm">
+                    <p className="text-gray-600 text-xl">
                       Artistically crafted living spaces with premium finishes
                       and smart home technology
                     </p>
@@ -177,15 +177,15 @@ export default function CallToAction() {
 
                 {/* Feature 3 */}
                 <div className="relative group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/60 to-white/20 backdrop-blur-sm rounded-tl-[2rem] rounded-br-[2rem] border border-white/30 group-hover:border-[#0F2134]/30 transition-colors duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/60 to-white/20 backdrop-blur-sm  border border-white/30 group-hover:border-[#0F2134]/30 transition-colors duration-300"></div>
                   <div className="relative z-10 p-6 text-center">
                     <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-br from-brand/10 to-brand/5 flex items-center justify-center">
-                      <IoIosFlash className="text-2xl text-brand" />
+                      <IoIosFlash className="text-4xl text-brand" />
                     </div>
-                    <h3 className="text-xl font-medium text-gray-900 mb-2">
+                    <h3 className="text-3xl font-medium text-gray-900 mb-2">
                       Investment Potential
                     </h3>
-                    <p className="text-gray-600 text-sm">
+                    <p className="text-gray-600 text-xl">
                       Projected ROI of 8-12% with strong capital appreciation in
                       an emerging district
                     </p>
@@ -202,7 +202,7 @@ export default function CallToAction() {
               >
                 {/* Primary CTA Button - Now opens modal */}
                 <motion.button
-                  className="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white rounded-tl-[2rem] rounded-br-[2rem] shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white  shadow-lg hover:shadow-xl transition-all duration-300"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onMouseEnter={() => handleMouseEnter("primary")}
@@ -220,7 +220,7 @@ export default function CallToAction() {
                   ></div>
 
                   {/* Button content */}
-                  <span className="relative z-10 flex items-center justify-center font-medium tracking-wide">
+                  <span className="relative text-xl z-10 flex items-center justify-center font-medium tracking-wide">
                     Reserve Your Unit
                     <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                   </span>

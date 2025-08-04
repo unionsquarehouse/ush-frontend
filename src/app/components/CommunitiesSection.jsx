@@ -261,7 +261,7 @@ export default function CommunitiesSection() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
                 >
-                  <div className=" px-4 py-2 bg-gradient-to-r from-brand/20 to-brand-hover/20 rounded-full text-brand text-sm font-medium mb-4 flex items-center gap-2">
+                  <div className="w-fit px-4 py-2 bg-gradient-to-r from-brand/20 to-brand-hover/20 rounded-full text-brand text-sm font-medium mb-4 flex items-center gap-2">
                     <FaGem className="text-brand" />
                     Featured Community
                   </div>

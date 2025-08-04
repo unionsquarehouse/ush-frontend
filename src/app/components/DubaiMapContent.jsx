@@ -210,7 +210,7 @@ const DubaiMapContent = () => {
       // Add popup with area info
       marker.bindPopup(
         `
-        <div class="bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white p-6 rounded-tl-[2rem] rounded-br-[2rem] min-w-[200px]">
+        <div class="bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white p-6  min-w-[200px]">
           <h3 class="text-lg font-bold mb-2">${area.name}</h3>
           <p class="text-sm mb-2">${area.description}</p>
           <div class="flex justify-between text-xs">
@@ -278,7 +278,7 @@ const DubaiMapContent = () => {
 
           {/* Control Panel */}
           <div
-            className={`absolute h-[80vh] top-6 left-6 w-80 bg-white/95 backdrop-blur-lg rounded-tl-2xl rounded-br-2xl shadow-xl transition-all duration-500 border border-earth-200 z-30 ${
+            className={`absolute h-[80vh] top-6 left-6 w-80 bg-white/95 backdrop-blur-lg  shadow-xl transition-all duration-500 border border-earth-200 z-30 ${
               isPanelOpen
                 ? "translate-x-0 opacity-100"
                 : "-translate-x-96 opacity-0"
@@ -303,14 +303,14 @@ const DubaiMapContent = () => {
                 placeholder="Search areas..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-earth-50 text-earth-800 rounded-tl-lg rounded-br-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200 font-sans"
+                className="w-full bg-earth-50 text-earth-800   p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200 font-sans"
               />
 
               {/* Category Filter */}
               <select
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="w-full bg-earth-50 text-earth-800 rounded-tl-lg rounded-br-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200 font-sans"
+                className="w-full bg-earth-50 text-earth-800   p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200 font-sans"
               >
                 <option value="All">All Categories</option>
                 <option value="Premium">Premium</option>
@@ -324,7 +324,7 @@ const DubaiMapContent = () => {
                   <div
                     key={area.name}
                     onClick={() => handleAreaClick(area)}
-                    className="p-4 bg-earth-50 rounded-tl-xl rounded-br-xl hover:bg-earth-100 cursor-pointer transition-all duration-300 border border-earth-200"
+                    className="p-4 bg-earth-50  hover:bg-earth-100 cursor-pointer transition-all duration-300 border border-earth-200"
                   >
                     <h4 className="text-lg font-semibold text-earth-800 font-sans">
                       {area.name}
@@ -348,7 +348,7 @@ const DubaiMapContent = () => {
 
           {/* Area Details Panel */}
           {selectedArea && (
-            <div className="absolute bottom-6 right-6 w-96 bg-white/95 backdrop-blur-lg rounded-tl-2xl rounded-br-2xl shadow-xl p-6 border border-earth-200 z-30">
+            <div className="absolute bottom-6 right-6 w-96 bg-white/95 backdrop-blur-lg shadow-xl p-6 border border-earth-200 z-30">
               <h3 className="text-2xl font-bold text-earth-800 mb-2 font-sans">
                 {selectedArea.name}
               </h3>
@@ -356,7 +356,7 @@ const DubaiMapContent = () => {
                 {selectedArea.description}
               </p>
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-earth-50 p-3 rounded-tl-lg rounded-br-lg border border-earth-200">
+                <div className="bg-earth-50 p-3   border border-earth-200">
                   <span className="text-earth-600 font-medium text-sm font-sans">
                     ROI
                   </span>
@@ -364,7 +364,7 @@ const DubaiMapContent = () => {
                     {selectedArea.roi}
                   </p>
                 </div>
-                <div className="bg-earth-50 p-3 rounded-tl-lg rounded-br-lg border border-earth-200">
+                <div className="bg-earth-50 p-3   border border-earth-200">
                   <span className="text-earth-600 font-medium text-sm font-sans">
                     Growth
                   </span>
@@ -372,7 +372,7 @@ const DubaiMapContent = () => {
                     {selectedArea.growth}
                   </p>
                 </div>
-                <div className="bg-earth-50 p-3 rounded-tl-lg rounded-br-lg border border-earth-200">
+                <div className="bg-earth-50 p-3   border border-earth-200">
                   <span className="text-earth-600 font-medium text-sm font-sans">
                     Population
                   </span>
@@ -380,7 +380,7 @@ const DubaiMapContent = () => {
                     {selectedArea.population}
                   </p>
                 </div>
-                <div className="bg-earth-50 p-3 rounded-tl-lg rounded-br-lg border border-earth-200">
+                <div className="bg-earth-50 p-3   border border-earth-200">
                   <span className="text-earth-600 font-medium text-sm font-sans">
                     Avg. Price
                   </span>
@@ -389,7 +389,7 @@ const DubaiMapContent = () => {
                   </p>
                 </div>
               </div>
-              <button className="mt-4 w-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white py-3 rounded-tl-xl rounded-br-xl hover:bg-[#6b563d]  duration-300 shadow-lg font-sans font-medium">
+              <button className="mt-4 w-full bg-gradient-to-r from-brand to-brand-hover text-white py-3  hover:bg-[#6b563d]  duration-300 shadow-lg font-sans font-medium">
                 Explore Properties
               </button>
             </div>
@@ -399,7 +399,7 @@ const DubaiMapContent = () => {
           <div className="absolute top-6 right-6 z-30">
             <button
               onClick={() => setIsPanelOpen(!isPanelOpen)}
-              className="inline-flex items-center px-6 py-3 text-base bg-gradient-to-r from-[#866c4c] to-[#ac895e] btn-glass text-white rounded-tl-[2rem] rounded-br-[2rem] transition-all duration-300 group relative overflow-hidden"
+              className="inline-flex items-center px-6 py-3 text-base bg-gradient-to-r from-brand to-brand-hover btn-glass text-white  transition-all duration-300 group relative overflow-hidden"
             >
               <span className="relative z-10">
                 {isPanelOpen ? "Hide Panel" : "Show Panel"}

@@ -94,7 +94,7 @@ export default function Pagination({
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
         {/* Item count display */}
         {showItemCount && totalItems > 0 && (
-          <div className="text-brand text-sm">
+          <div className="text-earth-900 text-sm">
             Showing {startItem}-{endItem} of {totalItems} items
           </div>
         )}
@@ -104,7 +104,7 @@ export default function Pagination({
           <div className="flex items-center gap-1">
             <label
               htmlFor="itemsPerPage"
-              className="text-brand text-sm whitespace-nowrap"
+              className="text-earth-900 text-sm whitespace-nowrap"
             >
               Items per page:
             </label>
@@ -112,7 +112,7 @@ export default function Pagination({
               id="itemsPerPage"
               value={itemsPerPage}
               onChange={handleItemsPerPageChange}
-              className="text-white rounded-tl-xl rounded-br-xl px-2 py-1 text-sm border bg-[#876F4E] focus:outline-none focus:ring-2 focus:ring-[#876F4E]"
+              className="text-white pr-2 py-1 text-sm border bg-earth-500 focus:outline-none ring-2 ring-[#876F4E]"
             >
               {itemsPerPageOptions.map((option) => (
                 <option key={option} value={option}>
@@ -131,7 +131,7 @@ export default function Pagination({
           <motion.button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="w-10 h-10 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-brand"
+            className="w-10 h-10  flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-brand"
             aria-label="Previous page"
             whileHover={currentPage !== 1 ? { scale: 1.05 } : {}}
             whileTap={currentPage !== 1 ? { scale: 0.95 } : {}}
@@ -146,7 +146,7 @@ export default function Pagination({
                 <motion.button
                   key={index}
                   onClick={() => handlePageChange(page)}
-                  className={`min-w-[40px] h-10 rounded-tl-xl rounded-br-xl flex items-center justify-center transition-colors ${
+                  className={`min-w-[40px] h-10  flex items-center justify-center transition-colors ${
                     currentPage === page
                       ? "bg-[#876F4E] text-white"
                       : "border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white"
@@ -168,7 +168,7 @@ export default function Pagination({
           <motion.button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="w-10 h-10 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-brand"
+            className="w-10 h-10  flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-brand"
             aria-label="Next page"
             whileHover={currentPage !== totalPages ? { scale: 1.05 } : {}}
             whileTap={currentPage !== totalPages ? { scale: 0.95 } : {}}

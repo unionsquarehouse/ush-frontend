@@ -754,3 +754,28 @@ body {
   border-radius: 0.5rem;
   z-index: 1;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+.perspective {
+  perspective: 1000px;
+}
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+}
+.rotateY-180 {
+  transform: rotateY(180deg);
+}

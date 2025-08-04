@@ -5,6 +5,8 @@ import { NextResponse } from 'next/server';
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
+    console.log("hiihihihhihihhihi");
+    
 
     const listingAdvertisementNumber = searchParams.get('listingAdvertisementNumber');
     const type = searchParams.get('type');
@@ -15,6 +17,9 @@ export async function GET(request) {
         { status: 400 }
       );
     }
+
+    console.log(listingAdvertisementNumber,"-=-=-=", type);
+    
 
     const token = await tokenManager.getToken();
 
@@ -30,6 +35,9 @@ export async function GET(request) {
         'Content-Type': 'application/json'
       },
     });
+
+    console.log(response.data,"------hihihihi------------------");
+    
     
 
     return NextResponse.json({

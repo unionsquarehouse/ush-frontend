@@ -138,7 +138,7 @@ const AgentsSection = () => {
             <Award className="text-brand" size={56} />
             <div className="w-20 h-0.5 bg-gradient-to-l from-transparent via-brand to-transparent"></div>
           </div>
-          <h2 className="text-6xl lg:text-7xl font-bold mb-8 text-white">
+          <h2 className="mb-8 text-white">
             Meet Our
             <span className="block bg-gradient-to-r from-brand to-brand-hover bg-clip-text text-transparent">
               Elite Team
@@ -165,7 +165,7 @@ const AgentsSection = () => {
                   }`}
                   onClick={() => setActiveAgent(agent.originalIndex)}
                 >
-                  <div className="aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-brand/20 to-earth-600/20 backdrop-blur-sm border border-earth-300/20">
+                  <div className="aspect-square  overflow-hidden bg-gradient-to-br from-brand/20 to-earth-600/20 backdrop-blur-sm border border-earth-300/20">
                     <img
                       src={agent.photo}
                       alt={agent.name}
@@ -190,10 +190,11 @@ const AgentsSection = () => {
               onMouseLeave={() => setIsAutoPlaying(true)}
             >
               {/* Animated Border */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-brand via-brand-hover to-earth-600 rounded-3xl blur opacity-75 animate-pulse"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-brand via-brand-hover to-earth-600 blur opacity-75 animate-pulse"></div>
               
               {/* Main Card */}
-              <div className="relative bg-white rounded-3xl overflow-hidden shadow-2xl">
+              <div className="relative bg-white 
+               overflow-hidden shadow-2xl">
                 {/* Agent Photo */}
                 <div className="relative h-78 overflow-hidden">
                   <img
@@ -243,14 +244,14 @@ const AgentsSection = () => {
                     <div className="grid grid-cols-2 gap-3">
                       <Button
                         onClick={() => handleCall(currentAgent.phone)}
-                        className="bg-gradient-to-r from-brand to-brand-hover hover:from-brand-hover hover:to-brand text-white rounded-xl py-3 transition-all duration-300 hover:scale-105"
+                        className="bg-gradient-to-r from-brand to-brand-hover hover:from-brand-hover hover:to-brand text-white  py-3 transition-all duration-300 hover:scale-105"
                       >
                         <Phone size={16} className="mr-2" />
                         Call
                       </Button>
                       <Button
                         onClick={() => handleWhatsApp(currentAgent.whatsapp)}
-                        className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-xl py-3 transition-all duration-300 hover:scale-105"
+                        className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white  py-3 transition-all duration-300 hover:scale-105"
                       >
                         <MessageCircle size={16} className="mr-2" />
                         WhatsApp
@@ -259,7 +260,7 @@ const AgentsSection = () => {
                     <Button
                       onClick={() => handleEmail(currentAgent.email)}
                       variant="outline"
-                      className="w-full border-2 border-earth-300 hover:border-brand hover:bg-earth-50 rounded-xl py-3 transition-all duration-300"
+                      className="w-full border-2 border-earth-300 hover:border-brand hover:bg-earth-50 py-3 transition-all duration-300"
                     >
                       <Mail size={16} className="mr-2" />
                       Send Email
@@ -294,9 +295,9 @@ const AgentsSection = () => {
 
             {/* Agent Bio */}
             {currentAgent.bio && (
-              <div className="bg-earth-800/30 backdrop-blur-md rounded-2xl p-6 border border-earth-600/30">
-                <h4 className="text-white font-semibold mb-3">About</h4>
-                <p className="text-earth-200 text-sm leading-relaxed">
+              <div className="bg-earth-800/30 backdrop-blur-md  p-6 border border-earth-600/30">
+                < h5 className="text-white font-semibold mb-3">About</ h5>
+                <p className="text-earth-200 text-lg leading-relaxed">
                   {currentAgent.bio.length > 150 
                     ? `${currentAgent.bio.substring(0, 120)}...` 
                     : currentAgent.bio
@@ -314,16 +315,16 @@ const AgentsSection = () => {
             )}
 
             {/* Quick Stats */}
-            <div className="bg-earth-800/30 backdrop-blur-md rounded-2xl p-6 border border-earth-600/30">
-              <h4 className="text-white font-semibold mb-4">Quick Info</h4>
+            <div className="bg-earth-800/30 backdrop-blur-md p-6 border border-earth-600/30">
+              < h5 className="text-white font-semibold mb-4">Quick Info</ h5>
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-earth-200">
                   <Mail size={16} />
-                  <span className="text-sm">{currentAgent.email}</span>
+                  <span className="text-lg">{currentAgent.email}</span>
                 </div>
                 <div className="flex items-center gap-3 text-earth-200">
                   <Phone size={16} />
-                  <span className="text-sm">{currentAgent.phone}</span>
+                  <span className="text-lg">{currentAgent.phone}</span>
                 </div>
               </div>
             </div>

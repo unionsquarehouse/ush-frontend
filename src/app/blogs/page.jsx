@@ -45,10 +45,11 @@ export default function BlogsPage() {
       try {
         setLoading(true);
 
-        const response = await fetch("/api/perch/blogs");
-        const result = await response.json();
-
-        console.log("Perch API Response:", result);
+        const response = await fetch("/api/db/blogs");
+        const res = await response.json();
+        const result= res.blogs;
+        
+        console.log("mongodb API Response:", result);
 
         if (Array.isArray(result)) {
           // Transform Perch data to match frontend expectations
@@ -432,13 +433,7 @@ export default function BlogsPage() {
         </motion.div>
 
         {/* Results Summary */}
-        <div className="mb-12 text-center">
-          <p className="text-earth-500 text-lg">
-            {loading
-              ? "Loading..."
-              : `${filteredPosts.length} ${filteredPosts.length === 1 ? 'article' : 'articles'} found`}
-          </p>
-        </div>
+        
 
         {/* Blog Posts Grid */}
         {loading ? (
