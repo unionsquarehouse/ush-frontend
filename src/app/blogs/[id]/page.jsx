@@ -194,13 +194,13 @@ export default function BlogPost({ params }) {
               initial={{ opacity: 0, scale: 0.8, x: 20 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               exit={{ opacity: 0, scale: 0.8, x: 20 }}
-              className="absolute right-16 top-0 bg-white rounded-xl shadow-xl p-3 min-w-[200px]"
+              className="absolute right-16 top-0 bg-white  shadow-xl p-3 min-w-[200px]"
             >
               {shareOptions.map((option, index) => (
                 <button
                   key={option.name}
                   onClick={option.action}
-                  className="w-full flex items-center gap-3 p-3 hover:bg-earth-50 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-3 p-3 hover:bg-earth-50  transition-colors"
                 >
                   <span className="text-lg">{option.icon}</span>
                   <span className="text-earth-700">{option.name}</span>
@@ -321,7 +321,7 @@ export default function BlogPost({ params }) {
                   </p>
 
                   {/* Author Info */}
-                  <div className="flex items-center gap-4 p-6 bg-gradient-to-r from-earth-50 to-earth-100 rounded-xl mb-8 border border-earth-200">
+                  <div className="flex items-center gap-4 p-6 bg-gradient-to-r from-earth-50 to-earth-100  mb-8 border border-earth-200">
                     <div className="w-16 h-16 bg-earth-200 rounded-full flex items-center justify-center overflow-hidden">
                       {blog.authorImage ? (
                         <img src={blog.authorImage} alt={blog.author} className="w-full h-full object-cover" />
@@ -410,7 +410,7 @@ export default function BlogPost({ params }) {
                 className="space-y-8"
               >
                 {/* Related Articles */}
-                <Card className="rounded-tl-[2rem] rounded-br-[2rem] overflow-hidden">
+                <Card className=" overflow-hidden">
                   <CardContent className="p-6">
                     <h3 className="text-xl font-bold text-earth-800 mb-6">Related Articles</h3>
                     <div className="space-y-6">
@@ -422,7 +422,7 @@ export default function BlogPost({ params }) {
                             className="block group"
                           >
                             <div className="flex gap-4">
-                              <div className="w-20 h-20 bg-gradient-to-br from-earth-200 to-earth-300 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+                              <div className="w-20 h-20 bg-gradient-to-br from-earth-200 to-earth-300  flex items-center justify-center flex-shrink-0 overflow-hidden">
                                 {post.image ? (
                                   <img 
                                     src={post.image} 
@@ -455,7 +455,7 @@ export default function BlogPost({ params }) {
                 </Card>
 
                 {/* Newsletter Signup */}
-                <Card className="rounded-tl-[2rem] rounded-br-[2rem] overflow-hidden bg-gradient-to-br from-brand/5 to-earth-100/50">
+                <Card className=" overflow-hidden bg-gradient-to-br from-brand/5 to-earth-100/50">
                   <CardContent className="p-6">
                     <h3 className="text-xl font-bold text-earth-800 mb-4">Stay Updated</h3>
                     <p className="text-earth-600 mb-6">
@@ -465,7 +465,7 @@ export default function BlogPost({ params }) {
                       <input
                         type="email"
                         placeholder="Your email address"
-                        className="w-full px-4 py-3 rounded-lg border border-earth-200 focus:outline-none focus:ring-2 focus:ring-brand"
+                        className="w-full px-4 py-3  border border-earth-200 focus:outline-none focus:ring-2 focus:ring-brand"
                       />
                       <Button className="w-full bg-brand hover:bg-brand-hover text-white">
                         Subscribe
@@ -475,7 +475,7 @@ export default function BlogPost({ params }) {
                 </Card>
 
                 {/* Quick Links */}
-                <Card className="rounded-tl-[2rem] rounded-br-[2rem] overflow-hidden">
+                <Card className=" overflow-hidden">
                   <CardContent className="p-6">
                     <h3 className="text-xl font-bold text-earth-800 mb-6">Quick Links</h3>
                     <div className="space-y-3">

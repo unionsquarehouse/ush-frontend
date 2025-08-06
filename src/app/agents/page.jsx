@@ -193,7 +193,7 @@ export default function AgentsPage() {
                   <select
                     value={selectedSpecialty}
                     onChange={(e) => setSelectedSpecialty(e.target.value)}
-                    className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
+                    className="w-full bg-white/80 backdrop-blur-sm text-brand  px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
                   >
                     <option value="">All Positions</option>
                     {specialties.map((specialty) => (
@@ -222,7 +222,7 @@ export default function AgentsPage() {
                           experienceRange[1],
                         ])
                       }
-                      className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-3 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
+                      className="w-full bg-white/80 backdrop-blur-sm text-brand  px-3 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
                     />
                     <input
                       type="number"
@@ -236,7 +236,7 @@ export default function AgentsPage() {
                           +e.target.value,
                         ])
                       }
-                      className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-3 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
+                      className="w-full bg-white/80 backdrop-blur-sm text-brand  px-3 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
                     />
                   </div>
                 </div>
@@ -249,7 +249,7 @@ export default function AgentsPage() {
                   <select
                     value={minRating}
                     onChange={(e) => setMinRating(+e.target.value)}
-                    className="w-full bg-white/80 backdrop-blur-sm text-brand rounded-tl-xl rounded-br-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
+                    className="w-full bg-white/80 backdrop-blur-sm text-brand  px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#ac895e] border border-earth-200"
                   >
                     <option value={0}>Any Rating</option>
                     <option value={3}>3+ Stars</option>
@@ -263,7 +263,7 @@ export default function AgentsPage() {
                 <div className="flex items-end">
                   <button
                     onClick={resetFilters}
-                    className="w-full px-6 py-3 text-brand border border-earth-300 rounded-tl-lg rounded-br-lg hover:bg-earth-100 transition-colors duration-200"
+                    className="w-full px-6 py-3 text-brand border border-earth-300  hover:bg-earth-100 transition-colors duration-200"
                   >
                     Reset Filters
                   </button>
@@ -278,7 +278,7 @@ export default function AgentsPage() {
           {paginatedAgents.map((agent) => (
             <Card
               key={agent.id}
-              className="group bg-white border border-earth-200 rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              className="group bg-white border border-earth-200  overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
             >
               <CardContent className="p-0">
                 {/* Agent Photo */}
@@ -294,7 +294,7 @@ export default function AgentsPage() {
 
                   {/* Hover overlay */}
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 rounded-full p-3">
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90  p-3">
                       <span className="text-brand font-semibold text-sm">
                         View Profile
                       </span>

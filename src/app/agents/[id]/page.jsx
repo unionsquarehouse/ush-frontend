@@ -91,7 +91,7 @@ export default function AgentPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Agent Photo & Basic Info */}
           <div className="lg:col-span-1">
-            <Card className="bg-white border border-earth-200 rounded-lg overflow-hidden shadow-xl">
+            <Card className="bg-white border border-earth-200  overflow-hidden shadow-xl">
               <CardContent className="p-0">
                 {/* Agent Photo */}
                 <div className="relative h-96 overflow-hidden">
@@ -105,13 +105,13 @@ export default function AgentPage() {
                   {/* Status Badges */}
                   <div className="absolute top-4 right-4 flex flex-col gap-2">
                     {agent.verification === 'verified' && (
-                      <div className="bg-green-600 text-white px-3 py-1 rounded-md text-sm font-semibold flex items-center gap-2">
+                      <div className="bg-green-600 text-white px-3 py-1  text-sm font-semibold flex items-center gap-2">
                         <Shield size={16} />
                         Verified
                       </div>
                     )}
                     {agent.isSuperAgent && (
-                      <div className="bg-brand text-white px-3 py-1 rounded-md text-sm font-semibold flex items-center gap-2">
+                      <div className="bg-brand text-white px-3 py-1  text-sm font-semibold flex items-center gap-2">
                         <Award size={16} />
                         Elite Agent
                       </div>
@@ -162,7 +162,7 @@ export default function AgentPage() {
           {/* Agent Details */}
           <div className="lg:col-span-2 space-y-8">
             {/* Professional Summary */}
-            <Card className="bg-white border border-earth-200 rounded-lg shadow-lg">
+            <Card className="bg-white border border-earth-200  shadow-lg">
               <CardContent className="p-8">
                 <h2 className="text-2xl font-bold text-earth-800 mb-6 flex items-center gap-3">
                   <Award className="text-brand" size={24} />
@@ -178,7 +178,7 @@ export default function AgentPage() {
             </Card>
 
             {/* Professional Stats */}
-            <Card className="bg-white border border-earth-200 rounded-lg shadow-lg">
+            <Card className="bg-white border border-earth-200  shadow-lg">
               <CardContent className="p-8">
                 <h2 className="text-2xl font-bold text-earth-800 mb-6 flex items-center gap-3">
                   <Star className="text-brand" size={24} />
@@ -186,21 +186,21 @@ export default function AgentPage() {
                 </h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="bg-earth-50 rounded-lg p-6 text-center">
+                  <div className="bg-earth-50  p-6 text-center">
                     <div className="text-3xl font-bold text-earth-800 mb-2">
                       {agent.verification === 'verified' ? 'Verified' : 'Pending'}
                     </div>
                     <div className="text-earth-600 text-sm uppercase tracking-wide">Verification Status</div>
                   </div>
                   
-                  <div className="bg-brand/5 rounded-lg p-6 text-center">
+                  <div className="bg-brand/5  p-6 text-center">
                     <div className="text-3xl font-bold text-earth-800 mb-2">
                       {agent.compliances?.length || 0}
                     </div>
                     <div className="text-earth-600 text-sm uppercase tracking-wide">Active Licenses</div>
                   </div>
                   
-                  <div className="bg-green-50 rounded-lg p-6 text-center">
+                  <div className="bg-green-50  p-6 text-center">
                     <div className="text-3xl font-bold text-earth-800 mb-2">
                       {agent.isSuperAgent ? 'Elite' : 'Standard'}
                     </div>
@@ -212,7 +212,7 @@ export default function AgentPage() {
 
             {/* Licenses & Compliance */}
             {agent.compliances && agent.compliances.length > 0 && (
-              <Card className="bg-white border border-earth-200 rounded-lg shadow-lg">
+              <Card className="bg-white border border-earth-200  shadow-lg">
                 <CardContent className="p-8">
                   <h2 className="text-2xl font-bold text-earth-800 mb-6 flex items-center gap-3">
                     <Shield className="text-brand" size={24} />
@@ -221,7 +221,7 @@ export default function AgentPage() {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {agent.compliances.map((compliance, index) => (
-                      <div key={index} className="bg-earth-50 rounded-lg p-4 border border-earth-200">
+                      <div key={index} className="bg-earth-50  p-4 border border-earth-200">
                         <div className="font-semibold text-earth-800">{compliance.name || `License ${index + 1}`}</div>
                         <div className="text-earth-600 text-sm">{compliance.type || 'Professional License'}</div>
                       </div>
@@ -232,7 +232,7 @@ export default function AgentPage() {
             )}
 
             {/* Contact Information */}
-            <Card className="bg-white border border-earth-200 rounded-lg shadow-lg">
+            <Card className="bg-white border border-earth-200  shadow-lg">
               <CardContent className="p-8">
                 <h2 className="text-2xl font-bold text-earth-800 mb-6 flex items-center gap-3">
                   <MapPin className="text-brand" size={24} />

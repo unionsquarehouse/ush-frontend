@@ -14,7 +14,7 @@ const PropertyDetails = ({
   setShowFullDescription,
 }) => {
   return (
-    <div className="bg-white rounded-tl-[2rem] rounded-br-[2rem] p-6 shadow-xl border border-[#D2CEB9] hover:shadow-2xl transition-shadow duration-300 ">
+    <div className="bg-white  p-6 shadow-xl border border-[#D2CEB9] hover:shadow-2xl transition-shadow duration-300 ">
       {/* <div className="absolute inset-0 rounded-lg pointer-events-none border-effect"></div> */}
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-6 relative">

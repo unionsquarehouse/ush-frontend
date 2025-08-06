@@ -33,7 +33,7 @@ const MortgageCalculator = ({ priceValue, currency }) => {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.2 }}
-      className="bg-white rounded-lg p-6 shadow-xl border border-[#D2CEB9] hover:shadow-2xl transition-shadow duration-300"
+      className="bg-white  p-6 shadow-xl border border-[#D2CEB9] hover:shadow-2xl transition-shadow duration-300"
     >
       <h3 className="font-display text-2xl font-semibold mb-6 text-brand flex items-center">
         <FaKey className="mr-3 text-brand w-5 h-5" />
@@ -42,7 +42,7 @@ const MortgageCalculator = ({ priceValue, currency }) => {
       <div className="space-y-4">
         <div>
           <label className="block text-lg font-montserrat font-medium text-earth-700 mb-2">Property Investment</label>
-          <div className="bg-gradient-to-br from-earth-50 to-white border border-earth-200/50 rounded-xl px-4 py-3 shadow-sm">
+          <div className="bg-gradient-to-br from-earth-50 to-white border border-earth-200/50  px-4 py-3 shadow-sm">
             <span className="font-display font-semibold text-earth-900">{currency} {Number(priceValue).toLocaleString()}</span>
           </div>
         </div>
@@ -53,7 +53,7 @@ const MortgageCalculator = ({ priceValue, currency }) => {
             name="downPayment"
             value={downPaymentPercentage}
             onChange={handleInputChange}
-            className="w-full bg-gradient-to-br text-black from-white to-earth-50 border border-earth-200/50 rounded-xl px-4 py-3 font-montserrat focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand/50 transition-all duration-300 shadow-sm"
+            className="w-full bg-gradient-to-br text-black from-white to-earth-50 border border-earth-200/50  px-4 py-3 font-montserrat focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand/50 transition-all duration-300 shadow-sm"
           />
         </div>
         <div>
@@ -62,7 +62,7 @@ const MortgageCalculator = ({ priceValue, currency }) => {
             name="loanTerm"
             value={loanTerm}
             onChange={handleInputChange}
-            className="w-full text-black bg-gradient-to-br from-white to-earth-50 border border-earth-200/50 rounded-xl px-4 py-3 font-montserrat focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand/50 transition-all duration-300 shadow-sm"
+            className="w-full text-black bg-gradient-to-br from-white to-earth-50 border border-earth-200/50  px-4 py-3 font-montserrat focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand/50 transition-all duration-300 shadow-sm"
           >
             <option value={25}>25</option>
             <option value={20}>20</option>
@@ -72,13 +72,13 @@ const MortgageCalculator = ({ priceValue, currency }) => {
         </div>
         <button 
           onClick={calculateMonthlyPayment}
-          className="w-full bg-gradient-to-r text-lg from-brand to-brand-hover text-white py-3 rounded-xl font-montserrat font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+          className="w-full bg-gradient-to-r text-lg from-brand to-brand-hover text-white py-3  font-montserrat font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
         >
           Calculate Premium Financing
         </button>
 
         {monthlyPayment !== null && (
-          <div className="mt-4 p-4 bg-green-100 border border-green-300 rounded-xl">
+          <div className="mt-4 p-4 bg-green-100 border border-green-300 ">
             <h4 className="font-semibold text-earth-900">Estimated Monthly Payment:</h4>
             <p className="text-lg font-display text-earth-900">{currency} {monthlyPayment.toFixed(2)}</p>
           </div>

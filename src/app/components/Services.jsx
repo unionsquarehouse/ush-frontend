@@ -133,7 +133,7 @@ export default function Services() {
           <div className="absolute top-1/2 left-4 z-30 hidden lg:block">
             <button
               onClick={goToPrev}
-              className="w-12 h-12  rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
+              className="w-12 h-12   flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
               aria-label="Previous amenity"
             >
               <FaChevronLeft className="text-xl" />
@@ -143,7 +143,7 @@ export default function Services() {
           <div className="absolute top-1/2 right-4 z-30 hidden lg:block">
             <button
               onClick={goToNext}
-              className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
+              className="w-12 h-12  flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
               aria-label="Next amenity"
             >
               <FaChevronRight className="text-xl" />
@@ -184,7 +184,7 @@ export default function Services() {
                     isActive ? "z-20" : "z-10"
                   }`}
                 >
-                  <div className="w-full max-w-2xl mx-auto h-full shadow-2xl overflow-hidden border border-gray-200 bg-white rounded-tl-[3rem] rounded-br-[3rem]">
+                  <div className="w-full max-w-2xl mx-auto h-full shadow-2xl overflow-hidden border border-gray-200 bg-white ">
                     <div className="w-full h-full flex flex-col ">
                       {/* Image Section - Mobile responsive */}
                       <div className="relative h-[200px] sm:h-[250px] md:h-[300px] overflow-hidden">
@@ -258,7 +258,7 @@ export default function Services() {
             <button
               key={index}
               onClick={() => goToAmenity(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              className={`w-3 h-3  transition-all duration-300 ${
                 index === activeAmenity
                   ? "bg-gradient-to-r from-[#876F4E] to-[#68543b] scale-125"
                   : "bg-gradient-to-r from-[#ad8f65] to-[#947753] hover:bg-[#876F4E]"

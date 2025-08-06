@@ -672,7 +672,7 @@ export default function DevelopersSection() {
         <div className="flex items-center justify-center gap-6">
           <motion.button
             onClick={prevDeveloper}
-            className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
+            className="w-12 h-12  flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
             aria-label="Previous developer"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -685,7 +685,7 @@ export default function DevelopersSection() {
               <motion.button
                 key={index}
                 onClick={() => setActiveDeveloper(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                className={`w-3 h-3  transition-all duration-300 ${
                   index === activeDeveloper
                     ? "bg-gradient-to-r from-[#876F4E] to-[#68543b] scale-125"
                     : "bg-gradient-to-r from-[#ad8f65] to-[#947753]"
@@ -699,7 +699,7 @@ export default function DevelopersSection() {
 
           <motion.button
             onClick={nextDeveloper}
-            className="w-12 h-12 rounded-tl-xl rounded-br-xl flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
+            className="w-12 h-12  flex items-center justify-center border border-[#876F4E] text-brand hover:bg-[#876F4E] hover:text-white transition-colors"
             aria-label="Next developer"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}

@@ -234,7 +234,7 @@ export default function BlogsPage() {
                 <Card
                   key={post.id}
                   onClick={() => handleBlogClick(post.documentId)}
-                  className="relative rounded-tl-[2rem] rounded-br-[2rem] overflow-hidden group cursor-pointer transition-all duration-500 border-0 backdrop-blur-md bg-white/10 hover:bg-white/20 hover:scale-105"
+                  className="relative  overflow-hidden group cursor-pointer transition-all duration-500 border-0 backdrop-blur-md bg-white/10 hover:bg-white/20 hover:scale-105"
                   style={{
                     backdropFilter: "blur(16px)",
                     boxShadow: `
@@ -246,7 +246,7 @@ export default function BlogsPage() {
                 >
                   {/* Glassmorphism overlays */}
                   <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/10 to-transparent pointer-events-none"></div>
-                  <div className="absolute inset-[1px] rounded-tl-[2rem] rounded-br-[2rem] bg-gradient-to-br from-white/20 to-white/5 pointer-events-none"></div>
+                  <div className="absolute inset-[1px]  bg-gradient-to-br from-white/20 to-white/5 pointer-events-none"></div>
 
                   <CardContent className="p-0 h-full relative">
                     {/* Featured Badge */}
@@ -360,7 +360,7 @@ export default function BlogsPage() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="mt-6 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-earth-100"
+                className="mt-6 bg-white/80 backdrop-blur-sm  p-6 shadow-lg border border-earth-100"
               >
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                   {/* Category Filter */}
@@ -371,7 +371,7 @@ export default function BlogsPage() {
                     <select
                       value={selectedCategory}
                       onChange={(e) => setSelectedCategory(e.target.value)}
-                      className="w-full bg-white/90 text-earth-800 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand/30 border border-earth-200"
+                      className="w-full bg-white/90 text-earth-800  px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand/30 border border-earth-200"
                     >
                       <option value="">All Categories</option>
                       {categories.map((category) => (
@@ -390,7 +390,7 @@ export default function BlogsPage() {
                     <select
                       value={selectedAuthor}
                       onChange={(e) => setSelectedAuthor(e.target.value)}
-                      className="w-full bg-white/90 text-earth-800 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand/30 border border-earth-200"
+                      className="w-full bg-white/90 text-earth-800  px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand/30 border border-earth-200"
                     >
                       <option value="">All Authors</option>
                       {authors.map((author) => (
@@ -409,7 +409,7 @@ export default function BlogsPage() {
                     <select
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value)}
-                      className="w-full bg-white/90 text-earth-800 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand/30 border border-earth-200"
+                      className="w-full bg-white/90 text-earth-800  px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand/30 border border-earth-200"
                     >
                       <option value="date">Latest First</option>
                       <option value="views">Most Popular</option>
@@ -457,7 +457,7 @@ export default function BlogsPage() {
               >
                 <Card
                   onClick={() => handleBlogClick(post.documentId)}
-                  className="group cursor-pointer transition-all duration-500 border-0 bg-white/90 backdrop-blur-sm hover:bg-white hover:shadow-2xl hover:-translate-y-2 h-full rounded-2xl overflow-hidden"
+                  className="group cursor-pointer transition-all duration-500 border-0 bg-white/90 backdrop-blur-sm hover:bg-white hover:shadow-2xl hover:-translate-y-2 h-full  overflow-hidden"
                 >
                   <CardContent className="p-0 h-full flex flex-col">
                     {/* Image */}
