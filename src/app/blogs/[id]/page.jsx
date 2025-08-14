@@ -30,6 +30,43 @@ const toText = (v) => {
   return "";
 };
 
+/* Remove stray \n, empty paragraphs, <strong><br></strong> runs, and tidy around images */
+const sanitizeCmsHtml = (html) => {
+  if (!html) return "";
+  let out = String(html);
+
+  // Remove literal backslash-n
+  out = out.replace(/\\n/g, "");
+
+  // Collapse whitespace between tags
+  out = out.replace(/>\s+</g, "><");
+
+  // Remove paragraphs that contain ONLY <strong|b|em|i|span><br/></...> sequences
+  // e.g. <p><strong><br></strong><strong><br></strong></p>
+  out = out.replace(
+    /<p[^>]*>(?:\s|&nbsp;|<(?:strong|b|em|i|span)[^>]*>\s*(?:<br\s*\/?>\s*)*<\/(?:strong|b|em|i|span)>)+\s*<\/p>/gi,
+    ""
+  );
+
+  // Remove empty formatting wrappers (leftovers): <strong><br></strong> etc.
+  out = out.replace(
+    /<(strong|b|em|i|span)[^>]*>(?:\s|&nbsp;|<br\s*\/?>)*<\/\1>/gi,
+    ""
+  );
+
+  // Unwrap <p><img ...></p> -> <img ...>
+  out = out.replace(/<p[^>]*>\s*(<img\b[^>]*>)\s*<\/p>/gi, "$1");
+
+  // Remove <br> / nbsp directly before or after an image
+  out = out.replace(/(?:\s|&nbsp;|<br\s*\/?>)+(?=<img\b)/gi, "");
+  out = out.replace(/(<img\b[^>]*>)(?:\s|&nbsp;|<br\s*\/?>)+/gi, "$1");
+
+  // Drop any remaining empty paragraphs
+  out = out.replace(/<p[^>]*>(?:\s|&nbsp;|<br\s*\/?>)*<\/p>/gi, "");
+
+  return out.trim();
+};
+
 const pickHtml = (v) => {
   if (!v) return "";
   if (typeof v === "string") return v;
@@ -94,12 +131,14 @@ const pickMediaUrl = (node) => {
 /* ----------------------- Block Renderers ----------------------- */
 const RichTextBlock = ({ data }) => {
   const html = useMemo(
-    () => enhanceHtml(absolutizeImageSrc(pickHtml(data?.content))),
+    () =>
+      enhanceHtml(absolutizeImageSrc(sanitizeCmsHtml(pickHtml(data?.content)))),
     [data]
   );
+
   return (
     <div
-      className="prose prose-lg max-w-none prose-a:text-brand prose-img:rounded-xl"
+      className="prose prose-lg max-w-none prose-a:text-brand prose-img: "
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
@@ -157,7 +196,6 @@ const GalleryBlock = ({ data }) => {
               aspectRatio: "4/3",
               display: "block",
             }}
-            className="rounded-lg"
           />
         );
       })}
@@ -170,7 +208,7 @@ const HeroBlock = ({ data }) => {
   const title = toText(data?.title || data?.heading);
   const sub = toText(data?.subtitle || data?.subheading);
   return (
-    <section className="relative overflow-hidden rounded-xl my-6">
+    <section className="relative overflow-hidden   my-6">
       {bg && (
         <img
           src={bg}
@@ -238,10 +276,7 @@ const StatsGridBlock = ({ data }) => {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 my-8">
       {items.map((it, i) => (
-        <div
-          key={i}
-          className="rounded-xl border border-earth-200 p-4 bg-white"
-        >
+        <div key={i} className="  border border-earth-200 p-4 bg-white">
           <div className="text-3xl font-bold text-brand">
             {toText(it?.value || it?.stat)}
           </div>
@@ -260,14 +295,14 @@ const CtaBlock = ({ data }) => {
   const btnText = toText(data?.buttonText || "Contact Us");
   const btnUrl = toText(data?.buttonUrl || "/contact");
   return (
-    <div className="rounded-xl border border-brand/30 bg-brand/5 p-6 my-10">
+    <div className="  border border-brand/30 bg-brand/5 p-6 my-10">
       {title && (
         <h3 className="text-2xl font-semibold text-earth-900">{title}</h3>
       )}
-      {desc && <p className="mt-2 text-earth-700">{desc}</p>}
+      {/* {desc && <p className="mt-2 text-earth-700">{desc}</p>} */}
       <a
         href={btnUrl}
-        className="inline-block mt-4 px-4 py-2 rounded-md bg-brand text-white hover:opacity-90"
+        className="inline-block mt-4 px-4 py-2  bg-brand text-white hover:opacity-90"
       >
         {btnText}
       </a>
@@ -301,11 +336,36 @@ const getShareTargets = (title = "", url = "") => {
   const u = encodeURIComponent(url);
   const t = encodeURIComponent(title);
   return [
-    { id: "x", label: "Share on X", href: `https://twitter.com/intent/tweet?text=${t}&url=${u}`, Icon: FaTwitter },
-    { id: "fb", label: "Share on Facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${u}`, Icon: FaFacebook },
-    { id: "li", label: "Share on LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`, Icon: FaLinkedin },
-    { id: "wa", label: "Share on WhatsApp", href: `https://api.whatsapp.com/send?text=${t}%20${u}`, Icon: FaWhatsapp },
-    { id: "tg", label: "Share on Telegram", href: `https://t.me/share/url?url=${u}&text=${t}`, Icon: FaTelegram },
+    {
+      id: "x",
+      label: "Share on X",
+      href: `https://twitter.com/intent/tweet?text=${t}&url=${u}`,
+      Icon: FaTwitter,
+    },
+    {
+      id: "fb",
+      label: "Share on Facebook",
+      href: `https://www.facebook.com/sharer/sharer.php?u=${u}`,
+      Icon: FaFacebook,
+    },
+    {
+      id: "li",
+      label: "Share on LinkedIn",
+      href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
+      Icon: FaLinkedin,
+    },
+    {
+      id: "wa",
+      label: "Share on WhatsApp",
+      href: `https://api.whatsapp.com/send?text=${t}%20${u}`,
+      Icon: FaWhatsapp,
+    },
+    {
+      id: "tg",
+      label: "Share on Telegram",
+      href: `https://t.me/share/url?url=${u}&text=${t}`,
+      Icon: FaTelegram,
+    },
   ];
 };
 
@@ -348,7 +408,7 @@ const ShareInline = ({ title, url }) => {
   const items = getShareTargets(title, url);
 
   return (
-    <div className="mt-4 rounded-xl border border-earth-200 bg-white/70 backdrop-blur-sm p-3">
+    <div className="mt-4   border border-earth-200 bg-white/70 backdrop-blur-sm p-3">
       <div className="flex flex-wrap items-center gap-3">
         <span className="text-sm font-medium text-earth-700 mr-1">Share:</span>
 
@@ -426,8 +486,7 @@ const ContactCard = ({ blogTitle }) => {
     } catch (err) {
       setStatus({
         ok: false,
-        msg:
-          "Could not submit the form. Please try again or email us at support@xrealty.ae",
+        msg: "Could not submit the form. Please try again or email us at support@xrealty.ae",
       });
     } finally {
       setSubmitting(false);
@@ -435,7 +494,7 @@ const ContactCard = ({ blogTitle }) => {
   };
 
   return (
-    <div className="rounded-xl border border-earth-200 bg-white  p-5">
+    <div className="  border border-earth-200 bg-white  p-5">
       <h3 className="text-lg font-semibold text-earth-900">
         Talk to a Specialist
       </h3>
@@ -511,7 +570,7 @@ const ContactCard = ({ blogTitle }) => {
 };
 
 const MetaCard = ({ date, category, readTime }) => (
-  <div className="rounded-xl border border-earth-200 bg-white p-5">
+  <div className="  border border-earth-200 bg-white p-5">
     <h3 className="text-lg font-semibold text-earth-900">Article details</h3>
     <ul className="mt-3 space-y-1 text-sm text-earth-700">
       {date && (
@@ -550,7 +609,7 @@ const RelatedArticles = ({ items = [] }) => {
           <Link
             key={it.id}
             href={`/blogs/${encodeURIComponent(it.id)}`}
-            className="group rounded-xl border border-earth-200 bg-white overflow-hidden hover:shadow-md transition"
+            className="group   border border-earth-200 bg-white overflow-hidden hover:shadow-md transition"
           >
             {it.image && (
               <img
@@ -662,7 +721,7 @@ export default function BlogPage() {
 
   const descHtml = useMemo(() => {
     const html = pickHtml(blog?.desc) || pickHtml(blog?.contentHtml);
-    return enhanceHtml(absolutizeImageSrc(html));
+    return enhanceHtml(absolutizeImageSrc(sanitizeCmsHtml(html)));
   }, [blog]);
 
   const displayDate = useMemo(() => {
@@ -734,7 +793,7 @@ export default function BlogPage() {
           }
         }
         [data-cms].prose :where(p, ul, ol, blockquote, pre, table, figure) {
-          margin-top: 0.9em !important;
+         
           margin-bottom: 0.9em !important;
         }
         [data-cms].prose :where(h1) {
@@ -768,8 +827,6 @@ export default function BlogPage() {
           display: block;
           width: 100%;
           height: auto;
-          border-radius: 0.75rem;
-          margin: 1rem 0 !important;
           content-visibility: auto;
           contain-intrinsic-size: 1200px 675px;
         }
@@ -799,9 +856,9 @@ export default function BlogPage() {
             {computedReadTime && <span>{computedReadTime} min read</span>}
             {blog.author && <span>By {blog.author}</span>}
           </div>
-          {blog.excerpt && (
+          {/* {blog.excerpt && (
             <p className="mt-4 text-lg text-earth-700">{blog.excerpt}</p>
-          )}
+          )} */}
 
           {/* Inline share row */}
           <ShareInline title={blog.title} url={pageUrl} />
@@ -825,14 +882,14 @@ export default function BlogPage() {
             {!blog.blocks.length && descHtml?.length > 0 && (
               <article
                 data-cms
-                className="cms-content prose max-w-none px-0 md:px-0 py-2 prose-a:text-brand prose-img:rounded-xl text-neutral-800"
+                className="cms-content prose max-w-none px-0 md:px-0  prose-a:text-brand  text-neutral-800"
                 dangerouslySetInnerHTML={{ __html: descHtml }}
               />
             )}
 
             {/* Author bio */}
             {blog.authorBio && (
-              <div className="mt-10 p-6 bg-earth-50 rounded-xl border border-earth-200">
+              <div className="mt-10 p-6 bg-earth-50   border border-earth-200">
                 <div className="text-sm text-earth-500 mb-1">
                   About the author
                 </div>
