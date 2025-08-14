@@ -6,7 +6,7 @@ export async function GET(request, { params }) {
   try {
     const { id } = params; // documentId
 
-    const strapiUrl = `${process.env.STRAPI_URL || 'http://localhost:1337'}/api/blogs/${id}?populate=image&populate=authorImage`;
+    const strapiUrl = `${process.env.STRAPI_BASE_URL || 'http://localhost:1337'}/api/blogs/${id}?populate=image&populate=authorImage`;
 
     console.log('Fetching single blog from Strapi:', strapiUrl);
 

@@ -2,15 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  AnimatePresence,
-  useInView,
-} from "framer-motion";
+import { motion } from "framer-motion";
 import {
   FaHome,
   FaBuilding,
@@ -28,15 +20,7 @@ import {
   FaGolfBall,
   FaUsers,
 } from "react-icons/fa";
-import {
-  BsArrowRight,
-  BsArrowLeft,
-  BsBuilding,
-  BsGeoAlt,
-  BsStars,
-  BsZoomIn,
-} from "react-icons/bs";
-import AnimatedButton from "./ui/AnimatedButton";
+import { BsArrowRight, BsArrowLeft, BsBuilding, BsGeoAlt, BsStars, BsZoomIn } from "react-icons/bs";
 
 const communities = [
   {
@@ -48,7 +32,8 @@ const communities = [
     properties: 120,
     priceRange: "AED 2.5M - 100M",
     features: ["Beachfront", "Luxury Hotels", "Fine Dining"],
-    color: "#7d7460", // earth-600
+    color: "#7d7460",
+    category: "waterfront",
     mapLink: "https://maps.app.goo.gl/5KQvnHE5RGdQFGZS7",
     virtualTour: "https://www.youtube.com/watch?v=example1",
     contactAgent: "+971501234567",
@@ -62,7 +47,8 @@ const communities = [
     properties: 85,
     priceRange: "AED 1.2M - 15M",
     features: ["Urban Living", "Shopping", "Nightlife"],
-    color: "#645c4c", // earth-700
+    color: "#645c4c",
+    category: "family",
   },
   {
     id: 3,
@@ -73,7 +59,8 @@ const communities = [
     properties: 150,
     priceRange: "AED 800K - 20M",
     features: ["Waterfront", "Yacht Club", "Beach Access"],
-    color: "#968b74", // earth-500
+    color: "#968b74",
+    category: "waterfront",
   },
   {
     id: 4,
@@ -84,7 +71,8 @@ const communities = [
     properties: 65,
     priceRange: "AED 3.5M - 18M",
     features: ["Golf Course", "Equestrian Center", "Family-friendly"],
-    color: "#aca189", // earth-400
+    color: "#aca189",
+    category: "golf",
   },
   {
     id: 5,
@@ -95,17 +83,20 @@ const communities = [
     properties: 95,
     priceRange: "AED 1.8M - 30M",
     features: ["Golf Views", "Central Park", "Modern Living"],
-    color: "#4d473b", // earth-800
+    color: "#4d473b",
+    category: "golf",
   },
 ];
 
 export default function CommunitiesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [hoveredCard, setHoveredCard] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("all");
+
+  // Cursor light state (smoothed)
   const containerRef = useRef(null);
-  const carouselRef = useRef(null);
+  const targetPosRef = useRef({ x: 0, y: 0 });
+  const [lightPos, setLightPos] = useState({ x: 0, y: 0 });
 
   const categories = [
     { id: "all", name: "All Communities", icon: <FaCity /> },
@@ -119,15 +110,52 @@ export default function CommunitiesSection() {
   useEffect(() => {
     if (!isAutoPlaying) return;
     const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % communities.length);
+      setActiveIndex((prev) => (prev + 1) % filteredCommunities.length);
     }, 4000);
     return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAutoPlaying]);
+
+  // Track raw mouse and set target position relative to section
+  useEffect(() => {
+    const node = containerRef.current;
+    if (!node) return;
+    const onMove = (e) => {
+      const rect = node.getBoundingClientRect();
+      targetPosRef.current = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      };
+    };
+    node.addEventListener("mousemove", onMove);
+    return () => node.removeEventListener("mousemove", onMove);
+  }, []);
+
+  // Smoothly interpolate light position (lerp) for premium feel
+  useEffect(() => {
+    let raf;
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const tick = () => {
+      setLightPos((prev) => {
+        const nx = lerp(prev.x, targetPosRef.current.x, 0.12);
+        const ny = lerp(prev.y, targetPosRef.current.y, 0.12);
+        return { x: nx, y: ny };
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   const filteredCommunities =
     selectedCategory === "all"
       ? communities
       : communities.filter((c) => c.category === selectedCategory);
+
+  // Safety: reset activeIndex if filter reduces list
+  useEffect(() => {
+    if (activeIndex >= filteredCommunities.length) setActiveIndex(0);
+  }, [filteredCommunities.length, activeIndex]);
 
   return (
     <section
@@ -136,15 +164,24 @@ export default function CommunitiesSection() {
       onMouseEnter={() => setIsAutoPlaying(false)}
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
-      {/* Animated Background */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid-pattern.svg')] opacity-5"></div>
+      {/* Cursor-following light (subtle) */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          background: `radial-gradient(240px 240px at ${lightPos.x}px ${lightPos.y}px, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.05) 20%, transparent 60%)`,
+          transition: "background 120ms linear",
+        }}
+      />
+
+      {/* Animated base background */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid-pattern.svg')] opacity-5" />
         <motion.div
           animate={{
             background: [
-              "radial-gradient(circle at 20% 50%, rgba(194, 178, 128, 0.3) 0%, transparent 50%)",
-              "radial-gradient(circle at 80% 20%, rgba(134, 108, 76, 0.3) 0%, transparent 50%)",
-              "radial-gradient(circle at 40% 80%, rgba(172, 137, 94, 0.3) 0%, transparent 50%)",
+              "radial-gradient(circle at 20% 50%, rgba(194,178,128,0.20) 0%, transparent 50%)",
+              "radial-gradient(circle at 80% 20%, rgba(134,108,76,0.20) 0%, transparent 50%)",
+              "radial-gradient(circle at 40% 80%, rgba(172,137,94,0.20) 0%, transparent 50%)",
             ],
           }}
           transition={{ duration: 8, repeat: Infinity, repeatType: "reverse" }}
@@ -153,7 +190,7 @@ export default function CommunitiesSection() {
       </div>
 
       <div className="w-[75vw] mx-auto relative z-10">
-        {/* Hero Header */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -161,106 +198,63 @@ export default function CommunitiesSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className=" text-brand mb-6">Dubai's Finest</h2>
-          <h3 className="f text-earth-300 mb-8">Exclusive Communities</h3>
-
+          <h2 className=" flex justify-center items-center mb-4 text-whitie">
+            <span className="text-brand  mr-2">Our</span>{" "}
+            Communities
+          </h2>
+         
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="text-xl text-earth-400 max-w-3xl mx-auto leading-relaxed"
+            className="text-xl text-white max-w-3xl mx-auto leading-relaxed"
           >
-            Discover where luxury meets lifestyle in Dubai's most prestigious
-            neighborhoods
+            Discover where luxury meets lifestyle in Dubai's most prestigious neighborhoods
           </motion.p>
         </motion.div>
 
-        {/* Category Filter */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="flex flex-wrap justify-center gap-4 mb-16"
-        >
-          {categories.map((category) => (
-            <motion.button
-              key={category.id}
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setSelectedCategory(category.id)}
-              className={`px-6 py-3  font-medium transition-all duration-300 flex items-center z${
-                selectedCategory === category.id
-                  ? "bg-brand text-white shadow-lg shadow-brand/25"
-                  : "bg-earth-800/50 text-earth-300 border border-earth-700 hover:bg-earth-700/50 hover:border-earth-600"
-              }`}
-            >
-              <div className="mr-2">{category.icon}</div>
-              <div>{category.name}</div>
-            </motion.button>
-          ))}
-        </motion.div>
+     
 
-        {/* Main Carousel */}
+        {/* Carousel */}
         <div className="relative">
-          {/* Featured Community Showcase */}
+          {/* Featured card */}
           <motion.div
             key={activeIndex}
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
             className="relative mb-12"
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {/* Image Side */}
+              {/* Image */}
               <div className="relative">
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  className="relative h-96 lg:h-[500px]  overflow-hidden shadow-2xl"
-                >
-                  <Image
-                    src={filteredCommunities[activeIndex]?.image}
-                    alt={filteredCommunities[activeIndex]?.name}
-                    fill
-                    className="object-cover"
-                  />
+                <motion.div whileHover={{ scale: 1.02 }} className="relative h-96 lg:h-[500px] overflow-hidden shadow-2xl ">
+                  <Image src={filteredCommunities[activeIndex]?.image} alt={filteredCommunities[activeIndex]?.name} fill className="object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-
-                  {/* Floating Stats */}
+                  {/* Floating stats */}
                   <div className="absolute top-6 left-6 space-y-3">
-                    <div className="bg-brand/80 backdrop-blur-md text-white px-4 py-2  text-sm flex items-center gap-2">
+                    <div className="bg-brand backdrop-blur-md text-white px-4 py-2 text-sm flex items-center gap-2">
                       <FaGem className="text-white" />
                       {filteredCommunities[activeIndex]?.priceRange}
                     </div>
-                    <div className="bg-brand2/80 backdrop-blur-md text-white px-4 py-2  text-sm flex items-center gap-2">
+                    <div className="bg-brand2 backdrop-blur-md text-white px-4 py-2 text-sm flex items-center gap-2 ">
                       <FaHome className="text-white" />
                       {filteredCommunities[activeIndex]?.properties} Properties
                     </div>
                   </div>
 
-                  {/* Virtual Tour Button */}
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="absolute bottom-6 right-6  x  flex items-center justify-center text-white text-2xl shadow-lg"
-                  >
-                    <FaInfoCircle />
-                  </motion.button>
+                 
                 </motion.div>
 
-                {/* Decorative Elements */}
-                <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-full blur-xl"></div>
-                <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-r from-blue-400/20 to-purple-500/20 rounded-full blur-xl"></div>
+                {/* Decorative blur orbs */}
+                <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-full blur-xl" />
+                <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-r from-blue-400/20 to-purple-500/20 rounded-full blur-xl" />
               </div>
 
-              {/* Content Side */}
+              {/* Content */}
               <div className="space-y-8">
-                <motion.div
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                >
+                <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
                   <div className="w-fit px-4 py-2 bg-gradient-to-r from-brand/20 to-brand-hover/20 rounded-full text-brand text-sm font-medium mb-4 flex items-center gap-2">
                     <FaGem className="text-brand" />
                     Featured Community
@@ -274,39 +268,33 @@ export default function CommunitiesSection() {
                     {filteredCommunities[activeIndex]?.description}
                   </p>
 
-                  {/* Features Grid */}
+                  {/* Features */}
                   <div className="grid grid-cols-2 gap-4 mb-8">
-                    {filteredCommunities[activeIndex]?.features.map(
-                      (feature, idx) => (
-                        <motion.div
-                          key={idx}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.3 + idx * 0.1 }}
-                          className="flex items-center space-x-3 p-3 bg-slate-800/50  border border-slate-700"
-                        >
-                          <div className="w-8 h-8 bg-gradient-to-r from-brand to-brand-hover rounded-full flex items-center justify-center text-white text-sm">
-                            <FaChevronRight />
-                          </div>
-                          <span className="text-slate-300">{feature}</span>
-                        </motion.div>
-                      )
-                    )}
+                    {filteredCommunities[activeIndex]?.features.map((feature, idx) => (
+                      <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 + idx * 0.08 }}
+                        className="flex items-center space-x-3 p-3 bg-slate-800/50 border border-slate-700"
+                      >
+                        <div className="w-8 h-8 bg-gradient-to-r from-brand to-brand-hover rounded-full flex items-center justify-center text-white text-sm">
+                          <FaChevronRight />
+                        </div>
+                        <span className="text-slate-300">{feature}</span>
+                      </motion.div>
+                    ))}
                   </div>
 
-                  {/* Action Buttons */}
+                  {/* Actions */}
                   <div className="flex gap-4">
                     <motion.button
-                      whileHover={{
-                        scale: 1.05,
-                        boxShadow: "0 20px 40px rgba(194, 178, 128, 0.3)",
-                      }}
+                      whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(194, 178, 128, 0.3)" }}
                       whileTap={{ scale: 0.95 }}
-                      className="px-8 py-4 bg-gradient-to-r from-brand to-brand-hover text-white font-bold shadow-lg"
+                      className="px-8 py-4 bg-gradient-to-r from-brand to-brand-hover text-white font-bold shadow-lg "
                     >
                       Explore Properties
                     </motion.button>
-
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -320,35 +308,32 @@ export default function CommunitiesSection() {
             </div>
           </motion.div>
 
-          {/* Carousel Navigation */}
+          {/* Carousel controls */}
           <div className="flex justify-center items-center space-x-6 mb-12">
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() =>
-                setActiveIndex(
-                  (prev) =>
-                    (prev - 1 + filteredCommunities.length) %
-                    filteredCommunities.length
-                )
+                setActiveIndex((prev) => (prev - 1 + filteredCommunities.length) % filteredCommunities.length)
               }
-              className="w-12 h-12 bg-slate-800 border border-slate-600  flex items-center justify-center text-slate-300 hover:bg-slate-700 transition-all duration-300"
+              className="w-12 h-12 bg-slate-800 border border-slate-600x flex items-center justify-center text-slate-300 hover:bg-slate-700 transition-all duration-300"
+              aria-label="Previous"
             >
               ←
             </motion.button>
 
-            {/* Dots */}
             <div className="flex space-x-3">
               {filteredCommunities.map((_, index) => (
                 <motion.button
                   key={index}
                   whileHover={{ scale: 1.2 }}
                   onClick={() => setActiveIndex(index)}
-                  className={`w-3 h-3  transition-all duration-300 ${
+                  className={`w-3 h-3 transition-all duration-300 ${
                     index === activeIndex
                       ? "bg-gradient-to-r from-brand to-brand2 scale-125"
                       : "bg-slate-600 hover:bg-slate-500"
                   }`}
+                  aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
             </div>
@@ -356,78 +341,13 @@ export default function CommunitiesSection() {
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={() =>
-                setActiveIndex(
-                  (prev) => (prev + 1) % filteredCommunities.length
-                )
-              }
+              onClick={() => setActiveIndex((prev) => (prev + 1) % filteredCommunities.length)}
               className="w-12 h-12 bg-slate-800 border border-slate-600  flex items-center justify-center text-slate-300 hover:bg-slate-700 transition-all duration-300"
+              aria-label="Next"
             >
               →
             </motion.button>
           </div>
-
-          {/* Community Grid Preview */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6"
-          >
-            {filteredCommunities.slice(0, 3).map((community, index) => (
-              <motion.div
-                key={community.id}
-                whileHover={{ y: -10, scale: 1.02 }}
-                onHoverStart={() => setHoveredCard(index)}
-                onHoverEnd={() => setHoveredCard(null)}
-                className="relative group cursor-pointer"
-              >
-                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700  overflow-hidden hover:border-slate-600 transition-all duration-300">
-                  <div className="relative h-48 overflow-hidden">
-                    <Image
-                      src={community.image}
-                      alt={community.name}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-
-                    {/* Hover Overlay */}
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: hoveredCard === index ? 1 : 0 }}
-                      className="absolute inset-0 bg-gradient-to-t from-yellow-500/20 to-transparent"
-                    />
-                  </div>
-
-                  <div className="p-6">
-                    <h4 className="text-xl font-bold text-white mb-2">
-                      {community.name}
-                    </h4>
-                    <p className="text-slate-400 text-sm mb-4 line-clamp-2">
-                      {community.description}
-                    </p>
-
-                    <div className="flex justify-between items-center">
-                      <span className="text-brand font-semibold">
-                        {community.priceRange}
-                      </span>
-                      <span className="text-slate-500 text-sm">
-                        {community.properties} units
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Glow Effect */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: hoveredCard === index ? 1 : 0 }}
-                  className="absolute -inset-1 bg-gradient-to-r from-yellow-400/20 to-orange-500/20  blur-lg -z-10"
-                />
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
       </div>
     </section>

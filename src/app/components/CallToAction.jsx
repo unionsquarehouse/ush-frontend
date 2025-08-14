@@ -146,7 +146,7 @@ export default function CallToAction() {
                   <div className="absolute inset-0 bg-gradient-to-br from-white/60 to-white/20 backdrop-blur-sm border border-white/30 group-hover:border-[#0F2134]/30 transition-colors duration-300"></div>
                   <div className="relative z-10 p-6 text-center">
                     <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-br from-brand/10 to-brand/5 flex items-center justify-center">
-                      <RiVipCrownLine className="text-4xl text-brand" />
+                      <RiVipCrownLine className="text-5xl text-brand" />
                     </div>
                     <h3 className="text-3xl  text-gray-900 mb-2">
                       Premium Location
@@ -163,9 +163,9 @@ export default function CallToAction() {
                   <div className="absolute inset-0 bg-gradient-to-br from-white/60 to-white/20 backdrop-blur-sm  border border-white/30 group-hover:border-[#0F2134]/30 transition-colors duration-300"></div>
                   <div className="relative z-10 p-6 text-center">
                     <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-br from-brand/10 to-brand/5 flex items-center justify-center">
-                      <FaRegGem className="text-4xl text-brand" />
+                      <FaRegGem className="text-5xl text-brand" />
                     </div>
-                    <h3 className="text-3xl font-medium text-gray-900 mb-2">
+                    <h3 className="text-xl font-medium text-gray-900 mb-2">
                       Exclusive Design
                     </h3>
                     <p className="text-gray-600 text-xl">
@@ -180,7 +180,7 @@ export default function CallToAction() {
                   <div className="absolute inset-0 bg-gradient-to-br from-white/60 to-white/20 backdrop-blur-sm  border border-white/30 group-hover:border-[#0F2134]/30 transition-colors duration-300"></div>
                   <div className="relative z-10 p-6 text-center">
                     <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-br from-brand/10 to-brand/5 flex items-center justify-center">
-                      <IoIosFlash className="text-4xl text-brand" />
+                      <IoIosFlash className="text-5xl text-brand" />
                     </div>
                     <h3 className="text-3xl font-medium text-gray-900 mb-2">
                       Investment Potential
@@ -202,7 +202,7 @@ export default function CallToAction() {
               >
                 {/* Primary CTA Button - Now opens modal */}
                 <motion.button
-                  className="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-[#866c4c] to-[#ac895e] text-white  shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-brand to-brand-hover   text-white  shadow-lg hover:shadow-xl transition-all duration-300"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onMouseEnter={() => handleMouseEnter("primary")}

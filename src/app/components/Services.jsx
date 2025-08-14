@@ -211,7 +211,7 @@ export default function Services() {
                       <div className="p-4 sm:p-6 md:p-8 flex-grow flex flex-col">
                         {/* Top Section with Icon */}
                         <div className="flex items-center mb-4 sm:mb-6">
-                          <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-r from-[#866c4c] to-[#ac895e] flex items-center justify-center text-white text-xl sm:text-2xl md:text-3xl mr-3 sm:mr-4 md:mr-5 shadow-md">
+                          <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-r from-brand to-brand-hover flex items-center justify-center text-white text-xl sm:text-2xl md:text-3xl mr-3 sm:mr-4 md:mr-5 shadow-md">
                             {amenity.icon}
                           </div>
                           <h3 className="md:text-2xl lg:text-4xl font-light">
@@ -260,8 +260,8 @@ export default function Services() {
               onClick={() => goToAmenity(index)}
               className={`w-3 h-3  transition-all duration-300 ${
                 index === activeAmenity
-                  ? "bg-gradient-to-r from-[#876F4E] to-[#68543b] scale-125"
-                  : "bg-gradient-to-r from-[#ad8f65] to-[#947753] hover:bg-[#876F4E]"
+                  ? "bg-gradient-to-r from-brand to-brand-hover scale-125"
+                  : "bg-gradient-to-r from-brand to-brand-hover hover:bg-[#876F4E]"
               }`}
               aria-label={`Go to amenity ${index + 1}`}
             />

@@ -13,11 +13,11 @@ export async function GET(request) {
     const sort = searchParams.get('sort') || 'createdAt:desc';
 
     // Build Strapi API URL
-    const strapiUrl = new URL(`${process.env.STRAPI_URL || 'http://localhost:1337'}/api/blogs`);
+    const strapiUrl = new URL(`${process.env.STRAPI_BASE_URL || 'http://localhost:1337'}/api/blogs`);
     
     // Add population parameters separately
     strapiUrl.searchParams.append('populate', 'image');
-    strapiUrl.searchParams.append('populate', 'authorImage');
+    // strapiUrl.searchParams.append('populate', 'authorImage');
     
     // Add pagination
     strapiUrl.searchParams.set('pagination[page]', page);

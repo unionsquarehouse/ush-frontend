@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import {
   FaArrowLeft,
+  FaArrowRight,
   FaFacebook,
   FaTwitter,
   FaLinkedin,
@@ -138,7 +139,7 @@ const GalleryBlock = ({ data }) => {
   const images = Array.isArray(data?.images) ? data.images : [];
   if (!images.length) return null;
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 my-8">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4 my-8">
       {images.map((img, i) => {
         const url = pickMediaUrl(img);
         if (!url) return null;
@@ -190,11 +191,11 @@ const HeroBlock = ({ data }) => {
       )}
       {(title || sub) && (
         <div className="absolute inset-0 bg-black/40 flex items-end">
-          <div className="p-6 md:p-10 text-white">
+          <div className="p-4 sm:p-6 md:p-10 text-white">
             {title && (
-              <h1 className="text-3xl md:text-5xl font-bold">{title}</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold">{title}</h1>
             )}
-            {sub && <p className="mt-3 text-lg md:text-xl max-w-3xl">{sub}</p>}
+            {sub && <p className="mt-3 text-base sm:text-lg md:text-xl max-w-3xl">{sub}</p>}
           </div>
         </div>
       )}
@@ -207,7 +208,7 @@ const QuoteBlock = ({ data }) => {
   const author = toText(data?.author || data?.cite);
   if (!quote) return null;
   return (
-    <blockquote className="border-l-4 border-brand pl-4 italic text-xl text-earth-800 my-8">
+    <blockquote className="border-l-4 border-brand pl-4 italic text-lg sm:text-xl text-earth-800 my-8">
       “{quote}”
       {author && <div className="mt-2 text-sm text-earth-600">— {author}</div>}
     </blockquote>
@@ -242,7 +243,7 @@ const StatsGridBlock = ({ data }) => {
           key={i}
           className="rounded-xl border border-earth-200 p-4 bg-white"
         >
-          <div className="text-3xl font-bold text-brand">
+          <div className="text-2xl sm:text-3xl font-bold text-brand">
             {toText(it?.value || it?.stat)}
           </div>
           <div className="mt-1 text-sm text-earth-600">
@@ -260,9 +261,9 @@ const CtaBlock = ({ data }) => {
   const btnText = toText(data?.buttonText || "Contact Us");
   const btnUrl = toText(data?.buttonUrl || "/contact");
   return (
-    <div className="rounded-xl border border-brand/30 bg-brand/5 p-6 my-10">
+    <div className="rounded-xl border border-brand/30 bg-brand/5 p-4 sm:p-6 my-10">
       {title && (
-        <h3 className="text-2xl font-semibold text-earth-900">{title}</h3>
+        <h3 className="text-xl sm:text-2xl font-semibold text-earth-900">{title}</h3>
       )}
       {desc && <p className="mt-2 text-earth-700">{desc}</p>}
       <a
@@ -329,9 +330,7 @@ const ShareInline = ({ title, url }) => {
     if (navigator.share) {
       try {
         await navigator.share({ title, url });
-      } catch {
-        /* ignore cancel */
-      }
+      } catch {/* ignore */}
     }
   };
 
@@ -349,42 +348,43 @@ const ShareInline = ({ title, url }) => {
 
   return (
     <div className="mt-4 rounded-xl border border-earth-200 bg-white/70 backdrop-blur-sm p-3">
-      <div className="flex flex-wrap items-center gap-3">
-        <span className="text-sm font-medium text-earth-700 mr-1">Share:</span>
+      <div className="flex flex-nowrap overflow-x-auto sm:overflow-visible items-center gap-2 sm:gap-3">
+        <span className="text-sm font-medium text-earth-700 mr-1 shrink-0">Share:</span>
 
+        {/* Icon buttons */}
         <div className="flex items-center gap-2">
           {items.map(({ id, label, href, Icon }) => (
             <CircleLink key={id} href={href} label={label}>
               <Icon className="text-earth-700" />
             </CircleLink>
           ))}
-
-          {/* Copy link */}
-          <button
-            type="button"
-            onClick={copy}
-            title="Copy link"
-            aria-label="Copy link"
-            className="inline-flex h-10 px-3 items-center gap-2 rounded-full border border-earth-200 bg-white shadow-sm hover:bg-earth-50 hover:shadow transition focus:outline-none focus:ring-2 focus:ring-brand"
-          >
-            <FaLink className="text-earth-700" />
-            <span className="text-sm text-earth-800">
-              {copied ? "Copied" : "Copy"}
-            </span>
-          </button>
-
-          {/* Mobile native share */}
-          <button
-            type="button"
-            onClick={nativeShare}
-            title="Share"
-            aria-label="Share"
-            className="inline-flex h-10 px-3 items-center gap-2 rounded-full border border-earth-200 bg-white shadow-sm hover:bg-earth-50 hover:shadow transition focus:outline-none focus:ring-2 focus:ring-brand sm:hidden"
-          >
-            <FaShareAlt className="text-earth-700" />
-            <span className="text-sm text-earth-800">Share</span>
-          </button>
         </div>
+
+        {/* Copy link */}
+        <button
+          type="button"
+          onClick={copy}
+          title="Copy link"
+          aria-label="Copy link"
+          className="inline-flex h-10 px-3 items-center gap-2 rounded-full border border-earth-200 bg-white shadow-sm hover:bg-earth-50 hover:shadow transition focus:outline-none focus:ring-2 focus:ring-brand ml-auto sm:ml-0"
+        >
+          <FaLink className="text-earth-700" />
+          <span className="text-sm text-earth-800">
+            {copied ? "Copied" : "Copy"}
+          </span>
+        </button>
+
+        {/* Mobile native share */}
+        <button
+          type="button"
+          onClick={nativeShare}
+          title="Share"
+          aria-label="Share"
+          className="inline-flex h-10 px-3 items-center gap-2 rounded-full border border-earth-200 bg-white shadow-sm hover:bg-earth-50 hover:shadow transition focus:outline-none focus:ring-2 focus:ring-brand sm:hidden"
+        >
+          <FaShareAlt className="text-earth-700" />
+          <span className="text-sm text-earth-800">Share</span>
+        </button>
       </div>
     </div>
   );
@@ -435,7 +435,7 @@ const ContactCard = ({ blogTitle }) => {
   };
 
   return (
-    <div className="rounded-xl border border-earth-200 bg-white  p-5">
+    <div className="rounded-xl border border-earth-200 bg-white p-4 sm:p-5">
       <h3 className="text-lg font-semibold text-earth-900">
         Talk to a Specialist
       </h3>
@@ -511,7 +511,7 @@ const ContactCard = ({ blogTitle }) => {
 };
 
 const MetaCard = ({ date, category, readTime }) => (
-  <div className="rounded-xl border border-earth-200 bg-white p-5">
+  <div className="rounded-xl border border-earth-200 bg-white p-4 sm:p-5">
     <h3 className="text-lg font-semibold text-earth-900">Article details</h3>
     <ul className="mt-3 space-y-1 text-sm text-earth-700">
       {date && (
@@ -583,6 +583,75 @@ const RelatedArticles = ({ items = [] }) => {
   );
 };
 
+/* ----------------------- Next / Prev navigation ----------------------- */
+const ArticlePager = ({ prev, next }) => {
+  if (!prev && !next) return null;
+  return (
+    <nav className="mt-12 border-t border-earth-200 pt-6" aria-label="Article navigation">
+      <div className="grid sm:grid-cols-2 gap-4">
+        {prev && (
+          <Link
+            href={`/blogs/${encodeURIComponent(prev.id)}`}
+            rel="prev"
+            className="group rounded-xl border border-earth-200 bg-white p-4 flex items-center gap-3 hover:shadow-md transition"
+          >
+            <div className="shrink-0 h-12 w-12 rounded-lg overflow-hidden border border-earth-200">
+              {prev.image ? (
+                <img
+                  src={pickMediaUrl(prev.image) || prev.image}
+                  alt={toText(prev.imageAlt) || toText(prev.title)}
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <div className="h-full w-full bg-earth-100" />
+              )}
+            </div>
+            <div className="min-w-0">
+              <div className="text-xs text-earth-500 flex items-center gap-1">
+                <FaArrowLeft /> Previous
+              </div>
+              <div className="text-sm font-semibold text-earth-900 truncate group-hover:underline">
+                {toText(prev.title)}
+              </div>
+            </div>
+          </Link>
+        )}
+        {next && (
+          <Link
+            href={`/blogs/${encodeURIComponent(next.id)}`}
+            rel="next"
+            className="group rounded-xl border border-earth-200 bg-white p-4 flex items-center gap-3 hover:shadow-md transition justify-end sm:justify-start"
+          >
+            <div className="min-w-0 order-2 sm:order-1 text-right sm:text-left">
+              <div className="text-xs text-earth-500 flex items-center gap-1 justify-end sm:justify-start">
+                Next <FaArrowRight />
+              </div>
+              <div className="text-sm font-semibold text-earth-900 truncate group-hover:underline">
+                {toText(next.title)}
+              </div>
+            </div>
+            <div className="shrink-0 h-12 w-12 rounded-lg overflow-hidden border border-earth-200 order-1 sm:order-2">
+              {next.image ? (
+                <img
+                  src={pickMediaUrl(next.image) || next.image}
+                  alt={toText(next.imageAlt) || toText(next.title)}
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <div className="h-full w-full bg-earth-100" />
+              )}
+            </div>
+          </Link>
+        )}
+      </div>
+    </nav>
+  );
+};
+
 /* ----------------------- Page ----------------------- */
 export default function BlogPage() {
   const { id } = useParams();
@@ -593,6 +662,7 @@ export default function BlogPage() {
   const [err, setErr] = useState(null);
   const [related, setRelated] = useState([]);
   const [pageUrl, setPageUrl] = useState("");
+  const [adjacent, setAdjacent] = useState({ prev: null, next: null });
 
   useEffect(() => {
     setPageUrl(window.location.href);
@@ -622,11 +692,12 @@ export default function BlogPage() {
           image: blog?.image || blog?.imageUrl || pickMediaUrl(blog?.image),
           imageAlt: toText(blog?.imageAlt) || toText(blog?.title),
           blocks: Array.isArray(blog?.blocks) ? blog.blocks : [],
+          publishedAt: blog?.publishedAt || blog?.date,
         };
 
         if (active) setBlog(safe);
 
-        // Related: try specific endpoint, fall back to category; limit to 3
+        /* -------- Related (3) -------- */
         try {
           const relRes =
             (await fetch(
@@ -639,14 +710,78 @@ export default function BlogPage() {
               )}&exclude=${encodeURIComponent(safe.id)}&limit=3`,
               { cache: "no-store" }
             ));
-
           if (relRes?.ok) {
             const data = await relRes.json();
             const items = Array.isArray(data?.blogs) ? data.blogs : [];
             if (active) setRelated(items);
           }
         } catch {
-          // ignore related load errors
+          /* ignore */
+        }
+
+        /* -------- Adjacent (prev/next) -------- */
+        // Try a dedicated adjacent endpoint
+        let prevNext = null;
+        try {
+          const adjRes =
+            (await fetch(`/api/blogs/${encodeURIComponent(safe.id)}/adjacent`, {
+              cache: "no-store",
+            })) ||
+            (await fetch(
+              `/api/blogs?adjacentTo=${encodeURIComponent(safe.id)}`,
+              { cache: "no-store" }
+            ));
+
+          if (adjRes?.ok) {
+            const j = await adjRes.json();
+            // accept {prev, next} or {blogs:[prev,next]}
+            prevNext = {
+              prev: j?.prev || j?.blogs?.[0] || null,
+              next: j?.next || j?.blogs?.[1] || null,
+            };
+          }
+        } catch {
+          /* ignore — fallback below */
+        }
+
+        // Fallback: pull category list and compute neighbors by publishedAt (asc)
+        if (!prevNext?.prev && !prevNext?.next) {
+          try {
+            const listRes = await fetch(
+              `/api/blogs?category=${encodeURIComponent(safe.category)}&limit=50`,
+              { cache: "no-store" }
+            );
+            if (listRes.ok) {
+              const j = await listRes.json();
+              const arr = (Array.isArray(j?.blogs) ? j.blogs : [])
+                .map((b) => ({
+                  ...b,
+                  id: b?.id,
+                  publishedAt: b?.publishedAt || b?.date || null,
+                }))
+                .filter((b) => b?.id)
+                .sort((a, b) => {
+                  const da = new Date(a.publishedAt || 0).getTime();
+                  const db = new Date(b.publishedAt || 0).getTime();
+                  return da - db; // asc
+                });
+
+              const idx = arr.findIndex((b) => String(b.id) === String(safe.id));
+              prevNext = {
+                prev: idx > 0 ? arr[idx - 1] : null,
+                next: idx >= 0 && idx < arr.length - 1 ? arr[idx + 1] : null,
+              };
+            }
+          } catch {
+            /* ignore */
+          }
+        }
+
+        if (active) {
+          setAdjacent({
+            prev: prevNext?.prev || null,
+            next: prevNext?.next || null,
+          });
         }
       } catch (e) {
         console.error(e);
@@ -660,13 +795,26 @@ export default function BlogPage() {
     };
   }, [id]);
 
+  // Keyboard navigation (← →)
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "ArrowLeft" && adjacent.prev?.id) {
+        router.push(`/blogs/${encodeURIComponent(adjacent.prev.id)}`);
+      } else if (e.key === "ArrowRight" && adjacent.next?.id) {
+        router.push(`/blogs/${encodeURIComponent(adjacent.next.id)}`);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [adjacent, router]);
+
   const descHtml = useMemo(() => {
     const html = pickHtml(blog?.desc) || pickHtml(blog?.contentHtml);
     return enhanceHtml(absolutizeImageSrc(html));
   }, [blog]);
 
   const displayDate = useMemo(() => {
-    const v = blog?.date || blog?.publishedAt;
+    const v = blog?.publishedAt || blog?.date;
     if (!v) return "";
     const d = new Date(v);
     return isNaN(+d)
@@ -701,8 +849,8 @@ export default function BlogPage() {
   if (err || !blog) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-earth-800 mb-4">
+        <div className="text-center px-6">
+          <h1 className="text-3xl sm:text-4xl font-bold text-earth-800 mb-4">
             Article Not Found
           </h1>
           <p className="text-earth-600 mb-8">
@@ -721,16 +869,21 @@ export default function BlogPage() {
   }
 
   return (
-    <section className="py-10 md:py-16">
+    <section className="py-8 sm:py-10 md:py-16">
       {/* Strong, scoped overrides for injected HTML */}
       <style jsx global>{`
         [data-cms].prose {
           font-size: 1rem !important;
           line-height: 1.8 !important;
         }
+        @media (min-width: 640px) {
+          [data-cms].prose {
+            font-size: 1.03rem !important;
+          }
+        }
         @media (min-width: 768px) {
           [data-cms].prose {
-            font-size: 1.05rem !important;
+            font-size: 1.06rem !important;
           }
         }
         [data-cms].prose :where(p, ul, ol, blockquote, pre, table, figure) {
@@ -738,19 +891,24 @@ export default function BlogPage() {
           margin-bottom: 0.9em !important;
         }
         [data-cms].prose :where(h1) {
-          font-size: 2rem !important;
+          font-size: 1.75rem !important;
           line-height: 1.25 !important;
         }
+        @media (min-width: 640px) {
+          [data-cms].prose :where(h1) {
+            font-size: 2rem !important;
+          }
+        }
         [data-cms].prose :where(h2) {
-          font-size: 1.5rem !important;
+          font-size: 1.35rem !important;
           line-height: 1.3 !important;
         }
         [data-cms].prose :where(h3) {
-          font-size: 1.25rem !important;
+          font-size: 1.2rem !important;
           line-height: 1.35 !important;
         }
         [data-cms].prose :where(p) {
-          font-size: 1.05rem !important;
+          font-size: 1.02rem !important;
           line-height: 1.8 !important;
         }
         [data-cms].prose ul {
@@ -775,7 +933,7 @@ export default function BlogPage() {
         }
       `}</style>
 
-      <div className="container mx-auto px-6 md:px-0 mt-20">
+      <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 md:px-8">
         {/* Back */}
         <div className="mb-6">
           <Button
@@ -790,7 +948,7 @@ export default function BlogPage() {
 
         {/* Title + meta */}
         <header className="mb-4">
-          <h1 className="text-3xl md:text-4xl font-bold text-earth-900">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-earth-900">
             {blog.title}
           </h1>
           <div className="mt-2 text-earth-600 flex flex-wrap gap-x-4 gap-y-1">
@@ -800,7 +958,9 @@ export default function BlogPage() {
             {blog.author && <span>By {blog.author}</span>}
           </div>
           {blog.excerpt && (
-            <p className="mt-4 text-lg text-earth-700">{blog.excerpt}</p>
+            <p className="mt-3 sm:mt-4 text-base sm:text-lg text-earth-700">
+              {blog.excerpt}
+            </p>
           )}
 
           {/* Inline share row */}
@@ -808,7 +968,7 @@ export default function BlogPage() {
         </header>
 
         {/* Layout: content + sticky sidebar */}
-        <div className="grid lg:grid-cols-12 gap-8">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8">
           {/* Content */}
           <div className="lg:col-span-8">
             {!!blog.blocks.length && (
@@ -825,7 +985,7 @@ export default function BlogPage() {
             {!blog.blocks.length && descHtml?.length > 0 && (
               <article
                 data-cms
-                className="cms-content prose max-w-none px-0 md:px-0 py-2 prose-a:text-brand prose-img:rounded-xl text-neutral-800"
+                className="cms-content prose max-w-none px-0 py-2 prose-a:text-brand prose-img:rounded-xl text-neutral-800"
                 dangerouslySetInnerHTML={{ __html: descHtml }}
               />
             )}
@@ -842,6 +1002,9 @@ export default function BlogPage() {
 
             {/* Related */}
             <RelatedArticles items={related} />
+
+            {/* Next / Prev */}
+            <ArticlePager prev={adjacent.prev} next={adjacent.next} />
           </div>
 
           {/* Sidebar */}
@@ -851,7 +1014,6 @@ export default function BlogPage() {
               category={blog.category}
               readTime={computedReadTime}
             />
-            {/* Share card removed (using inline share under header) */}
             <ContactCard blogTitle={blog.title} />
           </aside>
         </div>
@@ -859,3 +1021,4 @@ export default function BlogPage() {
     </section>
   );
 }
+  

@@ -91,7 +91,7 @@ export default function ProfessionalGuidance() {
                 className="group"
               >
                 <div className="bg-earth-50  p-6 border border-earth-200 hover:shadow-lg transition-all duration-300">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-[#ac895e] to-[#876F4E] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-r from-brand to-brand-hover flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <achievement.icon className="text-white text-xl" />
                   </div>
                   <div className="text-5xl font-bold text-[#ac895e] mb-1">{achievement.stat}</div>

@@ -532,7 +532,7 @@ export default function DevelopersSection() {
                   </span>
                   <Badge
                     variant="secondary"
-                    className="text-white text-xl bg-[#9F3349]"
+                    className="text-white text-base bg-[#9F3349]"
                   >
                     <Award className="w-5 h-5 mr-1" />
                     Premium
@@ -657,8 +657,7 @@ export default function DevelopersSection() {
                   {currentDeveloper.featured[0]}
                 </p>
                 <Button
-                  variant="outline"
-                  className="border-white text-base bg-white text-black"
+                  className=" text-base bg-[#9F3349] text-white"
                 >
                   Explore Property
                   <ArrowRight className="w-7 h-7 ml-2" />
