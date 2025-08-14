@@ -113,10 +113,11 @@ const enhanceHtml = (html) => {
 
 /* ----------------------- media helpers ----------------------- */
 const fullStrapiUrl = (u) => {
-  if (!u) return undefined;
+  if (!u || typeof u !== "string") return undefined;
   if (/^https?:\/\//i.test(u)) return u;
   return `${ASSET_BASE}${u.startsWith("/") ? "" : "/"}${u}`;
 };
+
 const pickMediaUrl = (node) => {
   if (!node) return undefined;
   if (Array.isArray(node) && node[0]) return pickMediaUrl(node[0]);
@@ -793,7 +794,6 @@ export default function BlogPage() {
           }
         }
         [data-cms].prose :where(p, ul, ol, blockquote, pre, table, figure) {
-         
           margin-bottom: 0.9em !important;
         }
         [data-cms].prose :where(h1) {
