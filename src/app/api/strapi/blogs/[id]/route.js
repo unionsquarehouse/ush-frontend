@@ -34,8 +34,8 @@ export async function GET(request, { params }) {
       readTime: blog.readTime,
       featured: blog.featured,
       views: 1250, // Default value
-      image: blog.image ? `${process.env.STRAPI_URL || 'http://localhost:1337'}${blog.image.url}` : null,
-      authorImage: blog.authorImage ? `${process.env.STRAPI_URL || 'http://localhost:1337'}${blog.authorImage.url}` : null,
+      image: blog.image ? `${process.env.STRAPI_BASE_URL || 'http://localhost:1337'}${blog.image.url}` : null,
+      authorImage: blog.authorImage ? `${process.env.STRAPI_BASE_URL || 'http://localhost:1337'}${blog.authorImage.url}` : null,
       createdAt: blog.createdAt,
       updatedAt: blog.updatedAt,
       publishedAt: blog.publishedAt,

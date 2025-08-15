@@ -66,8 +66,8 @@ export async function GET(request) {
       readTime: blog.readTime,
       featured: blog.featured,
       views: 1250, // Default value since not in Strapi
-      image: blog.image ? `${process.env.STRAPI_URL || 'http://localhost:1337'}${blog.image.url}` : null,
-      authorImage: blog.authorImage ? `${process.env.STRAPI_URL || 'http://localhost:1337'}${blog.authorImage.url}` : null,
+      image: blog.image ? `${process.env.STRAPI_BASE_URL}${blog.image.url}` : null,
+      authorImage: blog.authorImage ? `${process.env.STRAPI_BASE_URL}${blog.authorImage.url}` : null,
       createdAt: blog.createdAt,
       updatedAt: blog.updatedAt,
       publishedAt: blog.publishedAt,
