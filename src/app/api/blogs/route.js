@@ -1,5 +1,5 @@
 // app/api/blogs/route.js
-export const runtime = "nodejs";  
+export const runtime = "nodejs";
 import clientPromise from "../../../lib/mongodb";
 
 export const dynamic = "force-dynamic";
@@ -30,7 +30,7 @@ const joinUrl = (...parts) =>
     )
     .join("/");
 
-const STRAPI_ASSET_BASE = process.env.STRAPI_BASE_URL;;
+const STRAPI_ASSET_BASE = process.env.STRAPI_BASE_URL;
 
 const fullUrl = (u) => {
   if (!u) return undefined;

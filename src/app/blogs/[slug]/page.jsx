@@ -1,8 +1,9 @@
-// app/blogs/[id]/page.jsx
+
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import { useParams, useRouter } from "next/navigation";
 import {
   FaArrowLeft,
@@ -14,11 +15,26 @@ import {
   FaLink,
   FaShareAlt,
 } from "react-icons/fa";
-import { Button } from "../../components/ui/button"; // adjust if needed
+import { Button } from "../../components/ui/button";
+import sanitizeHtml from "sanitize-html";
+
+// Category mapping based on provided schemas
+const categoryMap = {
+  "100": "Lifestyle",
+  "103": "News & Updates",
+  // Add more mappings as needed
+};
+
+// Author mapping for itemUpdatedBy IDs
+const authorMap = {
+  "11": "John Doe",
+  // Add more author mappings as needed
+};
+
+// Asset base URL for images
+const ASSET_BASE = "https://ush.imgix.net"; // Replace with your actual CDN URL
 
 /* ----------------------- HTML helpers ----------------------- */
-const ASSET_BASE = "https://ush.imgix.net";
-
 const toText = (v) => {
   if (v == null) return "";
   if (typeof v === "string" || typeof v === "number" || typeof v === "boolean")
@@ -30,40 +46,23 @@ const toText = (v) => {
   return "";
 };
 
-/* Remove stray \n, empty paragraphs, <strong><br></strong> runs, and tidy around images */
 const sanitizeCmsHtml = (html) => {
   if (!html) return "";
   let out = String(html);
-
-  // Remove literal backslash-n
   out = out.replace(/\\n/g, "");
-
-  // Collapse whitespace between tags
   out = out.replace(/>\s+</g, "><");
-
-  // Remove paragraphs that contain ONLY <strong|b|em|i|span><br/></...> sequences
-  // e.g. <p><strong><br></strong><strong><br></strong></p>
   out = out.replace(
     /<p[^>]*>(?:\s|&nbsp;|<(?:strong|b|em|i|span)[^>]*>\s*(?:<br\s*\/?>\s*)*<\/(?:strong|b|em|i|span)>)+\s*<\/p>/gi,
     ""
   );
-
-  // Remove empty formatting wrappers (leftovers): <strong><br></strong> etc.
   out = out.replace(
     /<(strong|b|em|i|span)[^>]*>(?:\s|&nbsp;|<br\s*\/?>)*<\/\1>/gi,
     ""
   );
-
-  // Unwrap <p><img ...></p> -> <img ...>
   out = out.replace(/<p[^>]*>\s*(<img\b[^>]*>)\s*<\/p>/gi, "$1");
-
-  // Remove <br> / nbsp directly before or after an image
   out = out.replace(/(?:\s|&nbsp;|<br\s*\/?>)+(?=<img\b)/gi, "");
   out = out.replace(/(<img\b[^>]*>)(?:\s|&nbsp;|<br\s*\/?>)+/gi, "$1");
-
-  // Drop any remaining empty paragraphs
   out = out.replace(/<p[^>]*>(?:\s|&nbsp;|<br\s*\/?>)*<\/p>/gi, "");
-
   return out.trim();
 };
 
@@ -81,8 +80,25 @@ const absolutizeImageSrc = (html, assetBase = ASSET_BASE) =>
 
 const enhanceHtml = (html) => {
   if (!html) return "";
-
-  const withImgAttrs = html.replace(
+  const sanitized = sanitizeHtml(html, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "iframe"]),
+    allowedAttributes: {
+      ...sanitizeHtml.defaults.allowedAttributes,
+      img: ["src", "alt", "width", "height", "loading", "decoding", "style"],
+      iframe: [
+        "src",
+        "title",
+        "allow",
+        "allowfullscreen",
+        "loading",
+        "width",
+        "height",
+        "style",
+      ],
+      a: ["href", "target", "rel"],
+    },
+  });
+  const withImgAttrs = sanitized.replace(
     /<img\b((?:(?!>)[\s\S])*)>/gi,
     (match, attrs) => {
       const hasWidth = /\bwidth\s*=/.test(attrs);
@@ -90,7 +106,6 @@ const enhanceHtml = (html) => {
       const hasLoading = /\bloading\s*=/.test(attrs);
       const hasDecoding = /\bdecoding\s*=/.test(attrs);
       const hasStyle = /\bstyle\s*=/.test(attrs);
-
       const width = hasWidth ? "" : ' width="1200"';
       const height = hasHeight ? "" : ' height="675"';
       const loading = hasLoading ? "" : ' loading="lazy"';
@@ -98,36 +113,38 @@ const enhanceHtml = (html) => {
       const style = hasStyle
         ? ""
         : ' style="max-width:100%;height:auto;display:block;aspect-ratio:1200/675;"';
-
       return `<img${attrs}${width}${height}${loading}${decoding}${style}>`;
     }
   );
-
   const withSafeLinks = withImgAttrs.replace(
     /<a\b(?![^>]*\btarget=)[^>]*\bhref=["'][^"']+["'][^>]*>/gi,
     (m) => m.replace(/>$/, ' target="_blank" rel="noopener noreferrer">')
   );
-
   return withSafeLinks;
 };
 
-/* ----------------------- media helpers ----------------------- */
+/* ----------------------- Media helpers ----------------------- */
 const fullStrapiUrl = (u) => {
   if (!u || typeof u !== "string") return undefined;
-  if (/^https?:\/\//i.test(u)) return u;
-  return `${ASSET_BASE}${u.startsWith("/") ? "" : "/"}${u}`;
+  if (/^https?:\/\//i.test(u)) return u; // Skip if already absolute (e.g., external URLs)
+  return `${ASSET_BASE}${u.startsWith("/") ? "" : "/"}${u}`; // Prepend Imgix CDN base
 };
 
 const pickMediaUrl = (node) => {
-  if (!node) return undefined;
+  if (!node) return "/fallback-image.png";
   if (Array.isArray(node) && node[0]) return pickMediaUrl(node[0]);
-  return fullStrapiUrl(
-    node?.url ||
-      node?.data?.attributes?.url ||
-      node?.data?.url ||
-      node?.attributes?.url
+  return (
+    fullStrapiUrl(
+      node?.url ||
+        node?._default ||
+        node?.data?.attributes?.url ||
+        node?.data?.url ||
+        node?.attributes?.url
+    ) || "/fallback-image.png"
   );
 };
+
+
 
 /* ----------------------- Block Renderers ----------------------- */
 const RichTextBlock = ({ data }) => {
@@ -136,10 +153,9 @@ const RichTextBlock = ({ data }) => {
       enhanceHtml(absolutizeImageSrc(sanitizeCmsHtml(pickHtml(data?.content)))),
     [data]
   );
-
   return (
     <div
-      className="prose prose-lg max-w-none prose-a:text-brand prose-img: "
+      className="prose prose-lg max-w-none prose-a:text-brand"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
@@ -209,7 +225,7 @@ const HeroBlock = ({ data }) => {
   const title = toText(data?.title || data?.heading);
   const sub = toText(data?.subtitle || data?.subheading);
   return (
-    <section className="relative overflow-hidden   my-6">
+    <section className="relative overflow-hidden my-6">
       {bg && (
         <img
           src={bg}
@@ -277,7 +293,7 @@ const StatsGridBlock = ({ data }) => {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 my-8">
       {items.map((it, i) => (
-        <div key={i} className="  border border-earth-200 p-4 bg-white">
+        <div key={i} className="border border-earth-200 p-4 bg-white">
           <div className="text-3xl font-bold text-brand">
             {toText(it?.value || it?.stat)}
           </div>
@@ -296,14 +312,14 @@ const CtaBlock = ({ data }) => {
   const btnText = toText(data?.buttonText || "Contact Us");
   const btnUrl = toText(data?.buttonUrl || "/contact");
   return (
-    <div className="  border border-brand/30 bg-brand/5 p-6 my-10">
+    <div className="border border-brand/30 bg-brand/5 p-6 my-10">
       {title && (
         <h3 className="text-2xl font-semibold text-earth-900">{title}</h3>
       )}
-      {/* {desc && <p className="mt-2 text-earth-700">{desc}</p>} */}
+      {desc && <p className="mt-2 text-earth-700">{desc}</p>}
       <a
         href={btnUrl}
-        className="inline-block mt-4 px-4 py-2  bg-brand text-white hover:opacity-90"
+        className="inline-block mt-4 px-4 py-2 bg-brand text-white hover:opacity-90"
       >
         {btnText}
       </a>
@@ -409,18 +425,15 @@ const ShareInline = ({ title, url }) => {
   const items = getShareTargets(title, url);
 
   return (
-    <div className="mt-4   border border-earth-200 bg-white/70 backdrop-blur-sm p-3">
+    <div className="mt-4 border border-earth-200 bg-white/70 backdrop-blur-sm p-3">
       <div className="flex flex-wrap items-center gap-3">
         <span className="text-sm font-medium text-earth-700 mr-1">Share:</span>
-
         <div className="flex items-center gap-2">
           {items.map(({ id, label, href, Icon }) => (
             <CircleLink key={id} href={href} label={label}>
               <Icon className="text-earth-700" />
             </CircleLink>
           ))}
-
-          {/* Copy link */}
           <button
             type="button"
             onClick={copy}
@@ -433,8 +446,6 @@ const ShareInline = ({ title, url }) => {
               {copied ? "Copied" : "Copy"}
             </span>
           </button>
-
-          {/* Mobile native share */}
           <button
             type="button"
             onClick={nativeShare}
@@ -495,14 +506,13 @@ const ContactCard = ({ blogTitle }) => {
   };
 
   return (
-    <div className="  border border-earth-200 bg-white  p-5">
+    <div className="border border-earth-200 bg-white p-5">
       <h3 className="text-lg font-semibold text-earth-900">
         Talk to a Specialist
       </h3>
       <p className="text-sm text-earth-600 mt-1">
         Have a question about this topic? Send us a message.
       </p>
-
       <form onSubmit={onSubmit} className="mt-4 space-y-3">
         <div>
           <label className="block text-sm text-earth-700 mb-1">Name</label>
@@ -513,6 +523,7 @@ const ContactCard = ({ blogTitle }) => {
             required
             className="w-full rounded-md border border-earth-200 px-3 py-2 outline-none focus:ring-2 focus:ring-brand"
             placeholder="Your name"
+            aria-label="Your name"
           />
         </div>
         <div>
@@ -525,6 +536,7 @@ const ContactCard = ({ blogTitle }) => {
             required
             className="w-full rounded-md border border-earth-200 px-3 py-2 outline-none focus:ring-2 focus:ring-brand"
             placeholder="you@example.com"
+            aria-label="Your email"
           />
         </div>
         <div>
@@ -535,6 +547,7 @@ const ContactCard = ({ blogTitle }) => {
             onChange={onChange}
             className="w-full rounded-md border border-earth-200 px-3 py-2 outline-none focus:ring-2 focus:ring-brand"
             placeholder="+971 ..."
+            aria-label="Your phone number"
           />
         </div>
         <div>
@@ -545,21 +558,20 @@ const ContactCard = ({ blogTitle }) => {
             onChange={onChange}
             rows={4}
             className="w-full rounded-md border border-earth-200 px-3 py-2 outline-none focus:ring-2 focus:ring-brand"
+            aria-label="Your message"
           />
         </div>
         <Button
           type="submit"
           disabled={submitting}
           className="w-full bg-brand hover:bg-brand-hover text-white"
+          aria-label={submitting ? "Sending message" : "Send message"}
         >
           {submitting ? "Sending..." : "Send message"}
         </Button>
-
         {status && (
           <div
-            className={`text-sm mt-2 ${
-              status.ok ? "text-green-600" : "text-red-600"
-            }`}
+            className={`text-sm mt-2 ${status.ok ? "text-green-600" : "text-red-600"}`}
             aria-live="polite"
           >
             {status.msg}
@@ -571,7 +583,7 @@ const ContactCard = ({ blogTitle }) => {
 };
 
 const MetaCard = ({ date, category, readTime }) => (
-  <div className="  border border-earth-200 bg-white p-5">
+  <div className="border border-earth-200 bg-white p-5">
     <h3 className="text-lg font-semibold text-earth-900">Article details</h3>
     <ul className="mt-3 space-y-1 text-sm text-earth-700">
       {date && (
@@ -599,7 +611,7 @@ const MetaCard = ({ date, category, readTime }) => (
 const RelatedArticles = ({ items = [] }) => {
   const top3 = items.slice(0, 3);
   if (!top3.length) return null;
-
+  const toText = (v) => (v ? String(v).trim() : "Untitled");
   return (
     <section className="mt-14">
       <h2 className="text-2xl font-semibold text-earth-900 mb-4">
@@ -609,12 +621,16 @@ const RelatedArticles = ({ items = [] }) => {
         {top3.map((it) => (
           <Link
             key={it.id}
-            href={`/blogs/${encodeURIComponent(it.id)}`}
-            className="group   border border-earth-200 bg-white overflow-hidden hover:shadow-md transition"
+            href={`/blogs/${encodeURIComponent(it.slug)}`}
+            className="group border border-earth-200 bg-white overflow-hidden hover:shadow-md transition"
+            aria-label={`Read article: ${toText(it.title)}`}
           >
+
+          
+            
             {it.image && (
               <img
-                src={pickMediaUrl(it.image) || it.image}
+                src={it.image}
                 alt={toText(it.imageAlt) || toText(it.title)}
                 loading="lazy"
                 decoding="async"
@@ -645,7 +661,7 @@ const RelatedArticles = ({ items = [] }) => {
 
 /* ----------------------- Page ----------------------- */
 export default function BlogPage() {
-  const { id } = useParams();
+  const { slug } = useParams();
   const router = useRouter();
 
   const [blog, setBlog] = useState(null);
@@ -659,58 +675,72 @@ export default function BlogPage() {
   }, []);
 
   useEffect(() => {
-    if (!id) return;
+    if (!slug) return;
     let active = true;
     (async () => {
       try {
         setLoading(true);
         setErr(null);
-        const res = await fetch(`/api/blogs/${encodeURIComponent(id)}`, {
+        const res = await fetch(`/api/db/blogs/${encodeURIComponent(slug)}`, {
           cache: "no-store",
         });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const { blog } = await res.json();
+        if (!res.ok) {
+          const { error } = await res.json();
+          throw new Error(error || `HTTP ${res.status}: Failed to fetch blog`);
+        }
+        const { data } = await res.json();
+
+        if (!data) throw new Error("Blog not found");
+
+        if (data.status !== "published") {
+          throw new Error("This article is not published yet.");
+        }
 
         const safe = {
-          ...blog,
-          id: blog?.id ?? id,
-          title: toText(blog?.title),
-          excerpt: toText(blog?.excerpt),
-          author: toText(blog?.author || blog?.authorName) || "Admin",
-          authorBio: toText(blog?.authorBio),
-          category: toText(blog?.category) || "General",
-          image: blog?.image || blog?.imageUrl || pickMediaUrl(blog?.image),
-          imageAlt: toText(blog?.imageAlt) || toText(blog?.title),
-          blocks: Array.isArray(blog?.blocks) ? blog.blocks : [],
+          id: data._id,
+          slug: data.slug,
+          title: toText(data.title),
+          excerpt: toText(data.excerpt),
+          desc: toText(data.desc),
+          author: authorMap[data.itemUpdatedBy] || "Admin",
+          authorBio: "", // Not provided in API
+          category: categoryMap[data.categories?.[0]] || "General",
+          image: pickMediaUrl(data.image),
+          imageAlt: toText(data.image_alt) || toText(data.title),
+          blocks: [], // Not provided in API, using desc.processed
+          date: data.dateTime || data.itemUpdated,
         };
 
         if (active) setBlog(safe);
 
-        // Related: try specific endpoint, fall back to category; limit to 3
+        // Fetch related articles by category, excluding current blog
         try {
-          const relRes =
-            (await fetch(
-              `/api/blogs?relatedTo=${encodeURIComponent(safe.id)}&limit=3`,
-              { cache: "no-store" }
-            )) ||
-            (await fetch(
-              `/api/blogs?category=${encodeURIComponent(
-                safe.category
-              )}&exclude=${encodeURIComponent(safe.id)}&limit=3`,
-              { cache: "no-store" }
-            ));
-
+          const category = data.categories?.[0] || "";
+          const relRes = await fetch(
+            `/api/db/blogs?category=${encodeURIComponent(category)}&exclude=${encodeURIComponent(data._id)}&limit=3`,
+            { cache: "no-store" }
+          );
           if (relRes?.ok) {
-            const data = await relRes.json();
-            const items = Array.isArray(data?.blogs) ? data.blogs : [];
+            const relData = await relRes.json();
+            const items = Array.isArray(relData.data)
+              ? relData.data.map((item) => ({
+                  id: item._id,
+                  slug: item.slug,
+                  title: toText(item.title),
+                  excerpt: toText(item.excerpt),
+                  category: categoryMap[item.categories?.[0]] || "General",
+                  image: pickMediaUrl(item.image),
+                  imageAlt: toText(item.image_alt) || toText(item.title),
+                }))
+              : [];
             if (active) setRelated(items);
           }
         } catch {
-          // ignore related load errors
+          // Ignore related load errors
         }
       } catch (e) {
         console.error(e);
-        if (active) setErr("Failed to load article.");
+        if (active) setErr(`Failed to load article: ${e.message}`);
       } finally {
         if (active) setLoading(false);
       }
@@ -718,7 +748,7 @@ export default function BlogPage() {
     return () => {
       active = false;
     };
-  }, [id]);
+  }, [slug]);
 
   const descHtml = useMemo(() => {
     const html = pickHtml(blog?.desc) || pickHtml(blog?.contentHtml);
@@ -738,14 +768,12 @@ export default function BlogPage() {
         });
   }, [blog]);
 
-  // Fallback read time if not provided (roughly 200 wpm)
   const computedReadTime = useMemo(() => {
-    if (blog?.readTime) return blog.readTime;
     const tmp = document.createElement("div");
     tmp.innerHTML = descHtml || "";
     const words = (tmp.textContent || "").trim().split(/\s+/).length || 0;
     return Math.max(1, Math.round(words / 200));
-  }, [blog, descHtml]);
+  }, [descHtml]);
 
   if (loading) {
     return (
@@ -766,11 +794,12 @@ export default function BlogPage() {
             Article Not Found
           </h1>
           <p className="text-earth-600 mb-8">
-            {err || "The article you're looking for doesn't exist."}
+            {err || "The article you're looking for doesn't exist or is not published."}
           </p>
           <Button
             onClick={() => router.push("/blogs")}
             className="bg-brand hover:bg-brand-hover text-white"
+            aria-label="Back to all blogs"
           >
             <FaArrowLeft className="mr-2" />
             Back to Blogs
@@ -781,138 +810,139 @@ export default function BlogPage() {
   }
 
   return (
-    <section className="py-10 md:py-16">
-      {/* Strong, scoped overrides for injected HTML */}
-      <style jsx global>{`
-        [data-cms].prose {
-          font-size: 1rem !important;
-          line-height: 1.8 !important;
-        }
-        @media (min-width: 768px) {
+    <>
+      <Head>
+        <title>{blog.title} | Your Blog Name</title>
+        <meta name="description" content={blog.excerpt || "Read the latest article on our blog."} />
+        <meta name="keywords" content={`${blog.category}, ${blog.title}, blog`} />
+        <meta property="og:title" content={blog.title} />
+        <meta property="og:description" content={blog.excerpt || "Read the latest article on our blog."} />
+        <meta property="og:image" content={blog.image} />
+        <meta property="og:url" content={pageUrl} />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Head>
+      <section className="py-10 md:py-16">
+        <style jsx global>{`
           [data-cms].prose {
-            font-size: 1.05rem !important;
+            font-size: 1rem !important;
+            line-height: 1.8 !important;
           }
-        }
-        [data-cms].prose :where(p, ul, ol, blockquote, pre, table, figure) {
-          margin-bottom: 0.9em !important;
-        }
-        [data-cms].prose :where(h1) {
-          font-size: 2rem !important;
-          line-height: 1.25 !important;
-        }
-        [data-cms].prose :where(h2) {
-          font-size: 1.5rem !important;
-          line-height: 1.3 !important;
-        }
-        [data-cms].prose :where(h3) {
-          font-size: 1.25rem !important;
-          line-height: 1.35 !important;
-        }
-        [data-cms].prose :where(p) {
-          font-size: 1.05rem !important;
-          line-height: 1.8 !important;
-        }
-        [data-cms].prose ul {
-          list-style: disc;
-          padding-left: 1.25rem;
-        }
-        [data-cms].prose ol {
-          list-style: decimal;
-          padding-left: 1.25rem;
-        }
-        [data-cms].prose a {
-          text-decoration: underline;
-        }
-        [data-cms].prose img {
-          display: block;
-          width: 100%;
-          height: auto;
-          content-visibility: auto;
-          contain-intrinsic-size: 1200px 675px;
-        }
-      `}</style>
+          @media (min-width: 768px) {
+            [data-cms].prose {
+              font-size: 1.05rem !important;
+            }
+          }
+          [data-cms].prose :where(p, ul, ol, blockquote, pre, table, figure) {
+            margin-bottom: 0.9em !important;
+          }
+          [data-cms].prose :where(h1) {
+            font-size: 2rem !important;
+            line-height: 1.25 !important;
+          }
+          [data-cms].prose :where(h2) {
+            font-size: 1.5rem !important;
+            line-height: 1.3 !important;
+          }
+          [data-cms].prose :where(h3) {
+            font-size: 1.25rem !important;
+            line-height: 1.35 !important;
+          }
+          [data-cms].prose :where(p) {
+            font-size: 1.05rem !important;
+            line-height: 1.8 !important;
+          }
+          [data-cms].prose ul {
+            list-style: disc;
+            padding-left: 1.25rem;
+          }
+          [data-cms].prose ol {
+            list-style: decimal;
+            padding-left: 1.25rem;
+          }
+          [data-cms].prose a {
+            text-decoration: underline;
+          }
+          [data-cms].prose img {
+            display: block;
+            width: 100%;
+            height: auto;
+            content-visibility: auto;
+            contain-intrinsic-size: 1200px 675px;
+          }
+        `}</style>
 
-      <div className="container mx-auto px-6 md:px-0 mt-20">
-        {/* Back */}
-        <div className="mb-6">
-          <Button
-            onClick={() => router.push("/blogs")}
-            variant="outline"
-            className="border-earth-200 text-brand hover:text-white hover:bg-brand"
-          >
-            <FaArrowLeft className="mr-2" />
-            Back to Articles
-          </Button>
-        </div>
-
-        {/* Title + meta */}
-        <header className="mb-4">
-          <h1 className="text-3xl md:text-4xl font-bold text-earth-900">
-            {blog.title}
-          </h1>
-          <div className="mt-2 text-earth-600 flex flex-wrap gap-x-4 gap-y-1">
-            {displayDate && <span>{displayDate}</span>}
-            {blog.category && <span>{blog.category}</span>}
-            {computedReadTime && <span>{computedReadTime} min read</span>}
-            {blog.author && <span>By {blog.author}</span>}
+        <div className="container mx-auto px-6 md:px-0 mt-20">
+          <div className="mb-6">
+            <Button
+              onClick={() => router.push("/blogs")}
+              variant="outline"
+              className="border-earth-200 text-brand hover:text-white hover:bg-brand"
+              aria-label="Back to all blogs"
+            >
+              <FaArrowLeft className="mr-2" />
+              Back to Articles
+            </Button>
           </div>
-          {/* {blog.excerpt && (
-            <p className="mt-4 text-lg text-earth-700">{blog.excerpt}</p>
-          )} */}
 
-          {/* Inline share row */}
-          <ShareInline title={blog.title} url={pageUrl} />
-        </header>
+          <header className="mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold text-earth-900">
+              {blog.title}
+            </h1>
+            <div className="mt-2 text-earth-600 flex flex-wrap gap-x-4 gap-y-1">
+              {displayDate && <span>{displayDate}</span>}
+              {blog.category && <span>{blog.category}</span>}
+              {computedReadTime && <span>{computedReadTime} min read</span>}
+              {blog.author && <span>By {blog.author}</span>}
+            </div>
+            <ShareInline title={blog.title} url={pageUrl} />
+          </header>
 
-        {/* Layout: content + sticky sidebar */}
-        <div className="grid lg:grid-cols-12 gap-8">
-          {/* Content */}
-          <div className="lg:col-span-8">
-            {!!blog.blocks.length && (
-              <div className="space-y-6">
-                {blog.blocks.map((block, idx) => (
-                  <RenderBlock
-                    key={`${block.__component}-${idx}`}
-                    block={block}
-                  />
-                ))}
-              </div>
-            )}
-
-            {!blog.blocks.length && descHtml?.length > 0 && (
-              <article
-                data-cms
-                className="cms-content prose max-w-none px-0 md:px-0  prose-a:text-brand  text-neutral-800"
-                dangerouslySetInnerHTML={{ __html: descHtml }}
-              />
-            )}
-
-            {/* Author bio */}
-            {blog.authorBio && (
-              <div className="mt-10 p-6 bg-earth-50   border border-earth-200">
-                <div className="text-sm text-earth-500 mb-1">
-                  About the author
+          <div className="grid lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-8">
+              
+              {!!blog.blocks.length && (
+                <div className="space-y-6">
+                  {blog.blocks.map((block, idx) => (
+                    <RenderBlock
+                      key={`${block.__component}-${idx}`}
+                      block={block}
+                    />
+                  ))}
                 </div>
-                <div className="text-earth-800">{blog.authorBio}</div>
-              </div>
-            )}
-
-            {/* Related */}
-            <RelatedArticles items={related} />
+              )}
+              {!blog.blocks.length && descHtml?.length > 0 && (
+                <article
+                  data-cms
+                  className="cms-content prose max-w-none px-0 md:px-0 prose-a:text-brand text-neutral-800"
+                  dangerouslySetInnerHTML={{ __html: descHtml }}
+                />
+              )}
+              {!blog.blocks.length && !descHtml && (
+                <p className="text-earth-600">
+                  No content available for this article.
+                </p>
+              )}
+              {blog.authorBio && (
+                <div className="mt-10 p-6 bg-earth-50 border border-earth-200">
+                  <div className="text-sm text-earth-500 mb-1">
+                    About the author
+                  </div>
+                  <div className="text-earth-800">{blog.authorBio}</div>
+                </div>
+              )}
+              <RelatedArticles items={related} />
+            </div>
+            <aside className="lg:col-span-4 space-y-5 lg:sticky lg:top-24 self-start">
+              <MetaCard
+                date={displayDate}
+                category={blog.category}
+                readTime={computedReadTime}
+              />
+              <ContactCard blogTitle={blog.title} />
+            </aside>
           </div>
-
-          {/* Sidebar */}
-          <aside className="lg:col-span-4 space-y-5 lg:sticky lg:top-24 self-start">
-            <MetaCard
-              date={displayDate}
-              category={blog.category}
-              readTime={computedReadTime}
-            />
-            {/* Share card removed (using inline share under header) */}
-            <ContactCard blogTitle={blog.title} />
-          </aside>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

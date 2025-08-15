@@ -1,5 +1,5 @@
 import mariadb from "mariadb";
-import clientPromise from "../../../../lib/mongodb"
+import clientPromise from "../../../../lib/mongodb";
 
 const pool = mariadb.createPool({
   host: process.env.DB_HOST,
@@ -40,8 +40,8 @@ export async function GET() {
     });
 
     const client = await clientPromise;
-    console.log(client,"-=-=--=-=-=-");
-    
+    console.log(client, "-=-=--=-=-=-");
+
     const db = client.db(process.env.MONGO_DB_NAME);
     const collection = db.collection(process.env.BLOGS_COLLECTION);
 

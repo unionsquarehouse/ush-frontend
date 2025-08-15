@@ -1,15 +1,24 @@
 // app/api/blogs/[id]/route.js
-export const runtime = "nodejs";  
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 import clientPromise from "../../../../lib/mongodb";
 
 /* ---------- ENV + helpers ---------- */
-const MONGO_ASSET_BASE = (process.env.MONGO_ASSET_BASE || "").replace(/\/+$/, "");
-const STRAPI_API_BASE = (process.env.STRAPI_BASE_URL || process.env.STRAPI_BASE_URL || "").replace(/\/+$/, "");
+const MONGO_ASSET_BASE = (process.env.MONGO_ASSET_BASE || "").replace(
+  /\/+$/,
+  ""
+);
+const STRAPI_API_BASE = (
+  process.env.STRAPI_BASE_URL ||
+  process.env.STRAPI_BASE_URL ||
+  ""
+).replace(/\/+$/, "");
 const STRAPI_TOKEN = process.env.STRAPI_TOKEN || "";
 // Where your public assets are served from; default to your imgix CDN
-const STRAPI_ASSET_BASE = (process.env.STRAPI_ASSET_BASE || "https://ush.imgix.net").replace(/\/+$/, "");
+const STRAPI_ASSET_BASE = (
+  process.env.STRAPI_ASSET_BASE || "https://ush.imgix.net"
+).replace(/\/+$/, "");
 
 const withMongoBase = (u) => {
   if (!u) return undefined;
@@ -21,10 +30,10 @@ const withMongoBase = (u) => {
 const joinUrl = (...parts) =>
   parts
     .filter(Boolean)
-    .map((p, i) => (i === 0 ? p.replace(/\/+$/, "") : p.replace(/^\/+|\/+$/g, "")))
+    .map((p, i) =>
+      i === 0 ? p.replace(/\/+$/, "") : p.replace(/^\/+|\/+$/g, "")
+    )
     .join("/");
-
-    
 
 // Use ASSET base (imgix) for media files, not the API base
 const fullAssetUrl = (u) => {
@@ -48,7 +57,11 @@ const ts = (x) => {
 const pickMediaUrl = (node) => {
   if (!node) return undefined;
   if (Array.isArray(node) && node.length > 0) return pickMediaUrl(node[0]);
-  const url = node.url || node?.data?.attributes?.url || node?.data?.url || node?.attributes?.url;
+  const url =
+    node.url ||
+    node?.data?.attributes?.url ||
+    node?.data?.url ||
+    node?.attributes?.url;
   return fullAssetUrl(url);
 };
 
@@ -62,7 +75,8 @@ const normalizeBlock = (block) => {
   if (out.image) out.image = pickMediaUrl(out.image);
   if (out.background) out.background = pickMediaUrl(out.background);
   if (out.media) out.media = pickMediaUrl(out.media);
-  if (Array.isArray(out.images)) out.images = out.images.map((x) => pickMediaUrl(x));
+  if (Array.isArray(out.images))
+    out.images = out.images.map((x) => pickMediaUrl(x));
 
   // Some components may nest objects; shallowly walk one level
   for (const k of Object.keys(out)) {
@@ -88,17 +102,24 @@ function normalizeMongo(doc) {
     doc.coverImage?.url,
     doc.thumbnail?._default,
     doc.thumbnail?.url,
-    Array.isArray(doc.images) && (doc.images[0]?._default || doc.images[0]?.url || doc.images[0]),
+    Array.isArray(doc.images) &&
+      (doc.images[0]?._default || doc.images[0]?.url || doc.images[0]),
   ].filter(Boolean);
   const rawImg = imgCandidates.find(Boolean);
   const imageUrl = withMongoBase(rawImg);
 
   const html =
     doc.contentHtml ||
-    (typeof doc.content === "string" && /<\/?[a-z][\s\S]*>/i.test(doc.content) ? doc.content : undefined);
+    (typeof doc.content === "string" && /<\/?[a-z][\s\S]*>/i.test(doc.content)
+      ? doc.content
+      : undefined);
 
-  const publishedAt = toIso(doc.publishedAt ?? doc.date ?? doc.createdAt ?? doc.updatedAt);
-  const id = String(doc._id ?? doc.id ?? doc.slug ?? Math.random().toString(36).slice(2));
+  const publishedAt = toIso(
+    doc.publishedAt ?? doc.date ?? doc.createdAt ?? doc.updatedAt
+  );
+  const id = String(
+    doc._id ?? doc.id ?? doc.slug ?? Math.random().toString(36).slice(2)
+  );
 
   return {
     source: "mongo",
@@ -131,12 +152,18 @@ function normalizeMongo(doc) {
 function normalizeStrapi(item) {
   const a = item?.attributes ? { id: item.id, ...item.attributes } : item || {};
 
-  const image = pickMediaUrl(a.image || a.cover || a.featuredImage || a.thumbnail || a.images);
+  const image = pickMediaUrl(
+    a.image || a.cover || a.featuredImage || a.thumbnail || a.images
+  );
   const publishedAt = toIso(a.publishedAt ?? a.date ?? a.createdAt);
-  const id = String(a.id ?? a.documentId ?? Math.random().toString(36).slice(2));
+  const id = String(
+    a.id ?? a.documentId ?? Math.random().toString(36).slice(2)
+  );
 
   // Normalize dynamic zone blocks (preserve order)
-  const blocks = Array.isArray(a.blocks) ? a.blocks.map((b) => normalizeBlock(b)) : [];
+  const blocks = Array.isArray(a.blocks)
+    ? a.blocks.map((b) => normalizeBlock(b))
+    : [];
 
   return {
     source: "strapi",
@@ -187,7 +214,8 @@ async function loadStrapiByKey(key) {
   params.append("filters[$or][0][slug][$eq]", key);
   // If key is numeric, also try id
   const asNum = Number(key);
-  if (Number.isFinite(asNum)) params.append("filters[$or][1][id][$eq]", String(asNum));
+  if (Number.isFinite(asNum))
+    params.append("filters[$or][1][id][$eq]", String(asNum));
 
   // Populate hero image + dynamic zone (and its media) + seo
   params.append("populate[image]", "*");
@@ -195,7 +223,11 @@ async function loadStrapiByKey(key) {
   params.append("populate[seo]", "*");
   params.append("pagination[pageSize]", "1");
 
-  const url = `${joinUrl(STRAPI_API_BASE, "api", "blogs")}?${params.toString()}`;
+  const url = `${joinUrl(
+    STRAPI_API_BASE,
+    "api",
+    "blogs"
+  )}?${params.toString()}`;
   const headers = { Accept: "application/json" };
   if (STRAPI_TOKEN) headers.Authorization = `Bearer ${STRAPI_TOKEN}`;
 
@@ -231,8 +263,10 @@ export async function GET(_req, { params }) {
     const mongoBlogs = mongoRes.status === "fulfilled" ? mongoRes.value : [];
     const strapiBlogs = strapiRes.status === "fulfilled" ? strapiRes.value : [];
 
-    if (mongoRes.status === "rejected") console.error("Mongo error:", mongoRes.reason);
-    if (strapiRes.status === "rejected") console.error("Strapi error:", strapiRes.reason);
+    if (mongoRes.status === "rejected")
+      console.error("Mongo error:", mongoRes.reason);
+    if (strapiRes.status === "rejected")
+      console.error("Strapi error:", strapiRes.reason);
 
     // Prefer Strapi match if found (has blocks etc.), else look in Mongo
     const fromStrapi =
@@ -248,7 +282,10 @@ export async function GET(_req, { params }) {
     const blog = fromStrapi || fromMongo;
 
     if (!blog) {
-      return Response.json({ success: false, message: "Not found" }, { status: 404 });
+      return Response.json(
+        { success: false, message: "Not found" },
+        { status: 404 }
+      );
     }
 
     // Ensure `desc` is present for frontend HTML rendering
@@ -263,6 +300,9 @@ export async function GET(_req, { params }) {
     return Response.json({ success: true, blog: final });
   } catch (err) {
     console.error("GET /api/blogs/[id] error:", err);
-    return Response.json({ success: false, message: "Server error" }, { status: 500 });
+    return Response.json(
+      { success: false, message: "Server error" },
+      { status: 500 }
+    );
   }
 }

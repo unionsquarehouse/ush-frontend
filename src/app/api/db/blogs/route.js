@@ -1,15 +1,17 @@
-// app/api/blogs/route.js
-import clientPromise from "../../../../lib/mongodb"
+// src/app/api/blogs/route.js
+import connectDB from '../../../../lib/mongodb';
+import Blog from '../../../models/Blog';
+import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGO_DB_NAME); // use your DB name
-    const blogs = await db.collection(process.env.BLOGS_COLLECTION).find({}).sort({ publishedAt: -1 }).toArray();
-
-    return Response.json({ success: true, blogs });
+    await connectDB();
+    const blogs = await Blog.find({ }).sort({ itemUpdated: -1 }).lean();
+    console.log(blogs,"-=-=-=-=-=-=-=-=-");
+    
+    return NextResponse.json({ success: true, data: blogs });
   } catch (error) {
-    console.error("Error fetching blogs:", error);
-    return Response.json({ success: false, message: "Failed to fetch blogs" }, { status: 500 });
+    console.error('Error fetching blogs:', error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
-}
+}   

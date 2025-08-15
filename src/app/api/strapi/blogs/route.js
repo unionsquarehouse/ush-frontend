@@ -17,6 +17,8 @@ export async function GET(request) {
     
     // Add population parameters separately
     strapiUrl.searchParams.append('populate', 'image');
+    strapiUrl.searchParams.append('populate', 'blocks');
+    strapiUrl.searchParams.append('populate', 'seo');
     // strapiUrl.searchParams.append('populate', 'authorImage');
     
     // Add pagination
@@ -71,6 +73,9 @@ export async function GET(request) {
       createdAt: blog.createdAt,
       updatedAt: blog.updatedAt,
       publishedAt: blog.publishedAt,
+       slug: blog.slug,
+        blocks: blog.blocks || [],
+        seo: blog.seo || null,
     }));
 
     return NextResponse.json({

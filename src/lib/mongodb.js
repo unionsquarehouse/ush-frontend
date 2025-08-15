@@ -1,14 +1,47 @@
-import { MongoClient } from "mongodb";
+// src/lib/mongodb.js
+import mongoose from 'mongoose';
 
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
+const MONGODB_URI = process.env.MONGODB_URI;
 
-let client;
-let clientPromise;
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
+}
 
-client = new MongoClient(process.env.MONGODB_URI, options);
-clientPromise = client.connect();
+// Cached connection to avoid multiple connections
+let cached = global.mongoose;
 
-export default clientPromise;
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+async function connectDB() {
+  if (cached.conn) {
+    return cached.conn;
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+    };
+
+    cached.promise = mongoose.connect(MONGODB_URI, opts)
+      .then((mongoose) => {
+        console.log('MongoDB connected successfully');
+        return mongoose;
+      })
+      .catch((err) => {
+        console.error('MongoDB connection error:', err);
+        throw err;
+      });
+  }
+
+  try {
+    cached.conn = await cached.promise;
+    return cached.conn;
+  } catch (err) {
+    cached.promise = null; // Reset promise on error
+    throw err;
+  }
+}
+
+export default connectDB;

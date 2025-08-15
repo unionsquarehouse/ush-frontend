@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -12,9 +13,15 @@ import {
 import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import Pagination from "../components/ui/Pagination";
-import Image from "next/image";
-import { FaSliders } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
+import { FaSliders } from "react-icons/fa6";
+
+// Category mapping based on provided schemas
+const categoryMap = {
+  "100": "Lifestyle",
+  "103": "News & Updates",
+  // Add more mappings as needed based on your categories
+};
 
 export default function BlogsPage() {
   const router = useRouter();
@@ -26,76 +33,88 @@ export default function BlogsPage() {
   const [pageSize, setPageSize] = useState(6);
   const [showFilters, setShowFilters] = useState(false);
 
-  // Extract unique values for filter options
+  // State for blogs and metadata
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [totalBlogs, setTotalBlogs] = useState(0);
+
+  // Extract unique categories and authors for filters
   const [categories, setCategories] = useState([]);
   const [authors, setAuthors] = useState([]);
 
-  const [blogPosts, setBlogPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [totalBlogs, setTotalBlogs] = useState(0);
-  const [meta, setMeta] = useState(null);
-
-  const handleBlogClick = (documentId) => {
-    router.push(`/blogs/${documentId}`);
+  // Navigation to individual blog page using slug
+  const handleBlogClick = (slug) => {
+    router.push(`/blogs/${slug}`);
   };
 
-  // Fetch blogs from Perch API instead of Strapi
+  // Fetch blogs from /api/db/blogs
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
         setLoading(true);
-
         const response = await fetch("/api/db/blogs");
         const res = await response.json();
-        const result= res.blogs;
-        
-        console.log("mongodb API Response:", result);
+        const result = res.data;
+
+        console.log("MongoDB API Response:", res);
 
         if (Array.isArray(result)) {
-          // Transform Perch data to match frontend expectations
-          const transformedBlogs = result.map(blog => {
-            // Better image handling with multiple fallbacks
-            let imageUrl = `https://ush.imgix.net/${blog?.image?._default}`;
+          // Transform API data to match frontend expectations
+          const transformedBlogs = result.map((blog) => {
+            // Construct image URL (adjust base URL as needed)
+            const imageUrl = blog.image?._default
+              ? `https://ush.imgix.net${blog.image._default}` // Replace with your actual CDN or server URL
+              : "/fallback-image.png"; // Fallback image
+            console.log(imageUrl,"-=-=-=-=-=-=-=-=");
             
-
             return {
               id: blog._id,
               documentId: blog._id,
               title: blog.title || `Blog ${blog._id}`,
-              excerpt: blog.excerpt?.processed || blog.excerpt?.raw || 'No excerpt available',
-              content: blog.desc?.processed || blog.desc?.raw || 'No content available',
-              author: blog.itemUpdatedBy || 'Unknown Author',
-              authorBio: '',
+              excerpt: blog.excerpt?.processed || blog.excerpt?.raw || "No excerpt available",
+              content: blog.desc?.processed || blog.desc?.raw || "No content available",
+              author: blog.itemUpdatedBy || "Unknown Author",
               date: blog.dateTime || blog.itemUpdated || new Date().toISOString(),
-              category: 'General',
-              readTime: '5 min read',
-              featured: false,
-              views: Math.floor(Math.random() * 2000) + 500,
+              category: categoryMap[blog.categories?.[0]] || "General", // Map category ID to name
+              readTime: "5 min read", // Static for now, can be calculated dynamically
+              featured: false, // Adjust based on your logic for featured posts
+              views: Math.floor(Math.random() * 2000) + 500, // Placeholder
               image: imageUrl,
               imageAlt: blog.image_alt || blog.title,
-              authorImage: null,
-              tags: [],
+              authorImage: null, // Not provided in API response
+              tags: blog.categories || [],
               createdAt: blog.itemUpdated,
               updatedAt: blog.itemUpdated,
               publishedAt: blog.dateTime || blog.itemUpdated,
               collectionID: blog.collectionID,
               itemUpdatedBy: blog.itemUpdatedBy,
-              itemSearch: blog.itemSearch || '',
+              itemSearch: blog.itemSearch || "",
               status: blog.status,
-              slug: blog.slug
+              slug: blog.slug,
             };
           });
 
           setBlogPosts(transformedBlogs);
           setTotalBlogs(transformedBlogs.length);
 
-          // Apply client-side filtering and pagination
+          // Extract unique categories and authors
+          const uniqueCategories = [
+            ...new Set(transformedBlogs.map((blog) => blog.category).filter(Boolean)),
+          ];
+          const uniqueAuthors = [
+            ...new Set(transformedBlogs.map((blog) => blog.author).filter(Boolean)),
+          ];
+          setCategories(uniqueCategories);
+          setAuthors(uniqueAuthors);
+
+          // Apply initial filtering and pagination
           applyFiltersAndPagination(transformedBlogs);
         } else {
-          console.error("Invalid response format from Perch API");
+          console.error("Invalid response format from API");
         }
       } catch (error) {
-        console.error("Error fetching blogs from Perch:", error);
+        console.error("Error fetching blogs:", error);
       } finally {
         setLoading(false);
       }
@@ -106,7 +125,7 @@ export default function BlogsPage() {
 
   // Client-side filtering and pagination
   const applyFiltersAndPagination = (blogs) => {
-    let filtered = blogs;
+    let filtered = [...blogs];
 
     // Apply search filter
     if (searchTerm) {
@@ -155,28 +174,18 @@ export default function BlogsPage() {
     if (blogPosts.length > 0) {
       applyFiltersAndPagination(blogPosts);
     }
-  }, [
-    page,
-    pageSize,
-    selectedCategory,
-    selectedAuthor,
-    searchTerm,
-    sortBy,
-    blogPosts,
-  ]);
+  }, [page, pageSize, selectedCategory, selectedAuthor, searchTerm, sortBy, blogPosts]);
 
-  // Update state variables
-  const [filteredPosts, setFilteredPosts] = useState([]);
-  const paginatedPosts = filteredPosts;
-
-  // Get featured posts from the blog posts
+  // Get featured posts
   const featuredPosts = blogPosts.filter((post) => post.featured);
 
+  // Handle page size change
   const handlePageSizeChange = (newPageSize) => {
     setPageSize(newPageSize);
     setPage(1);
   };
 
+  // Reset filters
   const resetFilters = () => {
     setSearchTerm("");
     setSelectedCategory("");
@@ -185,6 +194,7 @@ export default function BlogsPage() {
     setPage(1);
   };
 
+  // Format date for display
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -233,8 +243,8 @@ export default function BlogsPage() {
               {featuredPosts.slice(0, 2).map((post) => (
                 <Card
                   key={post.id}
-                  onClick={() => handleBlogClick(post.documentId)}
-                  className="relative  overflow-hidden group cursor-pointer transition-all duration-500 border-0 backdrop-blur-md bg-white/10 hover:bg-white/20 hover:scale-105"
+                  onClick={() => handleBlogClick(post.slug)}
+                  className="relative overflow-hidden group cursor-pointer transition-all duration-500 border-0 backdrop-blur-md bg-white/10 hover:bg-white/20 hover:scale-105"
                   style={{
                     backdropFilter: "blur(16px)",
                     boxShadow: `
@@ -246,7 +256,7 @@ export default function BlogsPage() {
                 >
                   {/* Glassmorphism overlays */}
                   <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/10 to-transparent pointer-events-none"></div>
-                  <div className="absolute inset-[1px]  bg-gradient-to-br from-white/20 to-white/5 pointer-events-none"></div>
+                  <div className="absolute inset-[1px] bg-gradient-to-br from-white/20 to-white/5 pointer-events-none"></div>
 
                   <CardContent className="p-0 h-full relative">
                     {/* Featured Badge */}
@@ -259,7 +269,7 @@ export default function BlogsPage() {
                       {post.image ? (
                         <img
                           src={post.image}
-                          alt={post.title}
+                          alt={post.imageAlt}
                           className="w-full h-full object-cover"
                         />
                       ) : (
@@ -332,7 +342,7 @@ export default function BlogsPage() {
           className="mb-16"
         >
           <div className="max-w-2xl mx-auto">
-            {/* Premium Search Bar */}
+            {/* Search Bar */}
             <div className="relative">
               <div className="absolute left-6 top-1/2 transform -translate-y-1/2 text-earth-400">
                 <FaSearch size={20} />
@@ -344,7 +354,6 @@ export default function BlogsPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              
               {/* Filter Toggle Button */}
               <button
                 onClick={() => setShowFilters(!showFilters)}
@@ -360,7 +369,7 @@ export default function BlogsPage() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="mt-6 bg-white/80 backdrop-blur-sm  p-6 shadow-lg border border-earth-100"
+                className="mt-6 bg-white/80 backdrop-blur-sm p-6 shadow-lg border border-earth-100"
               >
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                   {/* Category Filter */}
@@ -371,7 +380,7 @@ export default function BlogsPage() {
                     <select
                       value={selectedCategory}
                       onChange={(e) => setSelectedCategory(e.target.value)}
-                      className="w-full bg-white/90 text-earth-800  px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand/30 border border-earth-200"
+                      className="w-full bg-white/90 text-earth-800 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand/30 border border-earth-200"
                     >
                       <option value="">All Categories</option>
                       {categories.map((category) => (
@@ -390,7 +399,7 @@ export default function BlogsPage() {
                     <select
                       value={selectedAuthor}
                       onChange={(e) => setSelectedAuthor(e.target.value)}
-                      className="w-full bg-white/90 text-earth-800  px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand/30 border border-earth-200"
+                      className="w-full bg-white/90 text-earth-800 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand/30 border border-earth-200"
                     >
                       <option value="">All Authors</option>
                       {authors.map((author) => (
@@ -409,7 +418,7 @@ export default function BlogsPage() {
                     <select
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value)}
-                      className="w-full bg-white/90 text-earth-800  px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand/30 border border-earth-200"
+                      className="w-full bg-white/90 text-earth-800 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand/30 border border-earth-200"
                     >
                       <option value="date">Latest First</option>
                       <option value="views">Most Popular</option>
@@ -432,9 +441,6 @@ export default function BlogsPage() {
           </div>
         </motion.div>
 
-        {/* Results Summary */}
-        
-
         {/* Blog Posts Grid */}
         {loading ? (
           <div className="flex justify-center items-center min-h-[400px]">
@@ -447,7 +453,7 @@ export default function BlogsPage() {
             whileInView={{ opacity: 1 }}
             transition={{ staggerChildren: 0.1 }}
           >
-            {paginatedPosts.map((post, index) => (
+            {filteredPosts.map((post, index) => (
               <motion.div
                 key={post.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -456,8 +462,8 @@ export default function BlogsPage() {
                 className="h-full"
               >
                 <Card
-                  onClick={() => handleBlogClick(post.documentId)}
-                  className="group cursor-pointer transition-all duration-500 border-0 bg-white/90 backdrop-blur-sm hover:bg-white hover:shadow-2xl hover:-translate-y-2 h-full  overflow-hidden"
+                  onClick={() => handleBlogClick(post.slug)}
+                  className="group cursor-pointer transition-all duration-500 border-0 bg-white/90 backdrop-blur-sm hover:bg-white hover:shadow-2xl hover:-translate-y-2 h-full overflow-hidden"
                 >
                   <CardContent className="p-0 h-full flex flex-col">
                     {/* Image */}
@@ -465,7 +471,7 @@ export default function BlogsPage() {
                       {post.image ? (
                         <img
                           src={post.image}
-                          alt={post.title}
+                          alt={post.imageAlt}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
@@ -473,7 +479,6 @@ export default function BlogsPage() {
                           <span className="text-earth-600">Blog Image</span>
                         </div>
                       )}
-                      
                       {/* Category Badge */}
                       <div className="absolute top-4 left-4">
                         <span className="bg-white/95 backdrop-blur-sm text-brand px-3 py-1 rounded-full text-sm font-medium shadow-md">
@@ -508,7 +513,6 @@ export default function BlogsPage() {
                           </div>
                           <span className="text-sm font-medium text-earth-700">{post.author}</span>
                         </div>
-                        
                         <div className="flex items-center text-brand font-medium text-sm group-hover:gap-2 transition-all duration-300">
                           <span>Read More</span>
                           <FaArrowRight
