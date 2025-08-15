@@ -1,4 +1,5 @@
 // app/api/blogs/route.js
+export const runtime = "nodejs";  
 import clientPromise from "../../../lib/mongodb";
 
 export const dynamic = "force-dynamic";
