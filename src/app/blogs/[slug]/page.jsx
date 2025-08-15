@@ -871,7 +871,7 @@ export default function BlogPage() {
           }
         `}</style>
 
-        <div className="container mx-auto px-6 md:px-0 mt-20">
+        <div className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto mt-20">
           <div className="mb-6">
             <Button
               onClick={() => router.push("/blogs")}

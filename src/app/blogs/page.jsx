@@ -205,7 +205,7 @@ export default function BlogsPage() {
 
   return (
     <section className="py-32 bg-gradient-to-b from-white via-earth-50 to-white min-h-screen">
-      <div className="container mx-auto px-6 md:px-0">
+      <div className="w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[70vw] 2xl:w-[75vw] mx-auto px-6 md:px-0">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
